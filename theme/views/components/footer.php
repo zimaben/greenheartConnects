@@ -10,6 +10,7 @@
  */
 
 ?>
+</div>
 <footer>
 	<div class="container-fluid footer">
 		<div class="row">
@@ -68,7 +69,42 @@
 			</div>	
 		</div>
 	</div>
-    <div class="q-clear"></div>
+	<div class="q-clear"></div>
+	<div class="modal-warehouse">
+	<div id="pleaselogin">
+		<h3>Please Log In</h3>
+		<h5>To get access to our latest live streaming content</h5>
+		<a href="<?php echo wp_login_url()?>">Log In</a>
+	</div>
+	<div id="payment">
+		<h3>Subscribe Now</h3>
+		<h5>To get access to our latest live streaming content</h5>
+		[do gravityforms shortcode]
+
+
+		<br>
+		<br>
+		<div>(develoment only)<br>
+		<script>
+					
+				const cheatMetaKeys = async(e) => {
+				var formData = new FormData();
+				formData.append('userID', e.target.dataset.userid);
+
+				var request = new XMLHttpRequest();
+				let url = ajaxurl + '?action=cheatMetaKeys';
+				request.open('POST', url);
+				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+				let data =encodeURIComponent( 'userID' ) + '=' + encodeURIComponent( e.target.dataset.userid );
+				request.send(data);
+
+				}
+		</script>
+			<button class="btn btn-large" data-userID="<?php echo get_current_user_id() ?>" onclick="cheatMetaKeys(event)">Cheat The Meta Keys</button>
+		</div>
+	</div>
+
+</div>
 </footer>
 
 <?php wp_footer(); ?>

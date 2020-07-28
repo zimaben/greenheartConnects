@@ -34,12 +34,13 @@ const javascript_modules = [
   'library/src/es6/views/components/right_avatar.js',
   'library/src/es6/views/components/top_logo.js',
   'library/src/es6/views/components/top_navigation.js',
+  'library/src/es6/views/components/hero_section.js',
   'library/src/es6/views/dashboard.js',
   'library/src/es6/views/login.js'
 ]
 const javascript_close_body_modules = [
-  'library/src/es6/global/footer.js'
-]
+  'library/src/es6/views/footer.js'
+] 
 
 function bundle() {
 return gulp.src(javascript_modules)

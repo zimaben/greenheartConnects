@@ -29,8 +29,31 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'register_url', array(get_class(), 'set_wp_register_page' ), 10, 1 );//update register url for core functionality
         \add_filter( 'lostpassword_url', array(get_class(),'set_wp_lost_password_page'), 10, 2 );//update lost password url for core functionality
 
+        //add Javascript Actions
+        \add_action('wp_ajax_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
+        \add_action('wp_ajax_nopriv_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
         
+
+        //set Javascript variables
+        \add_action( 'wp_head', array(get_class(), 'set_plugin_js_variables'), 1);
     }
+    public static function set_plugin_js_variables(){
+        echo '<!-- SET JS VARIABLES -->';
+        echo '<script type="text/javascript">';
+        echo 'var ajaxurl="'.\admin_url('admin-ajax.php').'";';
+        echo 'var CN_DEBUG="'.self::$debug.'";';
+        echo '</script>';
+    }
+    public static function cheatMetaKeys(){
+        $userID = $_POST['userID'];
+        \update_user_meta( $userID, 'cn_last_payment_on', date('d-m-Y') );
+        \update_user_meta( $userID, 'cn_last_payment_amt', 10 );
+        \update_user_meta( $userID, 'cn_status', 'paid' );
+        $response = array('status'=> 200, 'message'=>'hell yeah');
+        echo json_encode( $response );
+        //JSON calls, like surf nazis, must die.
+        die(); 
+}
     public static function login_enqueue(){
         \wp_enqueue_style( 'bootstrap-grid-css', self::get_plugin_url( 'library/dist/css/bootstrap-grid.min.css'), array(), '4.0.0', 'all' );
         \wp_enqueue_style( 'bootstrap-css', self::get_plugin_url( 'library/dist/css/bootstrap.min.css'), array('bootstrap-grid-css'), '4.0.0', 'all' );

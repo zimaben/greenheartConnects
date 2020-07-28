@@ -9,8 +9,8 @@ Modules::open_page();
 /*---------------------------------------------------------------------------------------------------------
 /*
 /*
-/*
-/*/ Modules::hero_section($userState);
+/*/ error_log(print_r($userState, true));
+Modules::hero_section($userState);
 /*
 /*
 /*

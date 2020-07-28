@@ -1,0 +1,99 @@
+@import '../variables';
+.site-main.home {
+    padding-top:0;
+}
+#home-hero {
+    &.loggedout {
+        display:block;
+        height:500px;
+        padding-top:40%;
+        background:rgba(0,0,0,.6);
+        margin-bottom:80px;
+        width:100%;
+    }  
+    .hero-bg {
+        position:relative;
+        width: 100%;
+        &:before {
+            /* underlay */
+            content:'';
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.4);
+            position: absolute;
+            z-index:0;
+        }
+        
+        .hero-fg {
+            position:relative;
+            z-index:1;
+            h1.frontpage {
+                padding-top:16.61%;
+                text-align:right;
+            }
+            .hero-excerpt {
+                h3 {
+                    font:24px/36px $lato;
+                    font-weight: 400;
+                    margin: 0 0 24px;
+                }
+            }
+            .hero-details{
+                display:flex;
+                align-items:center;
+                .speaker-avatar{
+                    width: 100%;
+                    height: 100%;
+                    padding-top: 100%;
+                    border-radius:50%;
+                    border:4px solid $brightgreen;
+                }
+                .speaker {
+                    font:30px/36px $sanchez;
+                    font-weight:500;
+                }
+                .speaker-blurb {
+                    font: 24px/28px $lato;
+                    font-style:italic;
+                    font-weight:400;
+                }
+                .hero-cta {
+                    display: block;
+                    margin-left: auto;
+                }
+            }
+            .timeto {
+                font: 36px/42px $lato;
+                font-weight:500;
+                margin-bottom: 60px;
+                margin-top: 20px;
+            }
+        }
+    }
+}
+#gh-page {
+    margin:40px 0;
+    .leftcolwrap {
+        padding:12px 12px 12px 40px;
+        h4.details {
+            margin: 5px 40px 20px 0;
+            border-bottom: 1px solid $text-light;
+        }
+        section {
+            padding-bottom:10px;
+            h5 {
+                margin: 5px 0;
+            }
+            p {
+                margin-top:0;
+            }
+            ul {
+                padding-left: 20px;
+            }
+            .body-cta {
+                margin: 40px 0;
+            }
+        }
+    }
+}

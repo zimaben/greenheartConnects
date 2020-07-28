@@ -1,0 +1,140 @@
+@import '../variables';
+body.login {
+    background: url(img/join.png) center/cover;
+    background-color: #8ac53f;
+    width: 100%;
+    height: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center; 
+    .logincol{
+        min-height:100vh;
+        background:white;
+        h1 {
+            padding-top:20%;
+            text-align: center;
+        }
+        p.submit {
+            input[type="submit"] {
+                border:0;
+                outline:0;
+                box-shadow:none;
+                font-size:18px;
+                border-radius: 4px;
+                background: $brightgreen;
+                color: white;
+                line-height: 1;
+                font-family:$sanchez;
+                padding: 0.6em 1em 0.4em;
+                padding:10px 30px;
+                cursor:pointer;
+                &:hover {
+                    border-color: $brightgreen-hover;
+                    background: $brightgreen-hover;
+                }
+            
+                &:active,
+                &:focus {
+                    border-color: $brightgreen-hover;
+                    background: $brightgreen-hover;
+                }
+            }
+        } 
+    }
+    .connects-background{
+        align-items: center;
+        padding: 0 8%;
+        .the-content {
+            h2{
+                color:white;
+            }
+            ul{
+                list-style: none;
+                margin: 15px 0 0 0;
+                padding: 0;
+                li{
+                    background: no-repeat url(img/check-circle-white.svg);
+                    color: white;
+                    font-size: 20px;
+                    line-height: 1.2;
+                    min-height: 32px;
+                    margin-bottom: 25px;
+                    padding-left: 45px;
+                }
+            }
+        }
+    }
+} 
+/* TYPOGRAPHY */
+/* Headlines */
+h1,h2,h3,
+h4,h5,h6 {
+	clear: both;
+	&.center {
+		text-align:center;
+	}
+}
+
+h2 {
+	font: 36px/48px $sanchez;
+	color: $text-black;
+	&.light {
+		color: $text-light;
+	}
+	&.white {
+		color: white;
+	}
+}
+h3 {
+	font: 28px/36px $sanchez;
+	color: $text-black;
+	&.light {
+		color: $text-light;
+	}
+	&.white {
+		color: white;
+	}
+}
+h4 {
+	font: 24px/36px $sanchez;
+	color: $text-black;
+	font-weight:bold;
+	&.light {
+		color: $text-light;
+	}
+	&.white {
+		color: white;
+	}
+}
+h5 {
+	font: 18px/24px $sanchez;
+	color: $text-black;
+	&.light {
+		color: $text-light;
+	}
+	&.white {
+		color: white;
+	}
+}
+h6 {
+	font: 16px/20px $sanchez;
+	font-weight:bold;
+	&.light {
+		color: $text-light;
+	}
+	&.white {
+		color: white;
+	}
+}
+
+body,
+button,
+input,
+select,
+optgroup,
+textarea {
+	color: $text-dark;
+	font-family: $lato;
+	font-size: 14px;
+	line-height: 20px;
+}

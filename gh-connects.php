@@ -84,8 +84,8 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
         
         private static function load_libraries() {
 
-            //templating ##
-            
+            // GF Integration ##
+            require_once self::get_plugin_path( 'admin/admin.php' ); 
             // setup ##
             require_once self::get_plugin_path( 'theme/setup.php' ); //setup frontend files (wp-load, enqueue, image register)x
             require_once self::get_plugin_path( 'theme/template.php'); //Master Template Class to make Templates x
@@ -98,10 +98,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
 
             // control classes for render 
             require_once self::get_plugin_path( 'control/core.php'); //Return local data 
-            #require_once self::get_plugin_path( 'core/session.php'); //Return Session Data (@todo may be replaced with JSON token)
-            
-            
-            
+            #require_once self::get_plugin_path( 'core/session.php'); //Return Session Data (@todo may be replaced with JSON token)     
 
         }
 
