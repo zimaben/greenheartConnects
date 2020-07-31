@@ -38,6 +38,7 @@ body .neon-modal{
         font-weight:500;
       }
       #neon_modal_balls { /* the svg */
+          display:none;
           top:30px;
           width: 28%;
           left: -1px;
@@ -59,7 +60,6 @@ body .neon-modal{
       }
       div {
           z-index:1;
-          padding-left:28%;
       }
   }
 }

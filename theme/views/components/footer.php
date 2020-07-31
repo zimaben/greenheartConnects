@@ -77,9 +77,9 @@
 		<a href="<?php echo wp_login_url()?>">Log In</a>
 	</div>
 	<div id="payment">
-		<h3>Subscribe Now</h3>
-		<h5>To get access to our latest live streaming content</h5>
-		[do gravityforms shortcode]
+
+			<?php echo do_shortcode('[gravityform id="1" ajax="true"]'); ?>
+
 
 
 		<br>

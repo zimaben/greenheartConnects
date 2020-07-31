@@ -1,0 +1,25 @@
+.gform_title {
+    text-align: center;
+    padding: 30px;
+}
+.gform_description{
+    text-align:center;
+}
+.gform_body ul {
+    list-style: none;
+    padding-left: 15px;
+}
+.gfield_radio {
+    li {
+        input[type="radio"] {
+            margin-right: 12px;
+            padding:0;
+        }
+    }
+}
+h1 {
+
+}
+h2 {
+    padding: 30px 0 20px;
+}
