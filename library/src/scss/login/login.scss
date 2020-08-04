@@ -127,7 +127,7 @@ h6 {
 	}
 }
 
-body,
+body, 
 button,
 input,
 select,
@@ -137,4 +137,23 @@ textarea {
 	font-family: $lato;
 	font-size: 14px;
 	line-height: 20px;
+}
+/* REGISTRATION */
+#passwordconfirm{
+	display:none;
+}
+#passwordconfirm.active{
+	display:block;
+}
+#confirmlabel {
+	display:none;
+}
+#confirmlabel.active {
+	display:block;
+}
+.message {
+	display:block;
+}
+.message.hidden {
+	display:none;
 }

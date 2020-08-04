@@ -10,6 +10,7 @@ class Setup extends \GreenheartConnects {
     public static function run(){
         //add login & app main page
         \add_action( 'init', array( get_class(), 'add_custom_login' ), 1 );
+        \add_action ( 'init', array( get_class(), 'add_custom_registration'), 1 );
         \add_action( 'init', array( get_class(), 'add_dashboard' ), 1 );
 
         //add custom styling and bootstrap to login page
@@ -19,6 +20,7 @@ class Setup extends \GreenheartConnects {
 
         //assign templates to added single pages
         \add_filter( 'page_template', array( get_class(), 'set_login_template' )  );
+        \add_filter( 'page_template', array( get_class(), 'set_registration_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_main_template' )  );
 
         //Add video post type
@@ -44,7 +46,8 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'register_url', array(get_class(), 'set_wp_register_page' ), 10, 1 );//update register url for core functionality
         \add_filter( 'lostpassword_url', array(get_class(),'set_wp_lost_password_page'), 10, 2 );//update lost password url for core functionality
         #\add_filter( 'registration_redirect', array(get_class(), 'after_registration_home') );
-
+        #add_filter( 'login_redirect', array(get_class(), 'after_registration_home') );
+        
         //add Javascript Actions
         \add_action('wp_ajax_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
         \add_action('wp_ajax_nopriv_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
@@ -136,6 +139,8 @@ class Setup extends \GreenheartConnects {
         <label for="vidtypefile">Minutes:</label><br>
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
+        <input type="text" id="ghc_zoom_meeting_id" name="ghc_zoom_meeting_id" value="">
+        <label for="ghc_zoom_meeting_id">Meeting ID (on the Zoom Admin area as zoom_api_link meeting_id=?)</label>
         <script type="text/javascript">
             window.addEventListener('load', function(){
                 new Picker(document.querySelector('#ghc_stream_start'), {
@@ -206,7 +211,7 @@ class Setup extends \GreenheartConnects {
     }
     //Sets WP Register Page within core functions
     public static function set_wp_register_page( $login_url ) {
-        return home_url( '/login/?action=register' );
+        return home_url( '/register/' );
     }
     //Sets WP Lost Password Page within core functions
     public static function set_wp_lost_password_page( $lostpassword_url, $redirect ) {
@@ -228,6 +233,22 @@ class Setup extends \GreenheartConnects {
             $new_page_id = wp_insert_post($login_page);
         }
     }
+        //Creates a blank WP Login Page 
+        public static function add_custom_registration(){
+            $login_title = 'Join Us';
+            $login_content = '';
+            $page_check = \get_page_by_title($login_title);
+            $login_page = array(
+                    'post_type' => 'page',
+                    'post_title' => $login_title,
+                    'post_content' => $login_content,
+                    'post_status' => 'publish',
+                    'post_name' => 'register'
+            );
+            if( !isset($page_check->ID) ){
+                $new_page_id = wp_insert_post($login_page);
+            }
+        }
     //Creates a blank home page for application
     public static function add_dashboard(){
         $main_title = 'Greenheart Connects';
@@ -248,6 +269,13 @@ class Setup extends \GreenheartConnects {
     public static function set_login_template($page_template){
         if ( \is_page( 'login' ) ) {
             $page_template = self::get_plugin_path( 'theme/views/login.php' );
+        }
+    return $page_template;
+    }
+    //Assigns template to our blank registration page
+    public static function set_registration_template($page_template){
+        if ( \is_page( 'register' ) ) {
+            $page_template = self::get_plugin_path( 'theme/views/registration.php' );
         }
     return $page_template;
     }
@@ -301,7 +329,7 @@ class Setup extends \GreenheartConnects {
             'show_in_menu'       => true,
             'menu_position'      => 5,
             'show_in_rest'       => false,
-            'supports'           => array( 'title', 'custom-fields','post-formats','thumbnail' )
+            'supports'           => array( 'title', 'custom-fields','post-formats','thumbnail','excerpt' )
         );
      
         \register_post_type( 'videos', $args );

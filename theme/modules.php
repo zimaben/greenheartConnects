@@ -21,6 +21,36 @@ class Modules extends \GreenheartConnects {
         $t2 = strtotime($b['starttime']);
         return $t1 - $t2;
     }   
+    public static function get_closest_time_item($stream_array){
+        if( $stream_array && isset( $stream_array) ){
+            $return_array= array();
+            //Sort array farthest to closest
+            if(count($stream_array) > 1 ) {
+                usort($stream_array, array(get_class(),'date_sort'));
+            }
+            //filter past items
+            
+            foreach($stream_array as $this_array){
+                $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
+                $strt = new \DateTime($this_array['starttime']);
+                date_modify($strt, '+' .$this_array['length'].'minutes' );
+                if($strt->format("Y-m-d H:i:s") > $now->format("Y-m-d H:i:s")){
+
+                    array_push($return_array,$this_array);
+                    
+                }
+            }
+            
+            if( isset($return_array) ){
+                $returnelem = $return_array[0];
+                return $returnelem; 
+            } else {
+                return false;
+            }    
+        } else {
+            return false;
+        }   
+    }
     public static function open_page(){
         require_once self::get_plugin_path('theme/views/components/header.php');
 
@@ -71,21 +101,25 @@ class Modules extends \GreenheartConnects {
                 $index = 0;
    
                 while ( $loop->have_posts() ) : $loop->the_post(); 
-                    $starttime = strtotime( get_post_meta( get_the_ID() , 'ghc_stream_start', true ) );
+                    $starttime = get_post_meta( get_the_ID() , 'ghc_stream_start', true );
+                    $duration = get_post_meta( get_the_ID(), 'ghc_stream_length', true );
                     $stream_array[$index ][ 'id' ] = get_the_ID();
                     $stream_array[$index ]['starttime'] = $starttime;
+                    $stream_array[$index ]['length'] = $duration;
                     $index++;
                 endwhile;
                 wp_reset_postdata(); 
                 //Get Nearest Livestream
-                if(count($stream_array) > 1 ) {    
+                /*if(count($stream_array) > 1 ) {    
                     usort($array, array(get_class(),'date_sort'));
                 }
                 $closest_stream_id = $stream_array[count($stream_array) - 1 ]['id'];
+                */
+                $closest_item = self::get_closest_time_item($stream_array);
                 //If Nearest Livestream
-                if($closest_stream_id){
+                if($closest_item){
                     //Roll Livestream info into $userState object
-                    $userState->nearest_stream_id = $closest_stream_id; 
+                    $userState->nearest_stream_id = $closest_item['id']; 
                     $the_home_hero = new HomeHero( $userState );
                 } else {
                     require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');

@@ -1,8 +1,9 @@
-@import '../variables';
+@import '../variables'; 
 .site-main.home {
     padding-top:0;
 }
-#home-hero {
+body.home #home-hero {
+    min-height:400px;
     &.loggedout {
         display:block;
         height:500px;
@@ -14,6 +15,7 @@
     .hero-bg {
         position:relative;
         width: 100%;
+        height:100%;
         &:before {
             /* underlay */
             content:'';
@@ -64,7 +66,7 @@
                 }
             }
             .timeto {
-                font: 36px/42px $lato;
+                font: 24/32px $lato !important;
                 font-weight:500;
                 margin-bottom: 60px;
                 margin-top: 20px;

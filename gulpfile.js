@@ -23,6 +23,7 @@ function watchTask() {
   gulp.watch('library/src/es6/global/**/*.js', gulp.series( bundle, footer_bundle ) );
   gulp.watch('library/src/es6/app.js', makeUgly);
   gulp.watch('library/src/es6/footer.js', footerUgly);
+  gulp.watch('library/src/es6/login/login.js', loginUgly);
 
   gulp.watch('library/src/scss/img/*', copyCssImg);
   //gulp.watch('library/src/scss/*.map', copyCssSourcemap); //Style will only ever be changed by doSass
@@ -35,6 +36,7 @@ const javascript_modules = [
   'library/src/es6/views/components/top_logo.js',
   'library/src/es6/views/components/top_navigation.js',
   'library/src/es6/views/components/hero_section.js',
+  'library/src/es6/views/components/right_col.js',
   'library/src/es6/views/dashboard.js',
   'library/src/es6/views/login.js'
 ]
@@ -59,6 +61,7 @@ function makeUgly(){
       presets: ["@babel/preset-env"]
     }))
     .pipe(uglify())
+
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('library/dist/js/'))
     .pipe(browserSync.reload({
@@ -67,6 +70,18 @@ function makeUgly(){
 };
 function footerUgly(){
   return gulp.src('library/src/es6/footer.js')
+    .pipe(babel({
+      presets: ["@babel/preset-env"]
+    }))
+    .pipe(uglify())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest('library/dist/js/'))
+    .pipe(browserSync.reload({
+        stream: true
+      }));
+};
+function loginUgly(){
+  return gulp.src('library/src/es6/login/login.js')
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))

@@ -19,18 +19,18 @@
                         <div class="item col-6">
                             <div class="cardwrap">
                                 
-                                <div class="item-bg-img" style="background:url(<?php echo $imgurl ?>) center/cover;"></div>
+                                <div data-link="<?php echo get_post_meta( get_the_ID(), 'ghc_video_path', true ) ?>" onclick="do_video_modal(event);" class="item-bg-img" style="background:url(<?php echo $imgurl ?>) center/cover;"></div>
                                 <div><?php echo get_post_meta( get_the_ID(), 'ghc_video_type', true ); ?></div>
                             
                                 <a href="<?php echo get_post_meta( get_the_ID(), 'ghc_video_path', true ) ?>">
                                     <h4 class="item-title"><?php echo get_the_title(get_the_ID()) ?></h4>
                                 </a>
-                                <div class="container">
+                                <div class="container nopad">
                                     <div class="row no-gutters">
-                                        <div class="col-4">
+                                        <div class="col-2">
                                             <img class="avatar small" src="<?php echo get_template_directory_uri()?>/library/dist/css/img/speaker-avatar.jpg)?>">
                                         </div>
-                                        <div class="col-8 thumb-description">
+                                        <div class="col-9 thumb-description">
                                             <?php echo get_the_excerpt( get_the_ID() ) ?>
                                         </div>
                                     </div>

@@ -25,6 +25,7 @@ body {
         }
     }
 }
+.container{ .nopad {padding:0;}}
 @import 'views/dashboard';
 @import 'views/video';
 @import 'views/components';

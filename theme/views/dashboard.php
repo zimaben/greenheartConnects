@@ -8,15 +8,15 @@ Modules::open_page();
 /*
 /*---------------------------------------------------------------------------------------------------------
 /*
-/*/ error_log('USER STATE PRIOR TO HOME HERO');
-/*/  */   error_log(print_r($userState, true));
-$userState = Modules::hero_section($userState);
+/*/
+/*/ 
+/*/ $userState = Modules::hero_section($userState);
 /*
 /*
 /*
 /*
 /*----------------------------------------------------------------------------------------------------------
-/*/ error_log('USER STATE LEFTCOL'); error_log(print_r($userState,true)); 
+/*/ 
  /*/ */  Modules::left_col($userState);  /* */ Modules::right_col($userState);
 /*                                  /* */
 /*                                  /* */
