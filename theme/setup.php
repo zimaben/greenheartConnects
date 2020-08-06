@@ -207,7 +207,7 @@ class Setup extends \GreenheartConnects {
     }
     //Sets WP Login Page within core functions
     public static function set_wp_login_page( $login_url, $redirect, $force_reauth ) {
-        return home_url( '/login/' );
+        return home_url( '/login/?action=login' );
     }
     //Sets WP Register Page within core functions
     public static function set_wp_register_page( $login_url ) {

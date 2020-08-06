@@ -296,10 +296,10 @@ function login_footer($input_id = '') {
 
 	// Don't allow interim logins to navigate away from the page.
 	if ( ! $interim_login ): ?>
-	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
+	<!-- <p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
 		/* translators: %s: site title */
 		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
-	?></a></p>
+	?></a></p> -->
 	<?php endif; ?>
 
 		
@@ -1052,7 +1052,10 @@ default:
 	do_action( 'login_form' );
 	?>
 	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_html_e( 'Remember Me' ); ?></label></p>
+	<div class="buttongroup-login">
+	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">New Account</span></a></p>
 	<p class="submit">
+		
 		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
 <?php	if ( $interim_login ) { ?>
 		<input type="hidden" name="interim-login" value="1" />
@@ -1064,18 +1067,19 @@ default:
 <?php   endif; ?>
 		<input type="hidden" name="testcookie" value="1" />
 	</p>
+</div>
 </form>
 
 <?php if ( ! $interim_login ) { ?>
 <p id="nav">
 <?php if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ) ) ) :
 	if ( get_option( 'users_can_register' ) ) :
-		$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+		#$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
 
 		/** This filter is documented in wp-includes/general-template.php */
-		echo apply_filters( 'register', $registration_url );
+		#echo apply_filters( 'register', $registration_url );
 
-		echo esc_html( $login_link_separator );
+		#echo esc_html( $login_link_separator );
 	endif;
 	?>
 	<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>

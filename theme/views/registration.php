@@ -433,7 +433,7 @@ function registration_form( $username = '', $password = '', $email = '', $comple
     <input type="password" id="passwordconfirm" name="passwordconfirm" value="">
     </div>
      
-
+	<span class="backtologin">Already have an account? <a href="<?php echo wp_login_url()?>">login here</a>.</span>
     <input type="submit" onclick="submitRegistration(event);return false;" name="register" value="Register"/>
 	<?php } ?>
     </form>

@@ -5,7 +5,7 @@ const NeonModalFactory = (function(){
         let container = document.createElement('div');
         let backbutton = document.createElement('span');
         let content = document.createElement('div');
-        let svg_blob='<svg id="neon_modal_balls" data-name="neon_modal_balls" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222.9 397.98"><style>.neon_modal_colorfill{fill:#8ac53f}</style><title>NeonModal</title><path class="neon_modal_colorfill" d="M118,119A119,119,0,0,0,.94,0L.1,238A119,119,0,0,0,118,119Z" transform="translate(-0.1 -0.02)" /><circle class="neon_modal_colorfill" cx="182.9" cy="167.98" r="40" /><circle class="neon_modal_colorfill" cx="130.9" cy="316.98" r="81" /></svg>';
+        //let svg_blob='<svg id="neon_modal_balls" data-name="neon_modal_balls" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222.9 397.98"><style>.neon_modal_colorfill{fill:#8ac53f}</style><title>NeonModal</title><path class="neon_modal_colorfill" d="M118,119A119,119,0,0,0,.94,0L.1,238A119,119,0,0,0,118,119Z" transform="translate(-0.1 -0.02)" /><circle class="neon_modal_colorfill" cx="182.9" cy="167.98" r="40" /><circle class="neon_modal_colorfill" cx="130.9" cy="316.98" r="81" /></svg>';
         let body = document.getElementsByTagName('body')[0];
         //let yposition = window.scrollY + referring_element.getBoundingClientRect().top;
         let yposition = window.scrollY 
@@ -13,11 +13,15 @@ const NeonModalFactory = (function(){
         container.classList.add('neon-modal');
         backbutton.classList.add('close');
         content.classList.add('neon-modal-content');
+        console.log(referring_element); 
+        if(referring_element.id == 'payment'){
+            content.classList.add('payment');
+        }
         if(referring_element.hasAttribute('data-modal-size')){
             content.classList.add( referring_element.dataset.modalSize );
         }
         //add background image
-        content.innerHTML = svg_blob;
+        //content.innerHTML = svg_blob;
         //add content
         content.appendChild(backbutton);
         content.appendChild(content_element);
@@ -106,71 +110,3 @@ const do_video_modal = (e) => {
     NeonModalFactory.getInstance(container, e.target );
 }
 
-
-const submitRegistration = (e) => {  
-	e.preventDefault();
-	let confirm = document.getElementById('passwordconfirm');
-	let pass = document.getElementById('password');
-	let dialog = document.getElementById('frontendvalidation');
-	dialog.innerText = '';
-	dialog.classList.add('hidden');
-	let error_msg = false;
-	let password_match = false;
-	let display_confirm = false;
-	if(confirm.classList.contains('active')){
-		if( confirm.value.length > 0 && pass.value.length > 0 ){
-			if(confirm.value === pass.value){
-				password_match = true;
-			} else {
-				error_msg = 'Passwords do not match.'
-			}
-		} else {
-			error_msg = 'Please confirm password.'
-		}
-	} else {
-		display_confirm = true;
-	}
-	let username = document.getElementById('username').value;
-
-	if(! validateUsername(username) ){
-		error_msg = 'Usernames must be 4 characters or more and only use alpha-numeric characters.'
-	}
-	
-	let email = document.getElementById('email').value;
-
-	if(! validateEmail(email) ){
-		error_msg = 'Please enter a valid email.'
-	}
-
-	if(!error_msg && password_match){
-		document.getElementById('registration').submit();
-	} else if(!error_msg && display_confirm){
-		confirm.value = '';
-		let confirmlabel = document.getElementById('confirmlabel');
-		confirm.classList.add('active');
-		confirmlabel.classList.add('active');
-		} else if( error_msg){
-			dialog.innerText = error_msg;
-			dialog.classList.remove('hidden');
-	}	
-}
-
-
-function validateUsername(username){
-	if(username.length >= 4){
-		console.log(username);
-		var pattern = /^[a-z0-9]+$/;
-
-		//let alphanumeric = username.match(pattern); 
-		let alphanumeric = pattern.test(username);
-		console.log(alphanumeric);
-		return alphanumeric;
-	} else {
-	return false;
-	} 
-}
-
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-}

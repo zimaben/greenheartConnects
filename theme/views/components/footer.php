@@ -77,33 +77,34 @@
 		<a href="<?php echo wp_login_url()?>">Log In</a>
 	</div>
 	<div id="payment">
+		<div class="container-fluid payment-bg">
+			<div class="row">
+				<div class="col-12 col-md-8 col-lg-6 offset-lg-6 offset-md-4">
+				<?php  echo do_shortcode('[gravityform id="1" ajax="true"]'); ?>
+					<br>
+					<br>
+					<div>(develoment only)<br>
+						<script>
+									
+								const cheatMetaKeys = async(e) => {
+								var formData = new FormData();
+								formData.append('userID', e.target.dataset.userid);
 
-			<?php echo do_shortcode('[gravityform id="1" ajax="true"]'); ?>
+								var request = new XMLHttpRequest();
+								let url = ajaxurl + '?action=cheatMetaKeys';
+								request.open('POST', url);
+								request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+								let data =encodeURIComponent( 'userID' ) + '=' + encodeURIComponent( e.target.dataset.userid );
+								request.send(data);
 
-
-
-		<br>
-		<br>
-		<div>(develoment only)<br>
-		<script>
-					
-				const cheatMetaKeys = async(e) => {
-				var formData = new FormData();
-				formData.append('userID', e.target.dataset.userid);
-
-				var request = new XMLHttpRequest();
-				let url = ajaxurl + '?action=cheatMetaKeys';
-				request.open('POST', url);
-				request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-				let data =encodeURIComponent( 'userID' ) + '=' + encodeURIComponent( e.target.dataset.userid );
-				request.send(data);
-
-				}
-		</script>
-			<button class="btn btn-large" data-userID="<?php echo get_current_user_id() ?>" onclick="cheatMetaKeys(event)">Cheat The Meta Keys</button>
+								}
+						</script>
+						<button class="btn btn-large" data-userID="<?php echo get_current_user_id() ?>" onclick="cheatMetaKeys(event)">Cheat The Meta Keys</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-
 </div>
 </footer>
 

@@ -5,7 +5,7 @@ const NeonModalFactory = (function(){
         let container = document.createElement('div');
         let backbutton = document.createElement('span');
         let content = document.createElement('div');
-        let svg_blob='<svg id="neon_modal_balls" data-name="neon_modal_balls" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222.9 397.98"><style>.neon_modal_colorfill{fill:#8ac53f}</style><title>NeonModal</title><path class="neon_modal_colorfill" d="M118,119A119,119,0,0,0,.94,0L.1,238A119,119,0,0,0,118,119Z" transform="translate(-0.1 -0.02)" /><circle class="neon_modal_colorfill" cx="182.9" cy="167.98" r="40" /><circle class="neon_modal_colorfill" cx="130.9" cy="316.98" r="81" /></svg>';
+        //let svg_blob='<svg id="neon_modal_balls" data-name="neon_modal_balls" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 222.9 397.98"><style>.neon_modal_colorfill{fill:#8ac53f}</style><title>NeonModal</title><path class="neon_modal_colorfill" d="M118,119A119,119,0,0,0,.94,0L.1,238A119,119,0,0,0,118,119Z" transform="translate(-0.1 -0.02)" /><circle class="neon_modal_colorfill" cx="182.9" cy="167.98" r="40" /><circle class="neon_modal_colorfill" cx="130.9" cy="316.98" r="81" /></svg>';
         let body = document.getElementsByTagName('body')[0];
         //let yposition = window.scrollY + referring_element.getBoundingClientRect().top;
         let yposition = window.scrollY 
@@ -13,11 +13,15 @@ const NeonModalFactory = (function(){
         container.classList.add('neon-modal');
         backbutton.classList.add('close');
         content.classList.add('neon-modal-content');
+        console.log(referring_element); 
+        if(referring_element.id == 'payment'){
+            content.classList.add('payment');
+        }
         if(referring_element.hasAttribute('data-modal-size')){
             content.classList.add( referring_element.dataset.modalSize );
         }
         //add background image
-        content.innerHTML = svg_blob;
+        //content.innerHTML = svg_blob;
         //add content
         content.appendChild(backbutton);
         content.appendChild(content_element);

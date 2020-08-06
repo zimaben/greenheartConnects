@@ -61,6 +61,16 @@ body .neon-modal{
       div {
           z-index:1;
       }
+  &.payment {
+    padding:0;
+    .payment-bg {
+      background: url(img/payment-form-img.jpg) center/cover;
+      .col-12 {
+        background:white;
+        padding-left: 40px;
+      }
+    }
+  }
   }
 }
 body.modal-open .neon-modal {
