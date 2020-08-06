@@ -23,7 +23,9 @@ const NeonModalFactory = (function(){
         //add background image
         //content.innerHTML = svg_blob;
         //add content
-        content.appendChild(backbutton);
+        if(!referring_element.id == 'payment'){ // no close option for payment
+            content.appendChild(backbutton);
+        } 
         content.appendChild(content_element);
         container.appendChild(content);
         //body.classList.add('modal-open');

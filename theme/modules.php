@@ -20,6 +20,30 @@ class Modules extends \GreenheartConnects {
         $t1 = strtotime($a['starttime']);
         $t2 = strtotime($b['starttime']);
         return $t1 - $t2;
+    }
+    public static function return_remaining_seconds_days($seconds){
+        $days = floor($seconds / 86400 );
+        if ($days >= 1 ){
+            $seconds_to_remove = $days * 86400;
+            $seconds_minus_days = $seconds - $seconds_to_remove;
+        }
+    return (isset($seconds_minus_days)) ? $seconds_minus_days : $seconds;     
+    }
+    public static function return_remaining_seconds_hours($seconds){
+        $hours = floor($seconds / 3600 );
+        if ($hours >= 1 ){
+            $seconds_to_remove = $hours * 3600;
+            $seconds_minus_hours = $seconds - $seconds_to_remove;
+        }
+    return (isset($seconds_minus_hours)) ? $seconds_minus_hours : $seconds;     
+    }   
+    public static function return_remaining_seconds_mins($seconds){
+        $mins = floor($seconds / 60 );
+        if ($mins >= 1 ){
+            $seconds_to_remove = $mins * 60;
+            $seconds_minus_mins = $seconds - $seconds_to_remove;
+        }
+    return (isset($seconds_minus_mins)) ? $seconds_minus_mins : $seconds;     
     }   
     public static function get_closest_time_item($stream_array){
         if( $stream_array && isset( $stream_array) ){
@@ -109,17 +133,26 @@ class Modules extends \GreenheartConnects {
                     $index++;
                 endwhile;
                 wp_reset_postdata(); 
-                //Get Nearest Livestream
-                /*if(count($stream_array) > 1 ) {    
-                    usort($array, array(get_class(),'date_sort'));
-                }
-                $closest_stream_id = $stream_array[count($stream_array) - 1 ]['id'];
-                */
+ 
                 $closest_item = self::get_closest_time_item($stream_array);
                 //If Nearest Livestream
                 if($closest_item){
+                    $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
+                    $start = new \DateTime( get_post_meta( $closest_item['id'] , 'ghc_stream_start', true ) );   
+                    $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
+                    $days = floor($secs_diff / 86400 );
+                    $new_secs = self::return_remaining_seconds_days($secs_diff);
+                    $hours = floor($new_secs / 3600);
+                    $new_secs = self::return_remaining_seconds_hours($new_secs);
+                    $mins = floor($new_secs / 60 );
+                    $secs = self::return_remaining_seconds_mins($new_secs);
                     //Roll Livestream info into $userState object
                     $userState->nearest_stream_id = $closest_item['id']; 
+                    $userState->secs_diff = $secs_diff;
+                    $userState->days2livestream = $days;
+                    $userState->hours2livestream = $hours;
+                    $userState->mins2livestream = $mins;
+                    $userState->secs2livestream = $secs;
                     $the_home_hero = new HomeHero( $userState );
                 } else {
                     require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');

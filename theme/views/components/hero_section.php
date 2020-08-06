@@ -1,26 +1,15 @@
+<?php
+use gh_connects\theme\Modules as Modules;
+?>
 <main id="primary" class="site-main home">
     <!-- Module Home Hero -->
     <?php
     $title = get_the_title($this->nearest_stream_id);
     $img = wp_get_attachment_image_src( get_post_thumbnail_id( $this->nearest_stream_id),'large',false)[0];
-    $start = new DateTime( get_post_meta( $this->nearest_stream_id , 'ghc_stream_start', true ) );   
-    $time_now = date_timestamp_get(new DateTime("now", new DateTimeZone('America/Chicago')) );
-    #$seconds_diff = $time_now - $start;
-    #error_log('Seconds diff: '. $seconds_diff );
-    #$dtF = new \DateTime('@0');
-    #$dtT = new \DateTime("@$seconds_diff");
-    #error_log($dtT->format('%a days, %h hours, %i minutes and %s seconds') );
+    $excerpt = \get_the_excerpt( $this->nearest_stream_id );
+    $authorname = \get_post_meta( $this->nearest_stream_id, 'ghc_author_name', true ); 
 
-    $time_diff = $start->diff( new DateTime("now", new DateTimeZone('America/Chicago')) );
-                    /*  days = $time_diff->d
-                        hours = $time_diff->h
-                        mins = $time_diff->i
-                        seconds = $time_diff->s
-                    */
-    $excerpt = get_the_excerpt( $this->nearest_stream_id );
-    $authorname = get_post_meta( $this->nearest_stream_id, 'ghc_author_name', true ); 
-    $time_diff = true;
-    if ($time_diff ){
+    if ($secs_diff < 300){
 
         
         ?>
@@ -66,11 +55,11 @@
                             <div class="col-12">
                             
                                 <h4 class="timeto white">Livestream Starts in <?php
-                                    echo '<span id="timewrap" data-seconds="'.$time_diff->format("%s").'" data-action="final_countdown">';
-                                    echo ( $time_diff->d > 0) ? '<span id="hero_closest_days">'.$time_diff->d.'</span> Days, ' : '<span id="hero_closest_days"></span>';
-                                    echo ( $time_diff->h > 0) ? '<span id="hero_closest_hours">'.$time_diff->h.'</span> Hours, ' : '<span id="hero_closest_hours"></span>';
-                                    echo ( $time_diff->i > 0) ? '<span id="hero_closest_mins">'.$time_diff->i.'</span> Minutes, ' : '<span id="hero_closest_mins"></span>';
-                                    echo ( $time_diff->s > 0) ? '<span id="hero_closest_seconds">'.$time_diff->h.'</span> Seconds' : '<span id="hero_closest_seconds"></span>'; 
+                                    echo '<span id="timewrap" data-seconds="'.$this->secs_diff.'" data-action="final_countdown">';
+                                    echo ( $this->days2livestream ) ? '<span id="hero_closest_days">'.$this->days2livestream.'</span> Days, ' : '<span id="hero_closest_days"></span>';
+                                    echo ( $this->hours2livestream ) ? '<span id="hero_closest_hours">'.$this->hours2livestream.'</span> Hours, ' : '<span id="hero_closest_hours"></span>';
+                                    echo ( $this->mins2livestream ) ? '<span id="hero_closest_mins">'.$this->mins2livestream.'</span> Minutes, ' : '<span id="hero_closest_mins"></span>';
+                                    echo '<span id="hero_closest_seconds">'.$this->secs2livestream.'</span> Seconds'; 
                                     echo '</span>';                               
                                 ?></h4>
                             </div>

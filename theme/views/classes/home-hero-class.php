@@ -11,6 +11,11 @@ class HomeHero extends \GreenheartConnects {
         $homehero = new Template('components/hero_section.php');
         $homehero->ID = $userState->ID;
         $homehero->nearest_stream_id = $userState->nearest_stream_id; 
+        $homehero->days2livestream = $userState->days2livestream;              
+        $homehero->hours2livestream = $userState->hours2livestream;
+        $homehero->mins2livestream = $userState->mins2livestream;
+        $homehero->secs2livestream = $userState->secs2livestream;
+        $homehero->secs_diff = $userState->secs_diff;
 
         echo $homehero->render();
     }
