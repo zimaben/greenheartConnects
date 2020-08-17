@@ -1,0 +1,28 @@
+.col-2.author-wrap {
+    padding: 0;
+}
+button.backhome {
+    margin: 40px 0;
+}
+.streams-template-default {
+    #home-hero{
+        padding:0;
+        div {
+            .col-12:first-of-type{
+                padding:0;
+            }
+        }
+        h1.pagetitle {
+            margin-top: 50px;
+        }
+    }
+}
+#stream-hero {
+    padding: 0;
+    .hero-bg{
+        margin: 50px 0;
+        background: black;
+        min-height: 400px;
+    }
+}
+

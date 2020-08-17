@@ -15,9 +15,11 @@ function isLocalhost($whitelist = ['127.0.0.1', '::1']) {
 }
 function getPluginURL(){
 	$path = realpath(__DIR__);
+	error_log( $path );
 	$start = strpos($path, '/htdocs/') + 7; #keep the trailing slash
-	$stop = strpos($path, '/core/' );
+	$stop = strpos($path, '/theme/' );
 	$plugin_dir = substr( $path, $start, $stop - $start );
+	error_log( $plugin_dir );
 	$url = $_SERVER['SERVER_NAME'] . $plugin_dir;
 	return $url;
 }
@@ -27,13 +29,11 @@ function getSitePath(){
 	$site_path = substr( $path, 0, $stop);
 	return $site_path;
 }
-	/* TEMPLATE VARIABLES - Since we're hardcoding */
-	$gh_subtitle = 'Earn income for sharing the things you like';
-	$gh_logo_url = '/login/';
-    $gh_left_image = 'https://' . getPluginURL() . '/theme/library/images/neon_hero.svg';
-    $gh_left_video = '#'; //set embed video here
+/* TEMPLATE VARIABLES - Since we're hardcoding */
+$gh_logo_url = '/login/';
+$gh_left_image = 'https://' . getPluginURL() . '/library/dist/css/img/GHConnect_Logo.png';
+$gh_left_video = '#'; //set embed video here
 
-error_log( wp_login_url() );
 
 require getSitePath() . '/wp-load.php';
 
@@ -213,18 +213,25 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * @since 4.6.0
 	 */
 	do_action( 'login_header' );
+	$gh_left_image = 'https://' . getPluginURL() . '/library/dist/css/img/GHConnect_Logo.png';
+	
 	?>
 	<div class="container-fluid">
 		<div class="row connects-background">
-			<div class="col-6 d-none d-md-block">
+			<div class="left-logo">
+				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
+			</div>
+			<div class="col-6 d-none d-md-flex leftlogincol">
 				<div class="the-content">
-					 <h2 class="left-title">Join our online community etc</h2>
+				<div class="the-video">
+				<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+				</iframe>
+				</div>
+					 <h2 class="left-title">Join our online community</h2>
 					 <ul>
 						<li>Connect with your Greenheart family</li>
 						<li>Log and track your volunteer hours</li>
 						<li>Apply for scholarships to leadership conferences and grants for service projects</li>
-						<li>Access resources for professional development and trainings</li>
-						<li>Ask questions and start discussions in our public forums</li>
 					</ul>
 				</div>
 			</div>
@@ -241,47 +248,49 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 *
 	 * @param string $message Login message text.
 	 */
-	$message = apply_filters( 'login_message', $message );
-	if ( !empty( $message ) )
-		echo $message . "\n";
+	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		$message = apply_filters( 'login_message', $message );
+		if ( !empty( $message ) ){
+			echo $message . "\n";
+		}
+		// In case a plugin uses $error rather than the $wp_errors object
+		if ( !empty( $error ) ) {
+			$wp_error->add('error', $error);
+			unset($error);
+		}
 
-	// In case a plugin uses $error rather than the $wp_errors object
-	if ( !empty( $error ) ) {
-		$wp_error->add('error', $error);
-		unset($error);
-	}
-
-	if ( $wp_error->get_error_code() ) {
-		$errors = '';
-		$messages = '';
-		foreach ( $wp_error->get_error_codes() as $code ) {
-			$severity = $wp_error->get_error_data( $code );
-			foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
-				if ( 'message' == $severity )
-					$messages .= '	' . $error_message . "<br />\n";
-				else
-					$errors .= '	' . $error_message . "<br />\n";
+		if ( $wp_error->get_error_code() ) {
+			$errors = '';
+			$messages = '';
+			foreach ( $wp_error->get_error_codes() as $code ) {
+				$severity = $wp_error->get_error_data( $code );
+				foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
+					if ( 'message' == $severity )
+						$messages .= '	' . $error_message . "<br />\n";
+					else
+						$errors .= '	' . $error_message . "<br />\n";
+				}
 			}
-		}
-		if ( ! empty( $errors ) ) {
-			/**
-			 * Filters the error messages displayed above the login form.
-			 *
-			 * @since 2.1.0
-			 *
-			 * @param string $errors Login error message.
-			 */
-			echo '<div id="login_error">' . apply_filters( 'login_errors', $errors ) . "</div>\n";
-		}
-		if ( ! empty( $messages ) ) {
-			/**
-			 * Filters instructional messages displayed above the login form.
-			 *
-			 * @since 2.5.0
-			 *
-			 * @param string $messages Login messages.
-			 */
-			echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
+			if ( ! empty( $errors ) ) {
+				/**
+				 * Filters the error messages displayed above the login form.
+				 *
+				 * @since 2.1.0
+				 *
+				 * @param string $errors Login error message.
+				 */
+				echo '<div id="login_error">' . apply_filters( 'login_errors', $errors ) . "</div>\n";
+			}
+			if ( ! empty( $messages ) ) {
+				/**
+				 * Filters instructional messages displayed above the login form.
+				 *
+				 * @since 2.5.0
+				 *
+				 * @param string $messages Login messages.
+				 */
+				echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
+			}
 		}
 	}
 } // End of login_header()
@@ -360,7 +369,7 @@ function retrieve_password() {
 	$errors = new WP_Error();
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter a username or email address.'));
+		$errors->add('empty_username', __('<strong>ERROR</strong>: Enter an email address.'));
 	} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 		$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 		if ( empty( $user_data ) )
@@ -385,7 +394,7 @@ function retrieve_password() {
 		return $errors;
 
 	if ( !$user_data ) {
-		$errors->add('invalidcombo', __('<strong>ERROR</strong>: Invalid username or email.'));
+		$errors->add('invalidcombo', __('<strong>ERROR</strong>: Invalid email.'));
 		return $errors;
 	}
 
@@ -624,7 +633,7 @@ case 'retrievepassword' :
 	 */
 	do_action( 'lost_password' );
 
-	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your username or email address. You will receive a link to create a new password via email.') . '</p>', $errors);
+	login_header(__('Lost Password'), '<p class="message">' . __('Please enter your email address. You will receive a link to create a new password via email.') . '</p>', $errors);
 
 	$user_login = '';
 
@@ -636,7 +645,7 @@ case 'retrievepassword' :
 
 <form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( '/login/?action=lostpassword', 'login_post' ) ); ?>" method="post">
 	<p>
-		<label for="user_login" ><?php _e( 'Username or Email Address' ); ?><br />
+		<label for="user_login" ><?php _e( 'Email Address' ); ?><br />
 		<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr($user_login); ?>" size="20" /></label>
 	</p>
 	<?php
@@ -877,7 +886,7 @@ case 'register' :
 <p id="nav">
 <a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
 <?php echo esc_html( $login_link_separator ); ?>
-<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
+<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Forgot my Password' ); ?></a>
 </p>
 
 <?php
@@ -1036,7 +1045,7 @@ default:
 
 <form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'login/', 'login_post' ) ); ?>" method="post">
 	<p>
-		<label for="user_login"><?php _e( 'Username or Email Address' ); ?><br />
+		<label for="user_login"><?php _e( 'Email Address' ); ?><br />
 		<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" /></label>
 	</p>
 	<p>
@@ -1053,7 +1062,7 @@ default:
 	?>
 	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_html_e( 'Remember Me' ); ?></label></p>
 	<div class="buttongroup-login">
-	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">New Account</span></a></p>
+	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">Register</span></a></p>
 	<p class="submit">
 		
 		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
@@ -1082,32 +1091,14 @@ default:
 		#echo esc_html( $login_link_separator );
 	endif;
 	?>
-	<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
+	<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Forgot my Password' ); ?></a>
 <?php endif; ?>
 </p>
-<?php } ?>
+<?php } 
 
-<script type="text/javascript">
-function wp_attempt_focus(){
-setTimeout( function(){ try{
-<?php if ( $user_login ) { ?>
-d = document.getElementById('user_pass');
-d.value = '';
-<?php } else { ?>
-d = document.getElementById('user_login');
-<?php if ( 'invalid_username' == $errors->get_error_code() ) { ?>
-if( d.value != '' )
-d.value = '';
-<?php
-}
-}?>
-d.focus();
-d.select();
-} catch(e){}
-}, 200);
-}
 
-<?php
+
+
 /**
  * Filters whether to print the call to `wp_attempt_focus()` on the login screen.
  *
@@ -1115,24 +1106,7 @@ d.select();
  *
  * @param bool $print Whether to print the function call. Default true.
  */
-if ( apply_filters( 'enable_login_autofocus', true ) && ! $error ) { ?>
-wp_attempt_focus();
-<?php } ?>
-if(typeof wpOnload=='function')wpOnload();
-<?php if ( $interim_login ) { ?>
-(function(){
-try {
-	var i, links = document.getElementsByTagName('a');
-	for ( i in links ) {
-		if ( links[i].href )
-			links[i].target = '_blank';
-	}
-} catch(e){}
-}());
-<?php } ?>
-</script>
 
-<?php
 login_footer();
 
 if ( $switched_locale ) {

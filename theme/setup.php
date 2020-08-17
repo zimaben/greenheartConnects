@@ -18,10 +18,14 @@ class Setup extends \GreenheartConnects {
         \add_action( 'wp_enqueue_scripts', array( get_class(), 'connects_enqueue') );
         \add_action( 'admin_enqueue_scripts', array( get_class(), 'connects_admin_enqueue') );
 
-        //assign templates to added single pages
+        //assign templates to added plugin pages
         \add_filter( 'page_template', array( get_class(), 'set_login_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_registration_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_main_template' )  );
+        \add_filter( 'page_template', array( get_class(), 'set_profile_template' )  );
+        /* Filter the single_template with our custom function*/
+        \add_filter('single_template', array( get_class(),'ghc_postype_assign_templates') );
+        \add_filter( 'archive_template', array( get_class(),'ghc_postype_assign_archive_templates') );
 
         //Add video post type
         \add_action( 'init', array( get_class(), 'add_video_cpt' )  ); 
@@ -29,8 +33,7 @@ class Setup extends \GreenheartConnects {
         \add_action( 'add_meta_boxes', array( get_class(),'add_video_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'video_metabox_save') );
-        //assign template to video pages
-        \add_action('template_redirect', array( get_class(), 'set_video_template') );
+
         
         
         //Add livestream post type
@@ -39,8 +42,6 @@ class Setup extends \GreenheartConnects {
         \add_action( 'add_meta_boxes', array( get_class(),'add_stream_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'stream_metabox_save') );
-
-
 
         \add_filter( 'login_url', array(get_class(), 'set_wp_login_page' ), 10, 3 );      //update login url for core functionality to work with
         \add_filter( 'register_url', array(get_class(), 'set_wp_register_page' ), 10, 1 );//update register url for core functionality
@@ -54,13 +55,18 @@ class Setup extends \GreenheartConnects {
         
 
         //set Javascript variables
-        \add_action( 'wp_head', array(get_class(), 'set_plugin_js_variables'), 1);
+        \add_action( 'wp_head', array(get_class(), 'set_plugin_js_variables'));
+        \add_action( 'login_head', array(get_class(), 'set_plugin_js_variables') );
+
+        \add_filter( 'comments_open', array(get_class(), 'open_cpt_comments'), 10, 2 );
+        
     }
+
     public static function set_plugin_js_variables(){
         echo '<!-- SET JS VARIABLES -->';
         echo '<script type="text/javascript">';
-        echo 'var ajaxurl="'.\admin_url('admin-ajax.php').'";';
-        echo 'var CN_DEBUG="'.self::$debug.'";';
+        echo 'const ajaxurl="'.\admin_url('admin-ajax.php').'";';
+        echo 'const CN_DEBUG="'.self::$debug.'";';
         echo '</script>';
     }
     public static function after_registration_home( $registration_redirect ) {
@@ -130,6 +136,7 @@ class Setup extends \GreenheartConnects {
         $streamstart_meta = get_post_meta( $post->ID, 'ghc_stream_start',true );
         $streamlength_meta = get_post_meta( $post->ID, 'ghc_stream_length',true );
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
+        $streamid_meta = get_post_meta( $post->ID, 'ghc_zoom_meeting_id', true );
         ?>
         <h4>Live Stream Details</h4>
         <div id="timepicker_container" style="position:relative;max-width:60%;margin:0 auto;"></div>
@@ -139,7 +146,7 @@ class Setup extends \GreenheartConnects {
         <label for="vidtypefile">Minutes:</label><br>
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
-        <input type="text" id="ghc_zoom_meeting_id" name="ghc_zoom_meeting_id" value="">
+        <input type="text" id="ghc_zoom_meeting_id" name="ghc_zoom_meeting_id" value="<?php echo ($streamid_meta) ? $streamid_meta : ''?>">
         <label for="ghc_zoom_meeting_id">Meeting ID (on the Zoom Admin area as zoom_api_link meeting_id=?)</label>
         <script type="text/javascript">
             window.addEventListener('load', function(){
@@ -180,18 +187,26 @@ class Setup extends \GreenheartConnects {
 
         if (!current_user_can('edit_post', $post_id)) return;
         foreach( $_POST as $key => $value ) {
-            if( $key == 'ghc_stream_start' || $key == 'ghc_stream_length' || $key == 'ghc_author_name' ){
+            if( $key == 'ghc_stream_start' || $key == 'ghc_stream_length' || $key == 'ghc_author_name' || $key == 'ghc_zoom_meeting_id' ){
                 \update_post_meta( $post_id, $key, $value );
             }
         }
     }
 
+    public static function open_cpt_comments( $open, $post_id ) {     
+        $post = get_post( $post_id );  
+        if ( 'streams' == $post->post_type ||  'videos' == $post->post_type )
+            $open = true; 
+        return $open;
+    }
 
     public static function login_enqueue(){
+        
         \wp_enqueue_style( 'bootstrap-grid-css', self::get_plugin_url( 'library/dist/css/bootstrap-grid.min.css'), array(), '4.0.0', 'all' );
         \wp_enqueue_style( 'bootstrap-css', self::get_plugin_url( 'library/dist/css/bootstrap.min.css'), array('bootstrap-grid-css'), '4.0.0', 'all' );
         \wp_enqueue_style( 'connects-login-css', self::get_plugin_url( 'library/dist/css/login.min.css'), array(), self::version, 'all' );
-        \wp_enqueue_script( 'connects-login-js', self::get_plugin_url('/library/dist/js/login.min.js'), array(), VERSION, false );  
+        \wp_enqueue_script( 'regenerator-runtime', self::get_plugin_url( 'library/dist/js/runtime.js'), array(), '1.1', false);
+        \wp_enqueue_script( 'connects-login-js', self::get_plugin_url('/library/dist/js/login.min.js'), array('jquery'), VERSION, false );  
     }
     public static function connects_admin_enqueue(){
         \wp_enqueue_script( 'picker-js', self::get_plugin_url( 'library/dist/js/picker.min.js'), array(), '1.2.1', false );
@@ -265,6 +280,22 @@ class Setup extends \GreenheartConnects {
             $new_page_id = wp_insert_post($main_page);
         }
     }
+    //Creates a blank home page for application
+    public static function add_profile(){
+        $main_title = 'Settings';
+        $main_content = '';
+        $page_check = \get_page_by_title($main_title);
+        $main_page = array(
+                'post_type' => 'page',
+                'post_title' => $main_title,
+                'post_content' => $main_content,
+                'post_status' => 'publish',
+                'post_name' => 'profile'
+        );
+        if( !isset($page_check->ID) ){
+            $new_page_id = wp_insert_post($main_page);
+        }
+    }
     //Assigns template to our blank login page
     public static function set_login_template($page_template){
         if ( \is_page( 'login' ) ) {
@@ -286,14 +317,47 @@ class Setup extends \GreenheartConnects {
         }
     return $page_template;
     }
-    //Assigns template to our video pages
-    public static function set_video_template($page_template){
-        if( \get_post_type() == 'video') {
-            $page_template = self::get_plugin_path( 'theme/views/video.php' );
+    public static function set_profile_template($page_template){
+        if ( \is_page( 'profile' ) ) {
+            $page_template = self::get_plugin_path( 'theme/views/profile.php' ); //assigns master theme to our application
         }
     return $page_template;
     }
- 
+
+    //Assign Single & Archive templates for post types
+    public static function ghc_postype_assign_archive_templates( $archive ){
+        error_log('function is firing');
+        global $post;
+        /* Checks for archive template by post type */
+        if ( \is_post_type_archive ( 'streams' ) ) {
+            error_log( self::get_plugin_path('theme/views/archive-streams.php' ) );
+            if ( file_exists( self::get_plugin_path('theme/views/archive-streams.php' ) ) ) {
+                return self::get_plugin_path('theme/views/archive-streams.php' );
+            }
+        }
+        if ( \is_post_type_archive ( 'videos' ) ) {
+            if ( file_exists( self::get_plugin_path('theme/views/archive-videos.php' ) ) ) {
+                return self::get_plugin_path('theme/views/archive-videos.php' );
+            }
+        }
+        return $archive;
+    }
+    
+    public static function ghc_postype_assign_templates($single) {
+        global $post;
+        /* Checks for single template by post type */
+        if ( $post->post_type == 'streams' ) {
+            if ( file_exists( self::get_plugin_path('theme/views/single-stream.php' ) ) ) {
+                return self::get_plugin_path('theme/views/single-stream.php' );
+            }
+        }
+        if ( $post->post_type == 'videos' ) {
+            if ( file_exists( self::get_plugin_path('theme/views/single-video.php' ) ) ) {
+                return self::get_plugin_path('theme/views/single-video.php' );
+            }
+        }
+        return $single;
+    }
 
     //Add Video Post Type 
     public static function add_video_cpt(){
@@ -329,7 +393,7 @@ class Setup extends \GreenheartConnects {
             'show_in_menu'       => true,
             'menu_position'      => 5,
             'show_in_rest'       => false,
-            'supports'           => array( 'title', 'custom-fields','post-formats','thumbnail','excerpt' )
+            'supports'           => array( 'title', 'custom-fields','post-formats','thumbnail','excerpt', 'comments' )
         );
      
         \register_post_type( 'videos', $args );
@@ -368,7 +432,7 @@ class Setup extends \GreenheartConnects {
             'show_in_menu'       => true,
             'menu_position'      => 5,
             'show_in_rest'       => false,
-            'supports'           => array( 'title', 'editor', 'custom-fields', 'excerpt', 'thumbnail',  )
+            'supports'           => array( 'title', 'editor', 'custom-fields', 'excerpt', 'thumbnail', 'comments'  )
         );
      
         \register_post_type( 'streams', $args );

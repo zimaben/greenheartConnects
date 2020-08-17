@@ -138,7 +138,7 @@ class Modules extends \GreenheartConnects {
                 //If Nearest Livestream
                 if($closest_item){
                     $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                    $start = new \DateTime( get_post_meta( $closest_item['id'] , 'ghc_stream_start', true ) );   
+                    $start = new \DateTime( \get_post_meta( $closest_item['id'] , 'ghc_stream_start', true ) );   
                     $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
                     $days = floor($secs_diff / 86400 );
                     $new_secs = self::return_remaining_seconds_days($secs_diff);
@@ -146,6 +146,7 @@ class Modules extends \GreenheartConnects {
                     $new_secs = self::return_remaining_seconds_hours($new_secs);
                     $mins = floor($new_secs / 60 );
                     $secs = self::return_remaining_seconds_mins($new_secs);
+                    $zoomid = \get_post_meta( $closest_item['id'], 'ghc_zoom_meeting_id', true);
                     //Roll Livestream info into $userState object
                     $userState->nearest_stream_id = $closest_item['id']; 
                     $userState->secs_diff = $secs_diff;
@@ -153,6 +154,8 @@ class Modules extends \GreenheartConnects {
                     $userState->hours2livestream = $hours;
                     $userState->mins2livestream = $mins;
                     $userState->secs2livestream = $secs;
+                    $userState->zoomid = $zoomid;
+                    $userState->$startDate = $start;
                     $the_home_hero = new HomeHero( $userState );
                 } else {
                     require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');
@@ -192,6 +195,6 @@ class Modules extends \GreenheartConnects {
 
     }
     public static function single_comments($userState){
-
+        require_once self::get_plugin_path('theme/views/components/comments.php');
     }
 }

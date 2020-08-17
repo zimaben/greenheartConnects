@@ -281,10 +281,10 @@ function login_footer($input_id = '') {
 
 	// Don't allow interim logins to navigate away from the page.
 	if ( ! $interim_login ): ?>
-	<!--<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
+	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
 		/* translators: %s: site title */
 		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
-	?></a></p> -->
+	?></a></p>
 	<?php endif; ?>
 
 		
@@ -438,12 +438,10 @@ function registration_form( $username = '', $password = '', $email = '', $comple
 	<?php } ?>
     </form>
 	<div id="register_payment" class="after_registration">
-	<?php  echo do_shortcode('[gravityform id="3" ajax="true"]'); ?>
+	<?php  echo do_shortcode('[gravityform id="2" ajax="true"]'); ?>
 	</div>
 <?php
 }
 login_header();
 login_middle();
 login_footer();
-
- 

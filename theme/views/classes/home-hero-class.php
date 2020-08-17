@@ -16,6 +16,7 @@ class HomeHero extends \GreenheartConnects {
         $homehero->mins2livestream = $userState->mins2livestream;
         $homehero->secs2livestream = $userState->secs2livestream;
         $homehero->secs_diff = $userState->secs_diff;
+        $homehero->$startDate = $userState->$startDate;
 
         echo $homehero->render();
     }
