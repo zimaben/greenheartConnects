@@ -12,6 +12,7 @@ class HeaderAvatar extends \GreenheartConnects {
         $avatar->ID = $wp_user->ID;
         $avatar->user_email = $wp_user->user_email;
         $avatar->user_nicename = $wp_user->user_nicename;
+        $avatar->avatar_img_id = $wp_user->avatar_img_id;
 
         echo $avatar->render();
     }

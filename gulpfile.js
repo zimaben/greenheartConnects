@@ -37,6 +37,7 @@ const javascript_modules = [
   'library/src/es6/views/components/top_navigation.js',
   'library/src/es6/views/components/hero_section.js',
   'library/src/es6/views/components/right_col.js',
+  'library/src/es6/views/components/settings.js',
   'library/src/es6/views/dashboard.js',
 ]
 const javascript_close_body_modules = [

@@ -1,0 +1,136 @@
+@import '../../variables';
+input:focus {
+    outline: none; 
+    border: 0; 
+}
+.mobileonly {
+    display:none;
+}
+.settingswrap { 
+    width:100%;
+    height:100%;
+    background:transparent;
+    position: relative;
+    #settings_left {
+        .avatar {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+
+            .ghc{
+                &.avatar-img{
+                    border-radius: 50%;
+                    position: absolute;
+                    width: 61%;
+                    height: 61%;
+                    top: 19.5%;
+                    left: 19.5%;
+                    z-index: 1;
+                    border:9px solid $brightgreen;
+                }
+            }
+        }
+        h3.settings-name {
+            font: 24px/36px $sanchez;
+            text-align: center;
+            font-weight: bold;
+            margin-top:34px;
+            margin-bottom: 2px;
+        }
+        a.change-profile-image {
+            text-align: center;
+            width: 100%;
+            display: block;
+        }
+    }
+    #settings_right {
+        float:left;
+        width:58.5%;//Give the browsers a couple pixels of room to screw up
+        display:flex;
+        flex-direction:column;
+        padding-top: 4%;
+        padding-right: 4.1%;
+        h1.settings-title {
+            margin-top: 5px;
+        }
+        .form-wrap {
+            width:100%;
+            position:relative;
+            .settingsform {
+                height: 55px;
+                position: relative;
+                border-bottom:1px solid $text-light;
+                &.active {
+                    &:before {
+                        display:block;
+                        position:absolute;
+                        width:100%;
+                        height:100%;
+                        z-index:0;
+                        content:'';
+                        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+                    }
+                }
+                label {
+                    position:absolute;
+                    left:18.5px;
+                    line-height: 60px;
+                    font-size:16px;
+                    font-family:Inter;
+                    color:$text-black;
+                }
+                a.change {
+                    position:absolute;
+                    right:0;
+                    line-height: 60px;
+                    font-size:14px;
+                    font-family:Inter;
+                }
+                input {
+                    bottom:0;
+                    border:0;
+                    right:14%;
+                    height:100%;
+                    width:85.5%;
+                    padding:0;
+                    &.hidden {
+                        display:none;
+                    }
+                }
+                input::placeholder,/* scss selectors not working? */
+                input[type=text],
+                input[type=email],
+                input[type=password]{ 
+                    text-align:right;
+                    font:18px/60px $lato;
+                    color:$text-black;
+                }
+                #email:valid {
+                    $color: $error;
+                }
+                #email:invalid {
+                    $color: $success;
+                }
+                
+            }
+            .settings_checks{
+                margin-top:25.5px;
+                margin-left: 18.5px;
+                .check {
+                    padding: 7.5px 0;
+                }
+                .agree-link {
+                    color: $text-black;
+                }
+            }
+        }
+    }
+    #delete-account-link {
+        position:absolute;
+        bottom:40px;
+        right:53px;
+        color:$text-light;
+    }
+} 

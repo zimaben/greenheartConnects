@@ -8,6 +8,7 @@ use gh_connects\theme\classes\HeaderAvatar as HeaderAvatar;
 use gh_connects\theme\classes\HeaderAvatarLoggedOut as HeaderAvatarLoggedOut;
 use gh_connects\theme\classes\HomeHero as HomeHero;
 use gh_connects\theme\classes\LeftCol as LeftCol;
+use gh_connects\theme\classes\Settings as Settings;
 //spin it
 #\gh_connects\theme\Modules::run();
 class Modules extends \GreenheartConnects {
@@ -97,6 +98,8 @@ class Modules extends \GreenheartConnects {
             if( $payment_keys ){
                $userState = (object)array_merge((array)$user_instance->data, $payment_keys );
             }
+            $avatar_img_id = \get_user_meta( $userState->ID, 'ghc_avatar_image', true );
+            $userState->avatar_img_id = $avatar_img_id;
             $the_avatar = new HeaderAvatar( $userState );
 
         } else {
@@ -179,6 +182,14 @@ class Modules extends \GreenheartConnects {
     public static function right_col($userState){
         if($userState && $userState->cn_status === 'paid' ){
             require_once self::get_plugin_path('theme/views/components/right_col.php');
+        }
+    }
+    public static function profile($userState){
+        if($userState){
+            require_once self::get_plugin_path('theme/views/classes/settings-class.php');
+            
+            $settings = new Settings( $userState);
+
         }
     }
     public static function footer(){

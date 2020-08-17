@@ -39,6 +39,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
         static $debug = true; //turns PHP and javascript logging on/off
         const text_domain = 'gh_connects'; // for translation ##
         const js_domain = 'gh_connects';
+        const finance_email = 'lpuzan@greenheart.org';//UPDATE!
 
         //Plugin Options
 

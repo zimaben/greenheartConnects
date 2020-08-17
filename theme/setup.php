@@ -12,6 +12,7 @@ class Setup extends \GreenheartConnects {
         \add_action( 'init', array( get_class(), 'add_custom_login' ), 1 );
         \add_action ( 'init', array( get_class(), 'add_custom_registration'), 1 );
         \add_action( 'init', array( get_class(), 'add_dashboard' ), 1 );
+        \add_action( 'init', array( get_class(), 'add_profile' ), 1 );
 
         //add custom styling and bootstrap to login page
         \add_action( 'login_enqueue_scripts', array( get_class(), 'login_enqueue') ); //add login page styles
@@ -52,6 +53,24 @@ class Setup extends \GreenheartConnects {
         //add Javascript Actions
         \add_action('wp_ajax_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
         \add_action('wp_ajax_nopriv_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
+
+        \add_action('wp_ajax_updateUserPhoto', array( get_class(), 'updateUserPhoto' ));
+        #\add_action('wp_ajax_nopriv_updateUserPhoto', array( get_class(),'updateUserPhoto' )); 
+        
+        \add_action('wp_ajax_updateUserName', array( get_class(), 'updateUserName' ));
+        \add_action('wp_ajax_nopriv_updateUserName', array( get_class(),'updateUserName' )); 
+
+        \add_action('wp_ajax_updateEmail', array( get_class(), 'updateEmail' ));
+        \add_action('wp_ajax_nopriv_updateEmail', array( get_class(),'updateEmail' )); 
+
+        \add_action('wp_ajax_updateConsent', array( get_class(), 'updateConsent' ));
+        \add_action('wp_ajax_nopriv_updateConsent', array( get_class(),'updateConsent' )); 
+
+        \add_action('wp_ajax_updatePassword', array( get_class(), 'updatePassword' ));
+        \add_action('wp_ajax_nopriv_updatePassword', array( get_class(),'updatePassword' )); 
+
+        \add_action('wp_ajax_neon_BTTTTR_deleteUser', array( get_class(), 'ghc_BTTTTR_deleteUser' ));
+        \add_action('wp_ajax_nopriv_neon_BTTTTR_deleteUser', array( get_class(),'ghc_BTTTTR_deleteUser' )); 
         
 
         //set Javascript variables
@@ -60,6 +79,120 @@ class Setup extends \GreenheartConnects {
 
         \add_filter( 'comments_open', array(get_class(), 'open_cpt_comments'), 10, 2 );
         
+        //image sizes
+        \add_action( 'after_setup_theme', array(get_class(), 'neon_avatar_image_sizes'));
+        
+    }
+
+    public static function ghc_BTTTTR_deleteUser(){
+        //add nonce check
+        $userid = $_POST['userid'];
+
+       # $updated = \wp_delete_user( $userid );
+       $user_info = get_userdata($userid);
+       $user_name = $user_info->display_name;
+       $user_email = $user_info->user_email;
+       $user_string = $user_name .", ". $user_email;
+       $admin_email = get_option('admin_email');
+       $finance_email = self::finance_email;
+       $message = 'Please cancel Greenheart Connects billing for '.$user_string .'.';
+       $headers = array(
+                        'From: support@greenheart.org', 
+                        'CC: '.$admin_email
+                    );
+        $updated = wp_mail( 
+            $finance_email, 
+            'Please stop billing for GH Connects account', 
+            $message, 
+            $headers
+        );
+
+        if($updated){
+            echo json_encode( array('status'=>200, 'message'=> 'Account has been marked for cancellation.'));
+        } else {
+            echo json_encode( array('status'=>400, 'message'=>'There was a problem canceling your account. Please email support@greenheart.org for further assistance.'));
+        }
+        die();
+    }
+    public static function updateConsent(){
+        
+        $userid = $_POST['userid'];
+        $field = false;
+        $value = false;
+        $updated = false;
+        foreach($_POST as $key => $val){
+            if( $key!=='userid'){
+
+                $field = 'neonconsent_'.$key;
+                $value = $val;
+            }
+
+        }
+        if( $userid && $field && $value){
+
+            $updated = \update_user_meta( $userid, $field, $value );
+        }
+     
+        if($updated){
+            echo json_encode( array('status'=>200, 'message'=> 'Your settings have been updated.'));
+        } else {
+            echo json_encode( array( 'status'=>400, 'message'=> 'There was a problem updating your settings.'));
+        }   
+        die();
+    }
+    public static function updatePassword(){
+
+        $userid = $_POST['userid'];
+        $password = $_POST['password'];
+        //add nonce check
+        if(strlen($password) < 8 ){
+        
+            echo json_encode( array('status'=>200, 'message'=> 'Passwords must be at least 8 characters in length.'));      
+        
+        } else {
+
+            $updated = \wp_update_user( array( 'ID' => $userid, 'password' => $password ) );
+            
+            if($updated){
+                echo json_encode( array('status'=>200, 'message'=> 'Your password has been updated.'));
+            } else {
+                echo json_encode( array( 'status'=>400, 'message'=> 'There was a problem updating your password.'));
+            } 
+        }     
+        die();
+    }
+    public static function updateUserName(){
+        //add nonce check
+        $userid = $_POST['userid'];
+        $name = $_POST['name'];
+        $updated = \wp_update_user( array( 'ID' => $userid, 'display_name' => $name ) );
+        $updated2 = \wp_update_user( array( 'ID' => $userid, 'user_nicename' => $name ) );
+        if($updated && $updated2){
+            echo json_encode( array('status'=>200, 'message'=> 'Your name has been updated.'));
+        } else {
+            echo json_encode( array('status'=>400, 'message'=>'There was a problem updating your name.'));
+        }
+        die();
+    }
+    public static function updateEmail(){
+        //add nonce check
+        $userid = $_POST['userid'];
+        $email = $_POST['email'];
+        $updated = \wp_update_user( array( 'ID' => $userid, 'user_email' => $email ) );
+        if($updated){
+            echo json_encode( array('status'=>200, 'message'=> 'Your email has been updated.'));
+        } else {
+            echo json_encode( array( 'status'=>400, 'message'=> 'There was a problem updating your email.'));
+        }      
+        die();
+    }
+    public static function updateUserPhoto(){
+        $userid = $_POST['data']['userid'];
+        $attachmentid = $_POST['data']['attachmentid'];
+        $updated = update_user_meta( $userid, 'neon_avatar_image', $attachmentid );
+        echo ($updated) ? json_encode(array('status' => '200')) : json_encode(array('status' => '400'));
+        //yes/no response
+        die();
     }
 
     public static function set_plugin_js_variables(){
@@ -214,11 +347,21 @@ class Setup extends \GreenheartConnects {
     }
 
     public static function connects_enqueue(){
+        \wp_enqueue_script("jquery");
+        \wp_enqueue_media();
         \wp_enqueue_script( 'jquery-ui-core');
         \wp_enqueue_script( 'jquery-ui');
+
+        \wp_enqueue_script('runtime', self::get_plugin_url( 'library/dist/js/runtime.js'), array(), '1.1', false);
+        \wp_enqueue_script('wpmedia', self::get_plugin_url( 'library/dist/js/wpmedia.js'), array('jquery', 'media-views', 'media-editor','media-audiovideo' ), '1.1', false);
         \wp_enqueue_style( 'connects-css', self::get_plugin_url( 'library/dist/css/app.min.css'), array(), self::version, 'all' );
-        \wp_enqueue_script( 'connects-js', self::get_plugin_url( 'library/dist/js/app.min.js'), array('jquery'), self::version, false );
+        \wp_enqueue_script( 'connects-js', self::get_plugin_url( 'library/dist/js/app.min.js'), array('jquery', 'runtime'), self::version, false );
         \wp_enqueue_script( 'connects-footer-js', self::get_plugin_url( 'library/dist/js/footer.min.js'), array('connects-js'), self::version, true );
+    }
+    public static function neon_avatar_image_sizes(){
+        \add_image_size( 'neon_avatar_tiny', 32, 32, ['center','top']);
+        \add_image_size( 'neon_avatar_small', 90, 90, ['center','top']);
+        \add_image_size( 'neon_avatar_large', 233, 233, ['center','top']);
     }
     //Sets WP Login Page within core functions
     public static function set_wp_login_page( $login_url, $redirect, $force_reauth ) {

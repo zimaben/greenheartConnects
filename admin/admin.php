@@ -34,6 +34,8 @@ class Admin extends \GreenheartConnects{
         \add_action('wp_ajax_nopriv_register_user_front_end', array(get_class(),'register_user_front_end') );
 
         \add_action('admin_init', array(get_class(),'allow_subscriber_uploads') );
+        \add_action( 'admin_init', array(get_class(),'keep_users_out'), 1 );
+
      
     }
     public static function flag_payment( $is_authorized, $amount, $entry, $form, $config, $response ){
@@ -55,7 +57,12 @@ class Admin extends \GreenheartConnects{
             /* Not Authorized Tree */
         }
     }
-
+    public static function keep_users_out(){
+        $user = \wp_get_current_user( \get_current_user_id() );
+        if( in_array( 'subscriber', (array) $user->roles ) ) { 
+            \wp_safe_redirect( get_site_url() );
+        }
+    }
     public static function register_user_front_end() {
 
         $new_user_name = stripcslashes($_POST['username']);

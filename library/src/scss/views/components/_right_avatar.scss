@@ -26,15 +26,22 @@
             position:absolute;
             background:white;
             border:solid 1px $text-light;
-            display:none;
-            &.active {
-                display:block;
-                .avatar-right-dropdown {
-                    margin:0;
-                    padding:0;
-                    list-style:none;
+            right: 50px;
+            top: 70px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.16);
+            #mobile-menu-container{
+                padding: 5px;
+                margin:0;
+                list-style:none;                 
+                display:none;
+                li {
+                    padding: 5px;
+                }
+                &.active {
+                    display:block;
                 }
             }
+            
         }
     }
 } 
