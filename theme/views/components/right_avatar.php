@@ -26,7 +26,7 @@
             <div class="avatar-right-menu-container">
                 <ul data-clickable="dismiss" id="mobile-menu-container" class="avatar-right-dropdown">
                     <li><a href="<?php echo \get_site_url()?>/profile/">Edit Profile</a></li>
-                    <li><a href="<?php echo \get_site_url()?>/login/?action=signout">Sign Out</a></li>
+                    <li><a href="<?php echo \get_site_url()?>/login/?action=logout">Sign Out</a></li>
                 </ul>
             </div>
         </div>

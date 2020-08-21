@@ -169,20 +169,28 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * @since 4.6.0
 	 */
 	do_action( 'login_header' );
+	$gh_left_image = \get_site_url() . '/wp-content/plugins/ghconnects/library/dist/css/img/GHConnect_Logo.png';
 	?>
 	<div class="container-fluid">
 		<div class="row connects-background">
-			<div class="col-6 d-none d-md-block">
+			<div class="left-logo">
+				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
+			</div>
+			<div class="col-8 d-none d-md-flex leftlogincol">
 				<div class="the-content">
-					 <h2 class="left-title">Join our online community etc</h2>
+				
+					 <h2 class="left-title">Times are increasingly more challenging—with climate change, extinctions, economic disparities, and social upheavals impacting us all. To turn the tide, it will take all of us--working together--to make changes to our ways of life and how we care for the earth and each other.</h2>
 					 <ul>
-						<li>Connect with your Greenheart family</li>
-						<li>Log and track your volunteer hours</li>
-						<li>Apply for scholarships to leadership conferences and grants for service projects</li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="what-you-get">Why Join Greenheart Connects?</a></li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
 					</ul>
+					<div class="the-video">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+					</iframe>
+					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 logincol">
+			<div class="col-12 col-md-4 logincol">
 				<h1>Welcome to Greenheart Connects</h1>
 	<?php
 
@@ -431,7 +439,10 @@ function registration_form( $username = '', $password = '', $email = '', $comple
     <div>
     <label id="confirmlabel" class="active" for="passwordconfirm">Confirm Password</label>
     <input type="password" class="active" id="passwordconfirm" name="passwordconfirm" value="">
-    </div>
+	</div>
+	<div>
+		<span class="requiredfield">(*) Required field</span>
+	</div>
      
 	<span class="backtologin">Already have an account? <a href="<?php echo wp_login_url()?>">login here</a>.</span>
     <input type="submit" onclick="submitRegistration(event);return false;" name="register" value="Next"/>

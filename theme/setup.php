@@ -69,8 +69,8 @@ class Setup extends \GreenheartConnects {
         \add_action('wp_ajax_updatePassword', array( get_class(), 'updatePassword' ));
         \add_action('wp_ajax_nopriv_updatePassword', array( get_class(),'updatePassword' )); 
 
-        \add_action('wp_ajax_neon_BTTTTR_deleteUser', array( get_class(), 'ghc_BTTTTR_deleteUser' ));
-        \add_action('wp_ajax_nopriv_neon_BTTTTR_deleteUser', array( get_class(),'ghc_BTTTTR_deleteUser' )); 
+        \add_action('wp_ajax_ghc_BTTTTR_deleteUser', array( get_class(), 'ghc_BTTTTR_deleteUser' ));
+        \add_action('wp_ajax_nopriv_ghc_BTTTTR_deleteUser', array( get_class(),'ghc_BTTTTR_deleteUser' )); 
         
 
         //set Javascript variables
@@ -81,7 +81,16 @@ class Setup extends \GreenheartConnects {
         
         //image sizes
         \add_action( 'after_setup_theme', array(get_class(), 'neon_avatar_image_sizes'));
+
+        /* Disable the Admin Bar. */
+        \add_filter( 'show_admin_bar', array(get_class(), 'kill_topbar'), 100, 1);
+        \remove_action( 'wp_head', '_admin_bar_bump_cb' );
         
+    }
+
+
+    public static function kill_topbar($admin_bar){
+        return false;
     }
 
     public static function ghc_BTTTTR_deleteUser(){
@@ -123,7 +132,7 @@ class Setup extends \GreenheartConnects {
         foreach($_POST as $key => $val){
             if( $key!=='userid'){
 
-                $field = 'neonconsent_'.$key;
+                $field = 'ghc_consent_'.$key;
                 $value = $val;
             }
 

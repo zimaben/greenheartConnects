@@ -16,8 +16,10 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
 <div id ="home-hero" class="container">
     <div class="row">
         <div class="col-12">
+            <a href="<?php echo \home_url() ?>"><button class="backhome"><span class="backarrow"></span>Back</button></a>
+        </div>
+        <div class="col-12">
         <h1 class="pagetitle frontpage"><?php echo \get_the_title(\get_the_ID())?></h1>
-        <button class="backhome" onclick="goHome(event);return false;"><span class="backarrow"></span>Back</button>
         </div>
         <div class="col-2 author-wrap">
             <?php  $imgurl = \wp_get_attachment_image_src( \get_post_thumbnail_id( \get_the_ID(),'medium',false))[0];?>

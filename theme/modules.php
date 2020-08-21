@@ -91,21 +91,21 @@ class Modules extends \GreenheartConnects {
     require_once self::get_plugin_path( 'theme/views/classes/header-avatar-class.php');
         $userState = false;  
         if( \is_user_logged_in() ){
-
             $user_instance = \wp_get_current_user();
             $userState = $user_instance;
             $payment_keys = Core::get_payment_keys( $user_instance->ID );
             if( $payment_keys ){
                $userState = (object)array_merge((array)$user_instance->data, $payment_keys );
             }
-            $avatar_img_id = \get_user_meta( $userState->ID, 'ghc_avatar_image', true );
+            $avatar_img_id = \get_user_meta( $userState->ID, 'neon_avatar_image', true );
             $userState->avatar_img_id = $avatar_img_id;
             $the_avatar = new HeaderAvatar( $userState );
 
         } else {
-            $login_url = \wp_login_url();
+            
             require_once self::get_plugin_path('theme/views/classes/header-avatar-loggedout-class.php');
             $the_avatar = new HeaderAvatarLoggedOut( $login_url );
+
         }
     
     return $userState;
@@ -114,6 +114,7 @@ class Modules extends \GreenheartConnects {
         if($userState){
             if($userState->cn_status === 'paid'){
                 require_once self::get_plugin_path('theme/views/classes/home-hero-class.php');
+                require_once self::get_plugin_path('theme/views/classes/condenser-class.php');
                 #START HERO INFO LOOP
                 $args = array(  
                     'post_type' => 'streams',
@@ -125,15 +126,15 @@ class Modules extends \GreenheartConnects {
                 $today = new \DateTime();
                 $loop = new \WP_Query( $args ); 
                 $stream_array = array();
-                $index = 0;
+                $index = 0;             
    
                 while ( $loop->have_posts() ) : $loop->the_post(); 
                     $starttime = get_post_meta( get_the_ID() , 'ghc_stream_start', true );
                     $duration = get_post_meta( get_the_ID(), 'ghc_stream_length', true );
+                    $title = get_the_title( get_the_ID());
                     $stream_array[$index ][ 'id' ] = get_the_ID();
                     $stream_array[$index ]['starttime'] = $starttime;
                     $stream_array[$index ]['length'] = $duration;
-                    $index++;
                 endwhile;
                 wp_reset_postdata(); 
  
@@ -158,7 +159,7 @@ class Modules extends \GreenheartConnects {
                     $userState->mins2livestream = $mins;
                     $userState->secs2livestream = $secs;
                     $userState->zoomid = $zoomid;
-                    $userState->$startDate = $start;
+                    $userState->startDate = $start;
                     $the_home_hero = new HomeHero( $userState );
                 } else {
                     require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');

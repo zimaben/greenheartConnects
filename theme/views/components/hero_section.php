@@ -1,7 +1,10 @@
 <?php
 use gh_connects\theme\Modules as Modules;
+use gh_connects\theme\classes\Condenser as Condenser;
+
 ?>
 <main id="primary" class="site-main home">
+    <h1 class="hometitle"><?php echo get_the_title(get_the_ID()); ?></h1>
     <!-- Module Home Hero -->
     <?php
     $title = get_the_title($this->nearest_stream_id);
@@ -41,9 +44,9 @@ use gh_connects\theme\Modules as Modules;
                 <div class="col-2 date-wrap">
                     <div class="date-bg">
                         <div class="datewrap">
-                            <span class="month"><?php echo $this->$startDate->format('M');?></span>
-                            <span class="day"><?php echo $this->$startDate->format('d');?></span>
-                            <span class="time"><?php echo $this->$startDate->format('h:i a');?></span>
+                            <span class="month"><?php echo $this->startDate->format('M');?></span>
+                            <span class="day"><?php echo $this->startDate->format('d');?></span>
+                            <span class="time"><?php echo $this->startDate->format('h:i a');?></span>
 
                         </div>
                     </div>
@@ -52,7 +55,7 @@ use gh_connects\theme\Modules as Modules;
                     <div class="infowrap">
                         <h1 class="pagetitle frontpage"><?php echo $title?></h1>
                         <div class="info-accordion"><span class="hamburger-expand"></span>
-                            <div class="info-excerpt"><?php echo $excerpt ?></div>
+                            <div class="info-excerpt"><?php echo Condenser::limitWords($excerpt, 55) ?></div>
                         </div>
                         <div class="info-row">
                             <div class="author"><?php echo $authorname ?></div>

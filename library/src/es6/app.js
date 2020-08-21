@@ -91,7 +91,6 @@ const NeonModalFactory = (function(){
 })();
 
 
-
 //toggle avatar menu function
 const expandMenu = (e) => {
     let avatar_div = e.target.closest('.avatar-right'); //up the dom to avatar    

@@ -89,4 +89,3 @@ const NeonModalFactory = (function(){
         }
     }
 })();
-

@@ -48,7 +48,7 @@ $(document).ready( function() {
                     console.log('passed status');
                     $fullavatar = attachment.url.replace('.jpg', '-233x233.jpg'); //get wordpress cropped versions of image
                     $tinyavatar = attachment.url.replace('.jpg', '-32x32.jpg');
-                    $('.neonbadge.avatar-img').attr('src', $fullavatar);
+                    $('.ghc.avatar-img').attr('src', $fullavatar);
                     $('#profile-updated').html('Profile Updated');
                     $('#profile-updated').delay( 4000 ).fadeOut( 400, function() {
                         $('#profile-updated').html('').show();
@@ -105,7 +105,7 @@ $(document).ready( function() {
                     console.log('passed status');
                     $fullavatar = attachment.url.replace('.jpg', '-233x233.jpg'); //get wordpress cropped versions of image
                     $tinyavatar = attachment.url.replace('.jpg', '-32x32.jpg');
-                    $('.neonbadge.avatar-img').attr('src', $fullavatar);
+                    $('.ghc.avatar-img').attr('src', $fullavatar);
                     $('#profile-updated').html('Profile Updated');
                     $('#profile-updated').delay( 4000 ).fadeOut( 400, function() {
                         $('#profile-updated').html('').show();

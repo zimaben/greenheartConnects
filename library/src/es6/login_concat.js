@@ -13,10 +13,19 @@ const NeonModalFactory = (function(){
         container.classList.add('neon-modal');
         backbutton.classList.add('close');
         content.classList.add('neon-modal-content');
+        console.log(referring_element); 
+        if(referring_element.id == 'payment'){
+            content.classList.add('payment');
+        }
+        if(referring_element.hasAttribute('data-modal-size')){
+            content.classList.add( referring_element.dataset.modalSize );
+        }
         //add background image
         //content.innerHTML = svg_blob;
-
-        content.appendChild(backbutton);
+        //add content
+        if(!referring_element.id == 'payment'){ // no close option for payment
+            content.appendChild(backbutton);
+        } 
         content.appendChild(content_element);
         container.appendChild(content);
         //body.classList.add('modal-open');
@@ -28,7 +37,7 @@ const NeonModalFactory = (function(){
         backbutton.setAttribute('data-scrollback', parseInt( yposition ));
         prep_s3_video(content);
         prep_vimeo(content);
-        //close modal event listener   
+        //close modal event listener
         backbutton.addEventListener('click', function(e){
             e.preventDefault();
             var modal = document.getElementsByClassName('neon-modal')[0];
@@ -54,7 +63,7 @@ const NeonModalFactory = (function(){
             return instance;
         }
     };
-    function prep_s3_video(content){  
+    function prep_s3_video(content){
         //if video add autoplay
         let isvideo = content.getElementsByTagName('video');    
         if(isvideo.length ){
@@ -64,6 +73,7 @@ const NeonModalFactory = (function(){
                 thevideo.play();
             }
         }
+
     }
     function prep_vimeo(content){
         let isiframe = content.getElementsByTagName('iframe');
@@ -79,19 +89,16 @@ const NeonModalFactory = (function(){
         }
     }
 })();
-
-
-
 const submitRegistration = (e) => {  
 	e.preventDefault();
 	console.log('submit clicked');
 	let confirm = document.getElementById('passwordconfirm');
 	let pass = document.getElementById('password');
 	let dialog = document.getElementById('frontendvalidation');
-	dialog.innerText = '';  
+	dialog.innerText = '';
 	dialog.classList.add('hidden');
 	let error_msg = false; 
-	let password_match = false; 
+	let password_match = false;
 	let display_confirm = true;
 	if(confirm.classList.contains('active')){
 		if( confirm.value.length > 0 && pass.value.length > 0 ){
@@ -206,8 +213,7 @@ const loginModal = (e) => {
 	if( ! body.classList.contains('modal-open') ){
 		//can't call a modal from inside a modal
 		//clone target element 
-		let data_clone = data_target.cloneNode(true);
-
+		let data_clone = data_target.cloneNode(true)
 		body.classList.add('modal-open');
 		NeonModalFactory.getInstance(data_clone, e.target );
 	}  	

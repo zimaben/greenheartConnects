@@ -6,11 +6,26 @@ input:focus {
 .mobileonly {
     display:none;
 }
+.system-dialogue {
+    display:none;
+    &.active {
+        display:block;
+    }
+}
+#password_confirm{
+    display:none;
+    &.active {
+        display:block;
+    }
+}
 .settingswrap { 
     width:100%;
     height:100%;
     background:transparent;
     position: relative;
+    button.backhome{
+        float:right;
+    }
     #settings_left {
         .avatar {
             display: flex;
@@ -23,8 +38,8 @@ input:focus {
                 &.avatar-img{
                     border-radius: 50%;
                     position: absolute;
-                    width: 61%;
-                    height: 61%;
+                    width: 233px;
+                    height: 233px;
                     top: 19.5%;
                     left: 19.5%;
                     z-index: 1;
@@ -118,19 +133,20 @@ input:focus {
             .settings_checks{
                 margin-top:25.5px;
                 margin-left: 18.5px;
+                text-align:center;
                 .check {
                     padding: 7.5px 0;
                 }
                 .agree-link {
                     color: $text-black;
                 }
+                #delete-account-link {
+                    margin-top:25.5px;
+                    margin-left: 18.5px;
+                    color:$text-light;
+                    text-align:center;
+                }
             }
         }
-    }
-    #delete-account-link {
-        position:absolute;
-        bottom:40px;
-        right:53px;
-        color:$text-light;
     }
 } 

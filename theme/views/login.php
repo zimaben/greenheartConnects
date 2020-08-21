@@ -213,7 +213,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * @since 4.6.0
 	 */
 	do_action( 'login_header' );
-	$gh_left_image = 'https://' . getPluginURL() . '/library/dist/css/img/GHConnect_Logo.png';
+	$gh_left_image = \get_site_url() . '/wp-content/plugins/ghconnects/library/dist/css/img/GHConnect_Logo.png';
 	
 	?>
 	<div class="container-fluid">
@@ -221,21 +221,21 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 			<div class="left-logo">
 				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
 			</div>
-			<div class="col-6 d-none d-md-flex leftlogincol">
+			<div class="col-8 d-none d-md-flex leftlogincol">
 				<div class="the-content">
-				<div class="the-video">
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-				</iframe>
-				</div>
-					 <h2 class="left-title">Join our online community</h2>
+				
+					 <h2 class="left-title">Times are increasingly more challenging—with climate change, extinctions, economic disparities, and social upheavals impacting us all. To turn the tide, it will take all of us--working together--to make changes to our ways of life and how we care for the earth and each other.</h2>
 					 <ul>
-						<li>Connect with your Greenheart family</li>
-						<li>Log and track your volunteer hours</li>
-						<li>Apply for scholarships to leadership conferences and grants for service projects</li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="what-you-get">Why Join Greenheart Connects?</a></li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
 					</ul>
+					<div class="the-video">
+						<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+					</iframe>
+					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-6 logincol">
+			<div class="col-12 col-md-4 logincol">
 				<h1>Welcome to Greenheart Connects</h1>
 	<?php
 
@@ -331,6 +331,53 @@ function login_footer($input_id = '') {
 	 */
 	do_action( 'login_footer' ); ?>
 	<div class="clear"></div>
+	<footer>
+		<div class="container-fluid footer">
+			<div class="modal-warehouse">
+				<div id="why-join">
+					<div class="modal-content">
+						<div class="login-grid">
+							<h4 class="grid-header">Join Greenheart Connects if you are ready to:</h4>
+							<span class="grid-cell">Dream big and be the change you want to see</span>
+							<span class="grid-cell">Lean into the power of possibilities</span>
+							<span class="grid-cell">Support sustainable practices, be a good global citizen, help others, and experience personal growth</span>
+							<span class="grid-cell">Feel hopeful, curious, empowered, and inspired to act</span>
+						</div>
+					</div>			
+				</div>
+				<div id="membership-levels">
+				<div class="login-grid">
+					<h4 class="grid-header">Membership packages:</h4>
+					<div class="grid-left">
+						<span class="grid-head-cell"> </span>
+						<span class="grid-cell">Cost*</span>
+						<span class="grid-cell">Episodes</span>
+						<span class="grid-cell">Access to live Q & A</span>
+						<span class="grid-cell">Access to past episodes</span>
+						<span class="grid-cell">Access to resources</span>
+					</div>
+					<div class="grid-center">
+						<span class="grid-head-cell">Monthly</span>
+						<span class="grid-cell">$7</span>
+						<span class="grid-cell">1</span>
+						<span class="grid-cell">X</span>
+						<span class="grid-cell">X</span>
+						<span class="grid-cell">X</span>
+					</div>
+					<div class="grid-right">
+						<span class="grid-head-cell">Quarterly</span>
+						<span class="grid-cell">$15 (save 28%)</span>
+						<span class="grid-cell">3</span>
+						<span class="grid-cell">X</span>
+						<span class="grid-cell">X</span>
+						<span class="grid-cell">X</span>
+					</div>
+					<div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 	</body>
 	</html>
 	<?php
@@ -1060,6 +1107,9 @@ default:
 	 */
 	do_action( 'login_form' );
 	?>
+	<div>
+		<span class="requiredfield">(*) Required field</span>
+	</div>
 	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_html_e( 'Remember Me' ); ?></label></p>
 	<div class="buttongroup-login">
 	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">Register</span></a></p>

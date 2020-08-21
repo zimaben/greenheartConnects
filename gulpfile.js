@@ -32,6 +32,7 @@ function watchTask() {
 const javascript_modules = [
   'library/src/es6/global/modals.js',
   'library/src/es6/views/header.js',
+  'library/src/es6/views/video.js',
   'library/src/es6/views/components/right_avatar.js',
   'library/src/es6/views/components/top_logo.js',
   'library/src/es6/views/components/top_navigation.js',
@@ -81,7 +82,7 @@ function footerUgly(){
       }));
 };
 function loginUgly(){
-  return gulp.src('library/src/es6/login/login.js')
+  return gulp.src( 'library/src/es6/login/login.js' )
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))

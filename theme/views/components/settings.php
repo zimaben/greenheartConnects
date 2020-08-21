@@ -1,8 +1,11 @@
 
 <div id="settings" class="settingswrap container">
     <div class="row">
+        <div class="col-12">
+            <a href="<?php echo \home_url() ?>"><button class="backhome"><span class="backarrow"></span>Back</button></a>
+        </div>
         <div id="settings_left" class="col-12 col-md-4">
-            <h1 class="mobileonly settings-title">My Info</h1>
+            <h1 class="mobileonly settings-title">My Profile</h1>
             <div class="avatar full">
                 <!--<i class="neonbadge avatar-svg" data-primary="<?php echo $this->neon_personal ?>" data-secondary="<?php echo $this->neon_complementary ?>" data-tertiary="<?php echo $this->neon_contrast ?>"></i> -->            
                 <?php
@@ -35,12 +38,12 @@
                 
                 <div class="settingsform">
                     <label for="full_name">Full Name</label>
-                    <a class="change" onclick="setName(event);return false;" data-info="<?php echo $this->ID ?>" data-target="#full_name" href="#">Change</a>
+                    <!--<a class="change" onclick="setName(event);return false;" data-info="<?php echo $this->ID ?>" data-target="#full_name" href="#">Change</a> -->
                     <input id="full_name" name="full_name" type="text" placeholder="<?php echo $this->display_name ?>" readonly="readonly">
                 </div>
                 <div class="settingsform">
                     <label for="email">Email</label>
-                    <a class="change" onclick="setEmail(event);return false;" data-info="<?php echo $this->ID ?>" data-target="#email" href="#">Change</a>
+                    <!--<a class="change" onclick="setEmail(event);return false;" data-info="<?php echo $this->ID ?>" data-target="#email" href="#">Change</a> -->
                     <input id="email" name="email" type="email" placeholder="<?php echo $this->user_email ?>" readonly="readonly">
                 </div>
                 <div class="settingsform">
@@ -57,18 +60,18 @@
                 </div>
 
                 <div class="settings_checks">
-                    <div class="check">
-                        <label class="checkbox-container">I agree to <a class="agree-link" href="#">Greenheart Connects Terms and Conditions</a>
-                            <input data-userid="<?php echo $this->ID ?>" onclick="consentCheckbox(event);" name="toc" id="toc" type="checkbox" <?php 
-                            $get_toc_check = \get_user_meta($this->ID, 'ghc_toc', true);
-                            if($get_toc_check === 'yes') echo 'checked';
-                            ?>>
-                            <span class="checkmark"></span>
-                        </label>  
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <a class="agree-link" href="<?php echo \get_site_url('/terms-and-conditions/') ?>">Greenheart Connects Terms and Conditions</a>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <a id="delete-account-link" class="manage-account" href=echo \get_site_url('/manage-account/') ?>">Manage my Greenheart Connects membership</a>
+                            </div>
+                        </div>    
                     </div>
                 </div>
             </div>
-            <a id="delete-account-link" data-modal-noballs="yes" data-modal-size="tiny" data-userid="<?php echo $this->ID?>" class="delete-account nolink" onclick="cancelAccount(event);return false;" href="#">cancel my Greenheart Connects membership</a>
         </div>
     </div>
 </div>
