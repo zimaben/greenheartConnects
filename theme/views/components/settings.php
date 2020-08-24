@@ -66,7 +66,7 @@
                                 <a class="agree-link" href="<?php echo \get_site_url('/terms-and-conditions/') ?>">Greenheart Connects Terms and Conditions</a>
                             </div>
                             <div class="col-12 col-md-6">
-                                <a id="delete-account-link" class="manage-account" href=echo \get_site_url('/manage-account/') ?>">Manage my Greenheart Connects membership</a>
+                                <a id="delete-account-link" class="manage-account" href="<?php echo \get_site_url('/manage-account/') ?>">Manage my Greenheart Connects membership</a>
                             </div>
                         </div>    
                     </div>

@@ -226,7 +226,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 				
 					 <h2 class="left-title">Times are increasingly more challenging—with climate change, extinctions, economic disparities, and social upheavals impacting us all. To turn the tide, it will take all of us--working together--to make changes to our ways of life and how we care for the earth and each other.</h2>
 					 <ul>
-						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="what-you-get">Why Join Greenheart Connects?</a></li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
 					</ul>
 					<div class="the-video">
@@ -335,44 +335,94 @@ function login_footer($input_id = '') {
 		<div class="container-fluid footer">
 			<div class="modal-warehouse">
 				<div id="why-join">
-					<div class="modal-content">
-						<div class="login-grid">
+					<div class="login-wrap container-fluid">
+						<div class="row">
+							<div class="col-12">
 							<h4 class="grid-header">Join Greenheart Connects if you are ready to:</h4>
-							<span class="grid-cell">Dream big and be the change you want to see</span>
-							<span class="grid-cell">Lean into the power of possibilities</span>
-							<span class="grid-cell">Support sustainable practices, be a good global citizen, help others, and experience personal growth</span>
-							<span class="grid-cell">Feel hopeful, curious, empowered, and inspired to act</span>
+							</div>
+							<div class="col-12">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-4 join-ghc-img" style="background:url(<?php echo GreenheartConnects::get_plugin_url() ?>/library/dist/css/img/stock-1.jpeg) center/cover;">
+										</div>
+										<div class="col-8 join-ghc-text">
+											<span>Dream big and be the change you want to see</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-8 join-ghc-text left">
+											<span>Lean into the power of possibilities</span>
+										</div>
+										<div class="col-4 join-ghc-img" style="background:url(<?php echo GreenheartConnects::get_plugin_url() ?>/library/dist/css/img/stock-2.jpeg) center/cover;">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-4 join-ghc-img" style="background:url(<?php echo GreenheartConnects::get_plugin_url() ?>/library/dist/css/img/stock-3.jpeg) center/cover;"> 
+										</div>
+										<div class="col-8 join-ghc-text">
+											<span>Support sustainable practices, be a good global citizen, help others, and experience personal growth</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="container-fluid">
+									<div class="row">
+										<div class="col-8 join-ghc-text left">
+											<span class="grid-cell">Feel hopeful, curious, empowered, and inspired to act</span>
+										</div>
+										<div class="col-4 join-ghc-img" style="background:url(<?php echo GreenheartConnects::get_plugin_url() ?>/library/dist/css/img/stock-4.jpeg) center/cover;">
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>			
 				</div>
 				<div id="membership-levels">
-				<div class="login-grid">
-					<h4 class="grid-header">Membership packages:</h4>
-					<div class="grid-left">
-						<span class="grid-head-cell"> </span>
-						<span class="grid-cell">Cost*</span>
-						<span class="grid-cell">Episodes</span>
-						<span class="grid-cell">Access to live Q & A</span>
-						<span class="grid-cell">Access to past episodes</span>
-						<span class="grid-cell">Access to resources</span>
-					</div>
-					<div class="grid-center">
-						<span class="grid-head-cell">Monthly</span>
-						<span class="grid-cell">$7</span>
-						<span class="grid-cell">1</span>
-						<span class="grid-cell">X</span>
-						<span class="grid-cell">X</span>
-						<span class="grid-cell">X</span>
-					</div>
-					<div class="grid-right">
-						<span class="grid-head-cell">Quarterly</span>
-						<span class="grid-cell">$15 (save 28%)</span>
-						<span class="grid-cell">3</span>
-						<span class="grid-cell">X</span>
-						<span class="grid-cell">X</span>
-						<span class="grid-cell">X</span>
-					</div>
-					<div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
+					<div class="login-wrap">
+						<h4 class="grid-header">Membership packages:</h4>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-6 grid-left" style="background:white;border-top:0;border-left:0"></div>
+								<div class="col-3 grid-center"><h5>Monthly</h5></div>
+								<div class="col-3 grid-right"><h5>Quarterly</h5></div>
+							</div>
+							<div class="row">
+							<div class="col-6 grid-left"><h5>Cost*</h5></div> 
+								<div class="col-3 grid-center">$7</div>
+								<div class="col-3 grid-right">$15 (save 28%)</div>
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Number of Episodes</div>
+								<div class="col-3 grid-center">1</div>
+								<div class="col-3 grid-right">3</div>
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Access to live Q &amp; A</div>
+								<div class="col-3 grid-center"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+								<div class="col-3 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Access to past episodes</div>
+								<div class="col-3 grid-center"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+								<div class="col-3 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+							</div>
+							<div class="row last-row">
+								<div class="col-6 grid-left">Access to resources</div>
+								<div class="col-3 grid-center"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+								<div class="col-3 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('/library/dist/css/img/check-circle-green.svg')?>" /></div>
+							</div>
+						</div>
+						<div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
 					</div>
 				</div>
 			</div>

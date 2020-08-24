@@ -99,7 +99,8 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
 
             // control classes for render 
             require_once self::get_plugin_path( 'control/core.php'); //Return local data 
-            #require_once self::get_plugin_path( 'core/session.php'); //Return Session Data (@todo may be replaced with JSON token)     
+            #require_once self::get_plugin_path( 'core/session.php'); //Return Session Data (@todo may be replaced with JSON token) 
+            require_once self::get_plugin_path( 'control/gravityforms.php'); //GravityForms Auth.net    
 
         }
 
