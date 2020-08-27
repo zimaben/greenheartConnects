@@ -21,44 +21,31 @@
 					<span class="phone">Tel: 1 (312) 944-2544</span>
 					<span class="phone">Toll-Free in the U.S: 1 (866) 224-0061</span>
 					<!--<span class="email"><i class="fa fa-envelope"></i>Contact</span>-->
-					<span class="privacy"><a href="/#/modal/consent/tab/privacy">Privacy policy</a></span>
+					<span class="privacy"><a href="/privacy-policy">Privacy policy</a></span>
 				</div>
 			</div><!--END COL --> 
 			<div class="col-12 col-lg-4">
             	<ul class="social follow clearfix">
-					<li class="facebook" data-toggle="tooltip" data-placement="top" title="" data-original-title="
-							<ul>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.facebook.com/GreenheartTravel/&quot;>Greenheart Travel</a></li>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.facebook.com/GreenheartInternational/?ref=aymt_homepage_panel&quot;>Greenheart Exchange</a></li>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.facebook.com/shopgreenheart/&quot;>Greenheart Shop</a></li>
-							</ul>
-						">
-						<img src="https://greenheart.org/wp-content/plugins/q-theme-international/library/theme/css/images/widget/follow/social_facebook.svg" alt="facebook">
+					<li class="facebook">
+						<a href="https://www.facebook.com/GreenheartInternational" title="facebook" target="_blank">	
+							<img src="https://greenheart.org/wp-content/plugins/q-theme-international/library/theme/css/images/widget/follow/social_facebook.svg" alt="facebook">
+						</a>
 					</li>
-					<li class="instagram" data-toggle="tooltip" data-placement="top" title="" data-original-title="
-							<ul>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.instagram.com/greenheart_travel/&quot;>Greenheart Travel</a></li>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.instagram.com/greenheartexchange/&quot;>Greenheart Exchange</a></li>
-								<li><a target=&quot;_blank&quot; href=&quot;https://www.instagram.com/sobremesabygreenheart/&quot;>Sobremesa by Greenheart</a></li>
-							</ul>
-						">
+					<li class="instagram">
+						
+						<a href="https://www.instagram.com/greenheartexchange/" title="instagram" target="_blank">
 						<img src="https://greenheart.org/wp-content/plugins/q-theme-international/library/theme/css/images/widget/follow/social_instagram.svg" alt="instagram">
+						</a>
 					</li>
-					<li class="twitter" data-toggle="tooltip" data-placement="top" title="" data-original-title="
-						<ul>
-							<li><a target=&quot;_blank&quot; href=&quot;https://twitter.com/greenhrttravel?lang=en&quot;>Greenheart Travel</a></li>
-							<li><a target=&quot;_blank&quot; href=&quot;https://twitter.com/greenheartex?lang=en&quot;>Greenheart Exchange</a></li>
-						</ul>
-						">
+					<li class="twitter">	
+						<a href="https://twitter.com/GreenheartEX" title="twitter" target="_blank">
 						<img src="https://greenheart.org/wp-content/plugins/q-theme-international/library/theme/css/images/widget/follow/social_twitter.svg" alt="twitter">
+						</a>
 					</li>
-					<li class="youtube" data-toggle="tooltip" data-placement="top" title="" data-original-title="
-						<ul>
-							<li><a target=&quot;_blank&quot; href=&quot;https://www.youtube.com/channel/UChzUTo_2ji7B9Hp73da6QVw&quot;>Greenheart Travel</a></li>
-							<li><a target=&quot;_blank&quot; href=&quot;https://www.youtube.com/channel/UCOl7gui9Vhl9c_ERAKg0sDw&quot;>Greenheart Exchange</a></li>
-						</ul>
-						">
+					<li class="youtube" >
+						<a href="https://www.youtube.com/user/GreenheartIntl" title="youtube" target="_blank">			
 						<img src="https://greenheart.org/wp-content/plugins/q-theme-international/library/theme/css/images/widget/follow/social_youtube.svg" alt="youtube">
+					</a>
 					</li>
 					<li class="linkedin">
 						<a href="https://www.linkedin.com/company/279581/admin/" title="Linkedin" target="_blank">
@@ -69,7 +56,7 @@
 			</div>	
 		</div>
 	</div>
-	<div class="q-clear"></div>
+    <div class="q-clear"></div>
 	<div class="modal-warehouse">
 	<div id="pleaselogin">
 		<h3>Please Log In</h3>

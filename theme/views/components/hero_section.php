@@ -53,9 +53,9 @@ use gh_connects\theme\classes\Condenser as Condenser;
                 </div>
                 <div class="col-8 infobody">
                     <div class="infowrap">
-                        <h1 class="pagetitle frontpage"><?php echo Condenser::limitWords($title, 20) ?></h1>
+                        <h1 class="pagetitle frontpage"><?php echo Condenser::limitWords($title, 12) ?></h1>
                         <div class="info-accordion"><span class="hamburger-expand"></span>
-                            <div class="info-excerpt"><?php echo Condenser::limitWords($excerpt, 15) ?></div>
+                            <div class="info-excerpt"><?php echo Condenser::limitWords($excerpt, 10) ?></div>
                         </div>
                         <div class="info-row">
                             <div class="author"><?php echo $authorname ?></div>

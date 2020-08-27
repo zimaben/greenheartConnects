@@ -8,6 +8,8 @@ Modules::open_page();
 /*
 /*---------------------------------------------------------------------------------------------------------
 /*/
+if($userState){
+    if($userState->cn_status === 'paid'){
 ?>
 <div class="container">
     <div class="col-12 maincol">
@@ -57,7 +59,14 @@ Modules::open_page();
         </div>
     </div>
 </div>
-<?php
+    <?php } else {
+        //payment form here
+        require_once self::get_plugin_path('theme/views/components/hero_section-unpaid.php');
+    }
+} else {
+    echo '<br><br><br>';
+    echo '<h5 style="text-align:center;">Please <a href="/login/?action="login">login</a> to see our latest streams</h5>';
+}    
 
 
 

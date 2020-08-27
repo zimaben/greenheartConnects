@@ -10,7 +10,7 @@ body.login {
     .left-logo {
         position: absolute;
         top: 2%;
-        left: 16.5%;
+        left: 19.5%;
         width: 400px;
         height: auto;
         img {
@@ -90,8 +90,11 @@ body.login {
         padding: 0 8%;
         .the-content {
             padding-top:20%;
+            width: 100%;
             .the-video{
                 width:100%;
+                display:flex;
+                justify-content:center;
                 iframe {
                     max-width:100%;
                 }
@@ -104,6 +107,7 @@ body.login {
             }
             a {
                 color: $text-black;
+                text-decoration:underline;
                 &:hover {
                     color: $text-black;
                 }
@@ -120,6 +124,7 @@ body.login {
                     min-height: 32px;
                     margin-bottom: 25px;
                     padding-left: 45px;
+                    color: $text-black;
                 }
             }
         }
@@ -459,6 +464,7 @@ body.modal-open .neon-modal {
 }
 /* Why Join */
 #why-join {
+    /* DEPRECATED - PHASE OUT SOON
     .join-ghc-img img {
         max-width: 100%;
     }
@@ -477,4 +483,36 @@ body.modal-open .neon-modal {
     .col-12 {
         margin: 30px;
     }
+    */
+    h1{
+        margin-top:40px;
+    }
+    .card-p {
+        padding:4% 1%;
+        border-bottom:1px solid #f1f1f1
+      }
+      .card-p-p {
+        padding:2% 1%;
+      
+      }
+      .pillarswrap {
+        padding-top:2%;
+        margin-bottom: 40px;
+        .pillar {
+          border-left:1px solid #f5f5f5;
+          border-right:1px solid #f5f5f5;
+          box-shadow: 0 4px 8px 0 rgba(0,0,0,.06);
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          padding:2%;
+          h5 {
+            font: 14px/24px Lato;
+            font-weight: 600;
+            padding: 12px 0;
+            color: #363637;
+          }
+        }
+      }
 }

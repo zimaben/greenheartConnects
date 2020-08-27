@@ -1,6 +1,6 @@
 <?php
 namespace gh_connects\theme;
-
+use gh_connects\theme\Modules as Modules;
 //spin it
 \gh_connects\theme\Setup::run();
 
@@ -13,6 +13,7 @@ class Setup extends \GreenheartConnects {
         \add_action ( 'init', array( get_class(), 'add_custom_registration'), 1 );
         \add_action( 'init', array( get_class(), 'add_dashboard' ), 1 );
         \add_action( 'init', array( get_class(), 'add_profile' ), 1 );
+        \add_action( 'wp_loaded', array( get_class(), 'gate_generic_page_templates'));
 
         //add custom styling and bootstrap to login page
         \add_action( 'login_enqueue_scripts', array( get_class(), 'login_enqueue') ); //add login page styles
@@ -21,6 +22,7 @@ class Setup extends \GreenheartConnects {
 
         //assign templates to added plugin pages
         \add_filter( 'page_template', array( get_class(), 'set_login_template' )  );
+        
         \add_filter( 'page_template', array( get_class(), 'set_registration_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_main_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_profile_template' )  );
@@ -34,7 +36,7 @@ class Setup extends \GreenheartConnects {
         \add_action( 'add_meta_boxes', array( get_class(),'add_video_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'video_metabox_save') );
-
+        
         
         
         //Add livestream post type
@@ -88,6 +90,23 @@ class Setup extends \GreenheartConnects {
         
     }
 
+    public static function gate_generic_page_templates(){
+        error_log('gate function firing');
+        if ( basename(\get_page_template()) === 'page.php' ) {
+            error_log('page template detected');
+            \add_action('close_header', function(){
+                $userState = Modules::top_avatar();
+                if(!$userState){
+                    
+                    require_once self::get_plugin_path('theme/views/components/please_login.php');
+                    Modules::footer(); 
+                    Modules::close_page();
+                    exit;
+                }
+            });
+        }
+        
+    }
 
     public static function kill_topbar($admin_bar){
         return false;

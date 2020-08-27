@@ -1,8 +1,8 @@
 //check payment;
 window.addEventListener('DOMContentLoaded', (event) => {
     if( document.getElementById('home-hero') && document.getElementById('home-hero').classList.contains('loggedout') ){
-        window.location('/login/?action="login"');
-        //let data_target = document.getElementById( 'pleaselogin');
+        window.location.href = '/login/?action="login"';
+        //let data_target = document.getElementById( 'pleaselogin'); 
         //let body = document.getElementsByTagName('body')[0];
         //if( ! body.classList.contains('modal-open') ){
             //can't call a modal from inside a modal

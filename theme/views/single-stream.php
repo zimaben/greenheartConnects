@@ -1,5 +1,7 @@
 <?php
 use gh_connects\theme\Modules as Modules; 
+use gh_connects\theme\classes\Condenser as Condenser;
+require_once GreenheartConnects::get_plugin_path('theme/views/classes/condenser-class.php');
 
 Modules::open_page();
 /*/-------------------------------------------------------------------------------------------------------
@@ -10,6 +12,8 @@ Modules::open_page();
 /*
 /*
 /*/
+if($userState){
+    if($userState->cn_status === 'paid'){
 
 if ( have_posts() ) : while ( have_posts() ) : the_post(); 
 ?>
@@ -19,7 +23,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <a href="<?php echo \home_url() ?>"><button class="backhome"><span class="backarrow"></span>Back</button></a>
         </div>
         <div class="col-12">
-        <h1 class="pagetitle frontpage"><?php echo \get_the_title(\get_the_ID())?></h1>
+        <h1 class="pagetitle frontpage"><?php echo Condenser::limitWords( \get_the_title(\get_the_ID()), 15)?></h1>
         </div>
         <div class="col-2 author-wrap">
             <?php  $imgurl = \wp_get_attachment_image_src( \get_post_thumbnail_id( \get_the_ID(),'medium',false))[0];?>
@@ -43,7 +47,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <div class="infowrap">
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>
-                    <div class="info-excerpt"><?php echo \get_the_excerpt(\get_the_ID()) ?></div>
+                    <div class="info-excerpt"><?php echo Condenser::limitWords(\get_the_excerpt(\get_the_ID() ), 20) ?></div>
                 </div>
                 <div class="info-row">
                     <div class="author"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></div>
@@ -106,7 +110,16 @@ wp_reset_postdata();
 /*/ Modules::single_col($userState);  
 /*                                  
 /*                                 
-/*/ Modules::single_comments($userState);                                         
+/*/ Modules::single_comments($userState);     
+
+ } else {
+    //payment form here
+    require_once GreenheartConnects::get_plugin_path('theme/views/components/hero_section-unpaid.php');
+}
+} else {
+echo '<br><br><br>';
+echo '<h5 style="text-align:center;">Please <a href="/login/?action="login">login</a> to see our archive of videos.</h5>';
+}
 /*                                  
 /*                                  
 /*

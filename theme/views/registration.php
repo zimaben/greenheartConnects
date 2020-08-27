@@ -177,12 +177,12 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
 			</div>
 			<div class="col-8 d-none d-md-flex leftlogincol">
-				<div class="the-content">
-				
-					 <h2 class="left-title">Times are increasingly more challenging—with climate change, extinctions, economic disparities, and social upheavals impacting us all. To turn the tide, it will take all of us--working together--to make changes to our ways of life and how we care for the earth and each other.</h2>
+				<div class="the-content">		
+				<h2 class="left-title">Greenheart Connects is a series inspiring and facilitating the global community to make the world a better.</h2>
 					 <ul>
-						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="what-you-get">Why Join Greenheart Connects?</a></li>
+						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
+						<li>Next Episode Airs on 09/24/2020 9am CDT, Chris Dews – Casita Verde Ibiza</li>
 					</ul>
 					<div class="the-video">
 						<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
@@ -191,7 +191,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 				</div>
 			</div>
 			<div class="col-12 col-md-4 logincol">
-				<h1>Welcome to Greenheart Connects</h1>
+				<h1>Welcome to<br>Greenheart Connects</h1>
 	<?php
 
 	unset( $login_header_url, $login_header_title );
@@ -315,6 +315,93 @@ function login_footer($input_id = '') {
 	 */
 	do_action( 'login_footer' ); ?>
 	<div class="clear"></div>
+	<footer>
+		<div class="container-fluid footer">
+			<div class="modal-warehouse">
+				<div id="why-join">
+					<div class="login-wrap container-fluid">
+						<div class="row">
+							<div class="col-12">
+								<div class="container">
+									<div class="row">
+										<div class="col-12">
+											<h1>Why Choose Greenheart Connects?</h1>
+											<div class="card-p">
+												<p>We are at a crux. Times are increasingly more challenging—climate change, extinctions, economic disparities, and social upheavals. To turn the tide, it will take all of us working together to make changes to our ways of life and in how we care for the earth and each other.</p>
+											</div>
+											<div class="card-p">
+												<p>Greenheart wants to inspire and facilitate a connected global community who knows how to champion change for the sake of the earth and each other. </p>
+											</div>
+											<div class="card-p-p">Topics will rotate through the four pillars that Greenheart represents, which include:
+											</div>
+											<div class="container-fluid pillarswrap">
+												<div class="row">
+													<div class="col-3 pillar">
+														<h5>Environment</h5>
+														<img src="https://i.imgur.com/1SC85MC.png">
+													</div>
+													<div class="col-3 pillar">
+														<h5>Fair Trade</h5>
+														<img src="https://i.imgur.com/SCIi0Ys.png">
+													</div>
+													<div class="col-3 pillar">
+														<h5>Personal Development</h5>
+														<img src="https://i.imgur.com/zXSa63A.png">
+													</div>
+													<div class="col-3 pillar">
+														<h5>Volunteering</h5>
+														<img src="https://i.imgur.com/IiNixSK.png">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>			
+				</div>
+				<div id="membership-levels">
+					<div class="login-wrap">
+						<h4 class="grid-header">Membership packages:</h4>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-6 grid-left" style="background:white;border-top:0;border-left:0"></div>
+								<div class="col-3 grid-center"><h5>Monthly</h5></div>
+								<div class="col-3 grid-right"><h5>Quarterly</h5></div>
+							</div>
+							<div class="row">
+							<div class="col-6 grid-left"><h5>Cost*</h5></div> 
+								<div class="col-3 grid-center">$7</div>
+								<div class="col-3 grid-right">$15 (save 28%)</div>
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Number of Episodes</div>
+								<div class="col-3 grid-center">1</div>
+								<div class="col-3 grid-right">3</div>
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Access to live Q &amp; A</div>
+								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								
+							</div>
+							<div class="row">
+								<div class="col-6 grid-left">Access to past episodes</div>
+								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								
+							</div>
+							<div class="row last-row">
+								<div class="col-6 grid-left">Access to resources</div>
+								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								
+							</div>
+						</div>
+						<div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 	</body>
 	</html>
 	<?php

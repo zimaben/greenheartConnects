@@ -33,7 +33,7 @@
         </div>
         <div id="settings_right" class="col-12 col-md-8">
             <span id="profile-updated" class="system-dialogue"></span>
-            <h1 class="settings-title desktoponly">My Info</h1>
+            <h1 class="settings-title desktoponly">My Profile</h1>
             <div class="form-wrap">
                 
                 <div class="settingsform">
@@ -63,10 +63,10 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12 col-md-6">
-                                <a class="agree-link" href="<?php echo \get_site_url('/terms-and-conditions/') ?>">Greenheart Connects Terms and Conditions</a>
+                                <a class="agree-link" target="_blank" href="<?php echo \get_site_url().'/terms-and-conditions/' ?>">Greenheart Connects Terms and Conditions</a>
                             </div>
                             <div class="col-12 col-md-6">
-                                <a id="delete-account-link" class="manage-account" href="<?php echo \get_site_url('/manage-account/') ?>">Manage my Greenheart Connects membership</a>
+                                <a id="delete-account-link" class="manage-account" href="<?php echo \get_site_url().'/manage-account/?currentemail='.$this->user_email ?>">Manage my account</a>
                             </div>
                         </div>    
                     </div>
