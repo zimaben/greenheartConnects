@@ -5,7 +5,7 @@
     padding: 0;
 }
 button.backhome {
-    margin: 40px 0;
+    margin-top:40px;
 }
 .streams-template-default {
     #home-hero{
@@ -28,4 +28,39 @@ button.backhome {
         min-height: 400px;
     }
 }
-
+.pagecontent{
+    margin-bottom:40px;
+}
+@media (max-width:992px){
+    .date-wrap {
+        .date-bg {
+            .datewrap {
+                span.day{
+                    font:50px/60px $sanchez;
+                    padding-top: 25%;
+                }
+                span.time {
+                    font: 14px/18px $lato;
+                }
+            }
+        }
+    }
+}
+@media (max-width:767px){
+    .date-wrap {
+        .date-bg {
+            .datewrap {
+                span.month{
+                    font:16px/20px $lato;
+                }
+                span.day{
+                    font:30px/40px $sanchez;
+                    padding-top: 25%;
+                }
+                span.time {
+                    font: 14px/18px $lato;
+                }
+            }
+        }
+    }
+}

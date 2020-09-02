@@ -37,7 +37,9 @@ class Core extends \GreenheartConnects {
         } elseif( $payment_keys['cn_status'] !== 'paid'){
             $payment_keys['cn_status']='unpaid';
         }
-    error_log(print_r($payment_keys, true));
+    if( self::$debug ){
+        error_log(print_r($payment_keys,true));
+    }
     return $payment_keys; 
     }
     public static function validate_umeta( $userid ){

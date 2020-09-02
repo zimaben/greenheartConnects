@@ -170,32 +170,32 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 */
 	do_action( 'login_header' );
 	$gh_left_image = \get_site_url() . '/wp-content/plugins/ghconnects/library/dist/css/img/GHConnect_Logo.png';
+	
 	?>
 	<div class="container-fluid">
 		<div class="row connects-background">
-			<div class="left-logo">
-				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
-			</div>
-			<div class="col-8 d-none d-md-flex leftlogincol">
-				<div class="the-content">		
-				<h2 class="left-title">Greenheart Connects is a series inspiring and facilitating the global community to make the world a better.</h2>
+			<div class="col-8 d-none d-md-flex col-lg-8 col-md-6 leftlogincol">
+				<div class="the-content">
+					<div class="left-logo">
+						<img class="logo-image" src="<?php echo $gh_left_image ?>" />
+					</div>
+					 <h2 class="left-title"><?php echo get_the_title( get_the_ID() ) ?></h2>
 					 <ul>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
-						<li>Next Episode Airs on 09/24/2020 9am CDT, Chris Dews – Casita Verde Ibiza</li>
+						<li>Next Episode Airs on 09/24/2020 9am CDT, “Eco Living at Casita Verde” with Chris Dews</li>
 					</ul>
 					<div class="the-video">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-					</iframe>
+						<?php echo get_post_meta( get_the_ID(), 'ghc_login_video', true); ?>
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-4 logincol">
-				<h1>Welcome to<br>Greenheart Connects</h1>
+			<div class="col-12 col-md-6 col-lg-4 logincol">
+				<h1>Welcome to <br>Greenheart Connects</h1>
 	<?php
 
 	unset( $login_header_url, $login_header_title );
-
+	
 	/**
 	 * Filters the message to display above the login form.
 	 *
@@ -382,17 +382,17 @@ function login_footer($input_id = '') {
 							</div>
 							<div class="row">
 								<div class="col-6 grid-left">Access to live Q &amp; A</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 							<div class="row">
 								<div class="col-6 grid-left">Access to past episodes</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 							<div class="row last-row">
 								<div class="col-6 grid-left">Access to resources</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 						</div>
@@ -416,7 +416,7 @@ function wp_login_viewport_meta() {
 	<meta name="viewport" content="width=device-width" />
 	<?php
 }
-function registration_validation( $username, $password, $email  )  {
+function registration_validation( $username, $password, $email, $first, $last  )  {
 
     global $reg_errors;
     $reg_errors = new WP_Error;
@@ -439,7 +439,7 @@ function registration_validation( $username, $password, $email  )  {
 
     if ( 5 > strlen( $password ) ) {
         $reg_errors->add( 'password', 'Password length must be greater than 5.' );
-    }
+	}
 
     if ( !is_email( $email ) ) {
        $reg_errors->add( 'email_invalid', 'Email is not valid.' );
@@ -460,13 +460,16 @@ function registration_validation( $username, $password, $email  )  {
         }
     }
 }
-function complete_registration( $username, $password, $email ) {
+function complete_registration( $username, $password, $email, $first, $last ) {
     global $reg_errors;
     if ( 1 > count( $reg_errors->get_error_messages() ) ) {
         $userdata = array(
         'user_login'    =>   $username,
         'user_email'    =>   $email,
-        'user_pass'     =>   $password
+		'user_pass'     =>   $password,
+		'first_name'	=>   $first,
+		'last_name'		=>	 $last,
+		'nickname'		=>	 $first.' '.$last
         );
         $user = wp_insert_user( $userdata );
         
@@ -474,18 +477,22 @@ function complete_registration( $username, $password, $email ) {
         registration_form(
 	    $username,
 	    $password,
-	    $email,
+		$email,
+		$first,
+		$last,
 	    true
 	    );
 	} else {
 		registration_form(
 	    $username,
 	    $password,
-	    $email
+		$email,
+		$first,
+		$last
 	    );
 	}
 }
-function registration_form( $username = '', $password = '', $email = '', $complete = false  ) {
+function registration_form( $username = '', $password = '', $email = '', $first = '', $last = '', $complete = false  ) {
     ?>
     <style>
     div {
@@ -511,6 +518,14 @@ function registration_form( $username = '', $password = '', $email = '', $comple
 		<input type="text" id="username" name="username" value="<?php echo ( isset( $_POST['username'] ) ? $username : null ) ?>">
 		</div>
 	</div>
+	<div>
+    <label for="firstname">First Name <strong>*</strong></label>
+    <input type="text" id="firstname" name="firstname" value="<?php echo ( isset( $_POST['firstname']) ? $first : null ) ?>">
+	</div>
+	<div>
+    <label for="lastname">Last Name <strong>*</strong></label>
+    <input type="text" id="lastname" name="lastname" value="<?php echo ( isset( $_POST['lastname']) ? $last : null ) ?>">
+    </div>
 
     <div>
     <label for="email">Email <strong>*</strong></label>

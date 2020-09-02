@@ -8,6 +8,10 @@ use gh_connects\theme\Modules as Modules;
 
 class Setup extends \GreenheartConnects {
     public static function run(){
+        //add role caps
+        \add_action( 'plugins_loaded', array( get_class(),'add_subscriber_upload' ));
+        //this annoying thing
+        \add_filter( 'wp_image_editors', array( get_class(),'wpb_image_editor_default_to_gd' ));
         //add login & app main page
         \add_action( 'init', array( get_class(), 'add_custom_login' ), 1 );
         \add_action ( 'init', array( get_class(), 'add_custom_registration'), 1 );
@@ -37,14 +41,17 @@ class Setup extends \GreenheartConnects {
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'video_metabox_save') );
         
-        
-        
         //Add livestream post type
         \add_action( 'init', array( get_class(), 'add_stream_cpt' )  ); 
         //Add meta boxes for editing
         \add_action( 'add_meta_boxes', array( get_class(),'add_stream_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'stream_metabox_save') );
+
+        \add_action( 'add_meta_boxes', array( get_class(),'add_login_video_embed_metabox' ) );
+        //Add meta save function 
+        \add_action('save_post', array( get_class(), 'login_embed_metabox_save') );
+
 
         \add_filter( 'login_url', array(get_class(), 'set_wp_login_page' ), 10, 3 );      //update login url for core functionality to work with
         \add_filter( 'register_url', array(get_class(), 'set_wp_register_page' ), 10, 1 );//update register url for core functionality
@@ -89,11 +96,18 @@ class Setup extends \GreenheartConnects {
         \remove_action( 'wp_head', '_admin_bar_bump_cb' );
         
     }
-
+    public static function wpb_image_editor_default_to_gd( $editors ) {
+        $gd_editor = 'WP_Image_Editor_GD';
+        $editors = array_diff( $editors, array( $gd_editor ) );
+        array_unshift( $editors, $gd_editor );
+        return $editors;
+    }
+    public static function add_subscriber_upload(){
+        $role = get_role( 'subscriber' );
+        $role->add_cap( 'upload_files' );
+    }
     public static function gate_generic_page_templates(){
-        error_log('gate function firing');
         if ( basename(\get_page_template()) === 'page.php' ) {
-            error_log('page template detected');
             \add_action('close_header', function(){
                 $userState = Modules::top_avatar();
                 if(!$userState){
@@ -263,14 +277,52 @@ class Setup extends \GreenheartConnects {
             'high' 
         );
     }
+    public static function add_login_video_embed_metabox(){
+        $login_page_object = get_page_by_path('login');
+        $post_id = $_GET['post'];
+        //show this metabox only if you are editing a page with slug 'login'
+        if ( $post_id == $login_page_object->ID ) {
+            \add_meta_box(
+                'login_video_embed_meta', #id
+                'Embed Code for Login Video', #title
+                array( get_class(),'call_login_embed_metabox'), #callback function
+                'page', # WP Screen (just use post type)
+                'normal', #center column
+                'high' 
+            );
+        }
+    }
+    public static function call_login_embed_metabox(){
+        global $post;
+        \wp_nonce_field( 'loginvid_metabox_nonce', 'loginvid_metabox_nonce' );
+        $vidurl_meta = get_post_meta( $post->ID, 'ghc_login_video',true );
+         if( $vidurl_meta ) {
+        ?>
+        <h4>Login Page Video Embed</h4>
+        <label for="ghc_loginvid_embed">Paste the full embed code below:</label>
+        <textarea rows="5" cols="50" style="width:100%;" id="ghc_loginvid_embed" name="ghc_loginvid_embed">
+        <?php echo $vidurl_meta ?>
+        </textarea>
+        <?php
+        } else {
+            ?>
+            <h4>Login Page Video Embed</h4>
+        <label for="ghc_loginvid_embed">Paste the full embed code below:</label>
+        <textarea rows="4" cols="5" id="ghc_loginvid_embed" name="ghc_loginvid_embed"></textarea>
+            <?php
+        }
+    }
     public static function call_video_url_metabox(){
         global $post;
         \wp_nonce_field( 'vidurl_metabox_nonce', 'vidurl_metabox_nonce' );
         $vidurl_meta = get_post_meta( $post->ID, 'ghc_video_path',true );
         $vidtype_meta = get_post_meta( $post->ID, 'ghc_video_type',true );
+        $vid_author_bio = get_post_meta( $post->ID, 'ghc_author_bio',true );
 
         if( $vidurl_meta && $vidtype_meta ) {
         ?>
+        <h4>Author Bio</h4>
+        <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo $vid_author_bio?></textarea>
         <h4>File name or embed URL</h4>
         <input type="text" id="ghc_video_path" name="ghc_video_path" value="<?php echo $vidurl_meta ?>">
         <h4>Type:</h4>
@@ -297,7 +349,8 @@ class Setup extends \GreenheartConnects {
         $streamstart_meta = get_post_meta( $post->ID, 'ghc_stream_start',true );
         $streamlength_meta = get_post_meta( $post->ID, 'ghc_stream_length',true );
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
-        $streamid_meta = get_post_meta( $post->ID, 'ghc_zoom_meeting_id', true );
+        $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
+        $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
         ?>
         <h4>Live Stream Details</h4>
         <div id="timepicker_container" style="position:relative;max-width:60%;margin:0 auto;"></div>
@@ -307,8 +360,12 @@ class Setup extends \GreenheartConnects {
         <label for="vidtypefile">Minutes:</label><br>
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
-        <input type="text" id="ghc_zoom_meeting_id" name="ghc_zoom_meeting_id" value="<?php echo ($streamid_meta) ? $streamid_meta : ''?>">
-        <label for="ghc_zoom_meeting_id">Meeting ID (on the Zoom Admin area as zoom_api_link meeting_id=?)</label>
+        <input type="text" id="ghc_stream_embed_code" name="ghc_stream_embed_code" value="<?php echo ($streamid_meta) ? $streamid_meta : ''?>">
+        <label for="ghc_zoom_meeting_id">Streaming embed code or shortcode</label>
+        <textarea type="textarea" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo ($streambio_meta) ? $streambio_meta: ''?></textarea>
+        <label for="ghc_author_name">Author Bio:</label><br>
+
+
         <script type="text/javascript">
             window.addEventListener('load', function(){
                 new Picker(document.querySelector('#ghc_stream_start'), {
@@ -333,9 +390,22 @@ class Setup extends \GreenheartConnects {
 
         foreach( $_POST as $key => $value ) {
             
-            if( $key == 'ghc_video_type' || $key == 'ghc_video_path'){
+            if( $key == 'ghc_video_type' || $key == 'ghc_video_path' || $key == 'ghc_author_bio'){
                 \update_post_meta( $post_id, $key, $value );
             }
+        }
+    }
+    public static function login_embed_metabox_save($post_id){
+        if ( ! isset( $_POST['loginvid_metabox_nonce'] ) ||
+        ! wp_verify_nonce( $_POST['loginvid_metabox_nonce'], 'loginvid_metabox_nonce' ) ) {
+            return;
+        }
+        if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+        if(!current_user_can('edit_post', $post_id)) return;
+
+        if(isset( $_POST['ghc_loginvid_embed'] )){
+            \update_post_meta( $post_id, 'ghc_login_video', $_POST['ghc_loginvid_embed']);
         }
     }
     public static function stream_metabox_save($post_id) {
@@ -348,7 +418,7 @@ class Setup extends \GreenheartConnects {
 
         if (!current_user_can('edit_post', $post_id)) return;
         foreach( $_POST as $key => $value ) {
-            if( $key == 'ghc_stream_start' || $key == 'ghc_stream_length' || $key == 'ghc_author_name' || $key == 'ghc_zoom_meeting_id' ){
+            if( $key == 'ghc_stream_start' || $key == 'ghc_stream_length' || $key == 'ghc_author_name' || $key == 'ghc_author_bio' || $key == 'ghc_stream_embed_code' ){
                 \update_post_meta( $post_id, $key, $value );
             }
         }
@@ -407,7 +477,7 @@ class Setup extends \GreenheartConnects {
     public static function add_custom_login(){
         $login_title = 'Log Into Greenheart Connects';
         $login_content = '';
-        $page_check = \get_page_by_title($login_title);
+        $page_check = \get_page_by_path('login', OBJECT, 'page');
         $login_page = array(
                 'post_type' => 'page',
                 'post_title' => $login_title,
@@ -416,7 +486,7 @@ class Setup extends \GreenheartConnects {
                 'post_name' => 'login'
         );
         if( !isset($page_check->ID) ){
-            $new_page_id = wp_insert_post($login_page);
+           $new_page_id = wp_insert_post($login_page);
         }
     }
         //Creates a blank WP Login Page 
@@ -497,11 +567,9 @@ class Setup extends \GreenheartConnects {
 
     //Assign Single & Archive templates for post types
     public static function ghc_postype_assign_archive_templates( $archive ){
-        error_log('function is firing');
         global $post;
         /* Checks for archive template by post type */
         if ( \is_post_type_archive ( 'streams' ) ) {
-            error_log( self::get_plugin_path('theme/views/archive-streams.php' ) );
             if ( file_exists( self::get_plugin_path('theme/views/archive-streams.php' ) ) ) {
                 return self::get_plugin_path('theme/views/archive-streams.php' );
             }

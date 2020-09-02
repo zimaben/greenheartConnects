@@ -6,6 +6,14 @@ use gh_connects\theme\classes\Condenser as Condenser;
 <main id="primary" class="site-main home">
     <h1 class="hometitle"><?php echo get_the_title(get_the_ID()); ?></h1>
     <!-- Module Home Hero -->
+    <div class="container">
+        <div class="row">
+            <div class="col-12 homecontent">
+                <?php echo get_the_content(get_the_ID()); ?>
+            </div>
+        </div>
+    </div>
+
     <?php
     $title = get_the_title($this->nearest_stream_id);
     $img = wp_get_attachment_image_src( get_post_thumbnail_id( $this->nearest_stream_id),'large',false)[0];
@@ -36,6 +44,8 @@ use gh_connects\theme\classes\Condenser as Condenser;
                 <div class="col-12">
                 <h2 class="nextstream">Next Stream</h2>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col-2 author-wrap">
                     <div class="author-bg" style="background:url(<?php echo $img?>) center/cover;">
 

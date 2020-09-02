@@ -91,6 +91,7 @@ class Modules extends \GreenheartConnects {
     require_once self::get_plugin_path( 'theme/views/classes/header-avatar-class.php');
         $userState = false;  
         if( \is_user_logged_in() ){
+            if( self::$debug ) error_log('USER LOGGED IN PASSED');
             $user_instance = \wp_get_current_user();
             $userState = $user_instance;
             $payment_keys = Core::get_payment_keys( $user_instance->ID );
@@ -99,6 +100,9 @@ class Modules extends \GreenheartConnects {
             }
             $avatar_img_id = \get_user_meta( $userState->ID, 'neon_avatar_image', true );
             $userState->avatar_img_id = $avatar_img_id;
+            // Get user data by user id
+            $userdata = get_userdata( $userState->ID );
+            $userState->display_name = $userdata->display_name;
             $the_avatar = new HeaderAvatar( $userState );
 
         } else {
@@ -132,9 +136,10 @@ class Modules extends \GreenheartConnects {
                     $starttime = get_post_meta( get_the_ID() , 'ghc_stream_start', true );
                     $duration = get_post_meta( get_the_ID(), 'ghc_stream_length', true );
                     $title = get_the_title( get_the_ID());
-                    $stream_array[$index ][ 'id' ] = get_the_ID();
+                    $stream_array[$index ]['id' ] = get_the_ID();
                     $stream_array[$index ]['starttime'] = $starttime;
                     $stream_array[$index ]['length'] = $duration;
+                    $index++;
                 endwhile;
                 wp_reset_postdata(); 
  
@@ -150,7 +155,7 @@ class Modules extends \GreenheartConnects {
                     $new_secs = self::return_remaining_seconds_hours($new_secs);
                     $mins = floor($new_secs / 60 );
                     $secs = self::return_remaining_seconds_mins($new_secs);
-                    $zoomid = \get_post_meta( $closest_item['id'], 'ghc_zoom_meeting_id', true);
+                    $embedcode = \get_post_meta( $closest_item['id'], 'ghc_stream_embed_code', true);
                     //Roll Livestream info into $userState object
                     $userState->nearest_stream_id = $closest_item['id']; 
                     $userState->secs_diff = $secs_diff;
@@ -165,7 +170,7 @@ class Modules extends \GreenheartConnects {
                     require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');
                 }
             } else {
-                require_once self::get_plugin_path('theme/views/components/hero_section-unpaid.php');
+                require_once self::get_plugin_path('theme/views/components/hero_section-payment.php');
             }    
         } else {
             require_once self::get_plugin_path('theme/views/components/hero_section-loggedout.php');
@@ -177,7 +182,7 @@ class Modules extends \GreenheartConnects {
             require_once self::get_plugin_path('theme/views/classes/left-col-class.php');
             $the_left_column = new LeftCol( $userState );
         } else {
-            require_once self::get_plugin_path('theme/views/components/left_col_blank.php');
+            #require_once self::get_plugin_path('theme/views/components/left_col_blank.php');
         }
     }
     public static function right_col($userState){

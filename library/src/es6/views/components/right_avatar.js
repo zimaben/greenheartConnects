@@ -1,8 +1,14 @@
 //toggle avatar menu function
 const expandMenu = (e) => {
-    let avatar_div = e.target.closest('.avatar-right'); //up the dom to avatar    
-    let avatar_menu = avatar_div.querySelector('.avatar-right-dropdown');
-    avatar_menu.classList.toggle('active');
+    if( window.innerWidth < 993 ){
+        let navcontainer = document.getElementById('mobile-menu-container');
+    	navcontainer.classList.add('active');
+    } else {
+        let avatar_div = e.target.closest('.avatar-right'); //up the dom to avatar    
+        let avatar_menu = avatar_div.querySelector('.avatar-right-dropdown');
+        avatar_menu.classList.toggle('active');
+    } 
+
     e.stopPropagation(); //so parent document doesn't notice the click and fire dismiss logic
 }
 

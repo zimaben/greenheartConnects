@@ -24,7 +24,10 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <a href="<?php echo \home_url() ?>"><button class="backhome"><span class="backarrow"></span>Back</button></a>
         </div>
         <div class="col-12">
-        <h1 class="pagetitle frontpage"><?php echo Condenser::limitWords( \get_the_title(\get_the_ID()), 15)?></h1>
+        <h1 class="pagetitle frontpage"><?php echo \get_the_title(\get_the_ID()) ?></h1>
+        </div>
+        <div class="col-12 pagecontent">
+            <?php echo \get_the_excerpt(\get_the_ID() ); ?>
         </div>
         <div class="col-2 author-wrap">
             <?php  $imgurl = \wp_get_attachment_image_src( \get_post_thumbnail_id( \get_the_ID(),'medium',false))[0];?>
@@ -46,7 +49,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <div class="infowrap">
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>
-                    <div class="info-excerpt"><?php echo Condenser::limitWords(\get_the_excerpt(\get_the_ID() ), 20) ?></div>
+                    <div class="info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', 50 )) ?></div>
                 </div>
                 <div class="info-row">
                     

@@ -1,0 +1,65 @@
+@import '../variables'; 
+/* WP MEDIA */
+.media-modal.wp-core-ui{    
+    .screen-reader-text {
+        display:none;
+    }
+    .media-frame-tab-panel{
+        .media-frame-router{
+            .media-router{
+                #menu-item-browse {
+                    display:none;
+                }
+            }
+        }
+        .media-frame-content {
+            .attachment {
+                .attachment-preview {
+                    display:none;
+                }
+                &.selected {
+                    .attachment-preview {
+                        display:block;
+                    }
+                }
+            }
+            .upload-ui {
+                button.button.button-hero {
+                    border: 2px solid $brightgreen;
+                    background: white;
+                    color: $brightgreen;
+                    border-radius: 24px;
+                    min-width: 170px;
+                    min-height: 48px;
+                    color: $brightgreen;
+                    cursor:pointer;
+                }
+
+            }
+            .attachments-browser{
+                .media-toolbar{
+                    .media-toolbar-secondary {display:none !important;}
+                    .media-toolbar-primary.search-form {display:none !important;};
+                }
+            }
+        }
+    }
+    .media-frame-toolbar{        
+        .media-toolbar{
+            padding-top: 15px;
+            z-index: 1;
+            .media-toolbar-primary {
+                button.media-button-select.button-primary{
+                    border-radius: 24px;
+                    min-width: 170px;
+                    min-height: 48px;
+                    background: $brightgreen !important;
+                    color: white !important;
+                    border: 0 !important;
+                    font:16px/24px Inter;
+                    cursor:pointer;
+                }
+            }   
+        }
+    }
+}

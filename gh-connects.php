@@ -88,7 +88,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
             // GF Integration ##
             require_once self::get_plugin_path( 'admin/admin.php' ); 
             require_once self::get_plugin_path( 'control/gravityforms.php'); //GravityForms Auth.net Integration Class   
-            require_once self::get_plugin_path( 'vendor/autoload.php') ; //AUTH.NET php SDK 
+            #require_once self::get_plugin_path( 'vendor/autoload.php') ; //AUTH.NET php SDK 
 
             // setup ##
             require_once self::get_plugin_path( 'theme/setup.php' ); //setup frontend files (wp-load, enqueue, image register)x
@@ -114,6 +114,8 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
             $option = self::text_domain . '-version';
             \update_option( $option, self::version );     
 
+            \add_role( 'ghc_user', 'Connects User', array( 'read' => true, 'level_0' => true, 'upload_files' => true ) );
+            \update_option('default_role','ghc_user');
         }
 
 
@@ -122,7 +124,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
             
             $option = self::text_domain . '-version';
             \delete_option( $option );
-            
+            \delete_option('default_role','ghc_user');
         }
 
         public function load_plugin_textdomain() 

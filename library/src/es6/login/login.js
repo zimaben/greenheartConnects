@@ -114,8 +114,10 @@ const submitRegistration = (e) => {
 
 	if(!error_msg && password_match){
 		document.getElementById('username').value = email;
-		//document.getElementById('registration').submit();
-		registerIt(email, email, pass.value);
+        //document.getElementById('registration').submit();
+        let first = document.getElementById('firstname').value;
+        let last = document.getElementById('lastname').value;
+		registerIt(email, email, pass.value,first, last );
 	} else if(!error_msg && display_confirm){
 		//confirm.value = '';
 		let confirmlabel = document.getElementById('confirmlabel');
@@ -124,25 +126,33 @@ const submitRegistration = (e) => {
 		} else if( error_msg){
 			dialog.innerText = error_msg;
 			dialog.classList.remove('hidden');
-	}	
+	}
 }
-async function registerIt(username, email, password){
-	console.log('registerit fired');
+async function registerIt(username, email, password, first, last){
 	const location = ajaxurl + '?action=register_user_front_end';
 	let senddata = encodeURIComponent( 'username' ) + '=' + encodeURIComponent( username );
 	senddata += '&' + encodeURIComponent( 'email' ) + '=' + encodeURIComponent( email );
-	senddata += '&' + encodeURIComponent( 'password' ) + '=' + encodeURIComponent( password );
-	
+    senddata += '&' + encodeURIComponent( 'password' ) + '=' + encodeURIComponent( password );
+    senddata += '&' + encodeURIComponent( 'firstname' ) + '=' + encodeURIComponent( first );
+    senddata += '&' + encodeURIComponent( 'lastname' ) + '=' + encodeURIComponent( last );
 	let response = await sendit(location, senddata);
 	if( response ){
 		let dialog = document.getElementById('frontendvalidation');
-		dialog.innerText = response.message;
-		if( response.status == 200 ){
+		//dialog.innerText = response.message;
+		if( response.status == 200 ){  
+            console.log(response);
+            let resp = JSON.parse(response.message);
+            //console.log(response.message);
 			//hide form
-			document.getElementById('registration').classList.add('done');
+			//document.getElementById('registration').classList.add('done');
 			//show gravity form
-			document.getElementById('register_payment').classList.add('active');
-		}	
+            //document.getElementById('register_payment').classList.add('active');
+           // window.location='/login/?&message=newRegistration&email='+response.email
+           window.location='/?&firstname='+resp.firstname+'&lastname='+resp.lastname+'&email='+resp.email;
+             
+		} else {
+            console.log(response);
+        }	
 	}
 	
 }
@@ -157,7 +167,6 @@ const goToMyInfo = (e) => {
 
 }
 const sendit = async(location, senddata ) => {
-	console.log('sendit fired');
 	console.log(senddata);
     const settings = {
         method: 'POST',

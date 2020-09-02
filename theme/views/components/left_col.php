@@ -5,7 +5,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
 # $datestamp = get_post_meta( $this->nearest_stream_id , 'ghc_stream_start', true );
 ?>
 
-    <div class="col-md-6 col-12 leftcol">
+    <div class="col-lg-6 col-12 leftcol">
         <!-- Module Left Col -->
         <div class="inner-wrap">
         <h3 class="upcoming">Upcoming Streams</h3>
@@ -29,7 +29,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
                     </div>
                     <div class="col-8">
                         <h4 class="streamtitle"><?php 
-                        echo '<a href="'.\get_post_permalink(\get_the_ID()).'">'.Condenser::limitWords(\get_the_title(\get_the_ID()), 8 ) ?></a></h4>
+                        echo '<a href="'.\get_post_permalink(\get_the_ID()).'">'.Condenser::limitCharacters(\get_the_title(\get_the_ID()), 70 ) ?></a></h4>
                         <!--<span class="author"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></span> -->
                         <span class="excerpt"><?php echo Condenser::limitWords( \get_the_excerpt(\get_the_ID()), 10); ?></span>   
                     </div>

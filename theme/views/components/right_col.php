@@ -1,7 +1,7 @@
 <?php
 use gh_connects\theme\classes\Condenser as Condenser;
 ?>
-<div class="col-md-6 col-12 rightcol">
+<div class="col-lg-6 col-12 rightcol">
     <!-- Module Right Col -->
     <h3 class="previous">Previous Streams</h3>
     <div class="inner-wrap">

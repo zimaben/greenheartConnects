@@ -4,7 +4,7 @@
         <div class="col-12">
             <a href="<?php echo \home_url() ?>"><button class="backhome"><span class="backarrow"></span>Back</button></a>
         </div>
-        <div id="settings_left" class="col-12 col-md-4">
+        <div id="settings_left" class="col-12 col-lg-4">
             <h1 class="mobileonly settings-title">My Profile</h1>
             <div class="avatar full">
                 <!--<i class="neonbadge avatar-svg" data-primary="<?php echo $this->neon_personal ?>" data-secondary="<?php echo $this->neon_complementary ?>" data-tertiary="<?php echo $this->neon_contrast ?>"></i> -->            
@@ -26,12 +26,11 @@
             <!-- avatar full -->
             <div class="info">
             
-                <h3 class="settings-name"><?php #echo $this->display_name ?></h3>
                 <a class="change-profile-image" id="changeProfileLink" data-userid="<?php echo $this->ID?>" href="#">Change profile photo</a>
                     
             </div>
         </div>
-        <div id="settings_right" class="col-12 col-md-8">
+        <div id="settings_right" class="col-12 col-lg-8">
             <span id="profile-updated" class="system-dialogue"></span>
             <h1 class="settings-title desktoponly">My Profile</h1>
             <div class="form-wrap">

@@ -10,5 +10,53 @@ body.videos-template-default{
         display:block;
         padding:10px;
     }
+    h1.frontpage{
+    margin-top: 30px;
+    }
+    .pagecontent{
+        margin-bottom:40px;
+    }
 }
-
+@media (max-width:992px){
+    body.videos-template-default {
+        .date-wrap {
+            .date-bg {
+                .datewrap {
+                    span.day{
+                        font:50px/60px $sanchez;
+                        padding-top: 25%;
+                    }
+                    span.time {
+                        font: 14px/18px $lato;
+                    }
+                }
+            }
+        }
+        .infobody {
+            .infowrap {
+                .info-excerpt{
+                    font:16px/20px $lato;
+                }
+            }
+        }
+    }
+    
+}
+@media (max-width:767px){
+    .date-wrap {
+        .date-bg {
+            .datewrap {
+                span.month{
+                    font:16px/20px $lato;
+                }
+                span.day{
+                    font:30px/40px $sanchez;
+                    padding-top: 25%;
+                }
+                span.time {
+                    font: 14px/18px $lato;
+                }
+            }
+        }
+    }
+}

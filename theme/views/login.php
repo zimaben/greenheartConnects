@@ -218,25 +218,23 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	?>
 	<div class="container-fluid">
 		<div class="row connects-background">
-			<div class="left-logo">
-				<img class="logo-image" src="<?php echo $gh_left_image ?>" />
-			</div>
-			<div class="col-8 d-none d-md-flex leftlogincol">
+			<div class="col-8 d-none d-md-flex col-lg-8 col-md-6 leftlogincol">
 				<div class="the-content">
-				
-					 <h2 class="left-title">Greenheart Connects is a series inspiring and facilitating the global community to make the world a better.</h2>
+					<div class="left-logo">
+						<img class="logo-image" src="<?php echo $gh_left_image ?>" />
+					</div>
+					 <h2 class="left-title"><?php echo get_the_title( get_the_ID() ) ?></h2>
 					 <ul>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
-						<li>Next Episode Airs on 09/24/2020 9am CDT, Chris Dews – Casita Verde Ibiza</li>
+						<li>Next Episode Airs on 09/24/2020 9am CDT, “Eco Living at Casita Verde” with Chris Dews</li>
 					</ul>
 					<div class="the-video">
-						<iframe width="560" height="315" src="https://www.youtube.com/embed/s1HA9LlFNM0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-					</iframe>
+						<?php echo get_post_meta( get_the_ID(), 'ghc_login_video', true); ?>
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-md-4 logincol">
+			<div class="col-12 col-md-6 col-lg-4 logincol">
 				<h1>Welcome to <br>Greenheart Connects</h1>
 	<?php
 
@@ -399,17 +397,17 @@ function login_footer($input_id = '') {
 							</div>
 							<div class="row">
 								<div class="col-6 grid-left">Access to live Q &amp; A</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 							<div class="row">
 								<div class="col-6 grid-left">Access to past episodes</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 							<div class="row last-row">
 								<div class="col-6 grid-left">Access to resources</div>
-								<div class="col-6 grid-right"><img src="https://localhost/greenheartplus/wp-content/plugins/ghconnects/library/dist/css/img/check-circle-green.svg"></div>
+								<div class="col-6 grid-right"><img src="<?php echo GreenheartConnects::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
 								
 							</div>
 						</div>
@@ -990,6 +988,9 @@ case 'login' :
 default:
 	$secure_cookie = '';
 	$customize_login = isset( $_REQUEST['customize-login'] );
+	if( isset($_POST['message']) && $_POST['message'] == 'newRegistration'){
+		login_header( '', 'Registration was a success. Please enter your email & password to log in' );
+	}
 	if ( $customize_login )
 		wp_enqueue_script( 'customize-base' );
 
