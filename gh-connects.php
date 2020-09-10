@@ -89,9 +89,9 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
             require_once self::get_plugin_path( 'admin/admin.php' ); 
             require_once self::get_plugin_path( 'control/gravityforms.php'); //GravityForms Auth.net Integration Class   
             #require_once self::get_plugin_path( 'vendor/autoload.php') ; //AUTH.NET php SDK 
-
+            
             // setup ##
-            require_once self::get_plugin_path( 'theme/setup.php' ); //setup frontend files (wp-load, enqueue, image register)x
+            require_once self::get_plugin_path( 'theme/setup.php' ); //setup frontend files (wp-load, enqueue, image register)
             require_once self::get_plugin_path( 'theme/template.php'); //Master Template Class to make Templates x
             #require_once self::get_plugin_path( 'theme/master.php'); //The Daily Vibe page (Template Modules Map)
             require_once self::get_plugin_path( 'theme/modules.php' ); //Top Level Modules (Loads components)

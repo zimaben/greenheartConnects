@@ -167,7 +167,7 @@ class Modules extends \GreenheartConnects {
                     $userState->startDate = $start;
                     $the_home_hero = new HomeHero( $userState );
                 } else {
-                    require_once self::get_plugin_path('theme/views/classes/hero_section-no-upcoming-streams.php');
+                    require_once self::get_plugin_path('theme/views/components/hero_section-no-upcoming-streams.php');
                 }
             } else {
                 require_once self::get_plugin_path('theme/views/components/hero_section-payment.php');

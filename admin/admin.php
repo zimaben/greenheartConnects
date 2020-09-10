@@ -29,13 +29,13 @@ class Admin extends \GreenheartConnects{
     {   
         \add_action( 'gform_authorizenet_post_capture', array(get_class(), 'flag_payment'), 10, 6 );
 
-
         \add_action('wp_ajax_register_user_front_end', array(get_class(),'register_user_front_end') );
         \add_action('wp_ajax_nopriv_register_user_front_end', array(get_class(),'register_user_front_end') );
 
         \add_action('admin_init', array(get_class(),'allow_subscriber_uploads') );
         \add_action( 'admin_init', array(get_class(),'keep_users_out'), 1 );
 
+        if(is_admin() ) require_once self::get_plugin_path( 'admin/switch_postypes.php'); 
      
     }
     public static function flag_payment( $is_authorized, $amount, $entry, $form, $config, $response ){
@@ -59,7 +59,7 @@ class Admin extends \GreenheartConnects{
     }
     public static function keep_users_out(){
         $user = \wp_get_current_user( \get_current_user_id() );
-        if( in_array( 'subscriber', (array) $user->roles ) ) { 
+        if( in_array( 'ghc_user', (array) $user->roles ) ) { 
             \wp_safe_redirect( get_site_url() );
         }
     }

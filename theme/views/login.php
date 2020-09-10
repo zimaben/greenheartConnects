@@ -347,6 +347,10 @@ function login_footer($input_id = '') {
 											<div class="card-p">
 												<p>Greenheart wants to inspire and facilitate a connected global community who knows how to champion change for the sake of the earth and each other. </p>
 											</div>
+											<div class="card-p">
+												<p>To find out more about Greenheart International, <a href="https://www.greenheart.org" target="_blank">click here</a>. 
+												</p>
+											</div>
 											<div class="card-p-p">Topics will rotate through the four pillars that Greenheart represents, which include:
 											</div>
 											<div class="container-fluid pillarswrap">

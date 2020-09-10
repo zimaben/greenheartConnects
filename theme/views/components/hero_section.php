@@ -68,8 +68,8 @@ use gh_connects\theme\classes\Condenser as Condenser;
                             <div class="info-excerpt"><?php echo Condenser::limitWords($excerpt, 10) ?></div>
                         </div>
                         <div class="info-row">
-                            <div class="author"><?php echo $authorname ?></div>
-                            <div class="timeto">Livestream Starts in <?php
+                            <div class="author d-none d-md-block"><?php echo $authorname ?></div>
+                            <div class="timeto d-none d-md-block">Livestream Starts in <?php
                                     echo '<span id="timewrap" data-seconds="'.$this->secs_diff.'" data-action="final_countdown">';
                                     echo ( $this->days2livestream ) ? '<span id="hero_closest_days">'.$this->days2livestream.'</span> Days, ' : '<span id="hero_closest_days"></span>';
                                     echo ( $this->hours2livestream ) ? '<span id="time2stream">'.$this->hours2livestream.':' : '<span id="time2stream">';
