@@ -98,15 +98,23 @@ class Setup extends \GreenheartConnects {
         
         \add_filter( 'wp_nav_menu_items', array(get_class(), 'loggedin_filter_nav_links'), 10, 2 );
 
+        /* Do Analytics */
+         \add_action( 'wp_head', array(get_class(), 'do_analytics') );
+    }
+    public static function do_analytics(){
+        $x = get_option( 'do_ga' );
+        if( get_option( 'do_ga' )){
+            echo get_option( 'google_analytics_code' );
+        }
     }
     public static function loggedin_filter_nav_links( $items, $args ) {
-         
-    $payment_keys = Core::get_payment_keys( $user_instance->ID );
-    if($payment_keys['cn_status'] == 'unpaid'){
-        $new_items = str_replace('<a href="https://greenheartconnects.org/resources/">Resources</a></li>','', $items);
-        return $new_items;
-    }
-    return $items;
+        $user_instance = \wp_get_current_user();
+        $payment_keys = Core::get_payment_keys( $user_instance->ID );
+        if($payment_keys['cn_status'] == 'unpaid'){
+            $new_items = str_replace('<a href="https://greenheartconnects.org/resources/">Resources</a></li>','', $items);
+            return $new_items;
+        }
+        return $items;
     }
     public static function wpb_image_editor_default_to_gd( $editors ) {
         $gd_editor = 'WP_Image_Editor_GD';
@@ -338,17 +346,16 @@ class Setup extends \GreenheartConnects {
         <input type="text" id="ghc_video_author" name="ghc_video_author" value="<?php echo $vid_author_name ?>">
         <h4>Author Bio</h4>
         <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo $vid_author_bio?></textarea>
-        <h4>File name or embed URL</h4>
+        <h4>Video Embed Code</h4>
         <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_video_path" name="ghc_video_path"><?php echo $vidurl_meta ?></textarea>
-        <h4>Type:</h4>
-        <input type="radio" id="vidtypefile" name="ghc_video_type" value="file"<?php echo ($vidtype_meta == "file") ? 'checked' : ''?>>
-        <label for="vidtypefile">File</label><br>
-        <input type="radio" id="vidtypeembed" name="ghc_video_type" value="embed"<?php echo ($vidtype_meta == "embed") ? 'checked' : ''?>>
-        <label for="vidtypefile">Embed</label><br>
+
+        <input type="radio" style="display:none;" id="vidtypefile" name="ghc_video_type" value="file"<?php echo ($vidtype_meta == "file") ? 'checked' : ''?>>
+        <input type="radio" style="display:none;" id="vidtypeembed" name="ghc_video_type" value="embed"<?php echo ($vidtype_meta == "embed") ? 'checked' : ''?>>
+        
         <?php
         } else {
             ?>
-            <h4>File name or embed URL</h4>
+            <h4>Video Embed Code:</h4>
             <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="vidurl" name="ghc_video_path"></textarea>
             <h4>Type:</h4>
             <input type="radio" id="vidtypefile" name="ghc_video_type" value="file">
@@ -366,19 +373,27 @@ class Setup extends \GreenheartConnects {
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
         $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
+        $stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
+        $stream_promocount = get_post_meta( $post->ID, 'ghc_stream_promocount', true);
         ?>
         <h4>Live Stream Details</h4>
         <div id="timepicker_container" style="position:relative;max-width:60%;margin:0 auto;"></div>
         <input type="text" class="form-control js-full-picker" id="ghc_stream_start" name="ghc_stream_start" value="<?php echo ($streamstart_meta) ? $streamstart_meta : '' ?>">
         <label for="ghc_stream_start">Start Date/Time (CST):</label><br>
-        <input type="text" pattern="[0-9]{1,3}"id="ghc_stream_length" name="ghc_stream_length" value="<?php echo ($streamlength_meta) ? $streamlength_meta : ''?>">
+        <input type="text" pattern="[0-9]{1,3}" id="ghc_stream_length" name="ghc_stream_length" value="<?php echo ($streamlength_meta) ? $streamlength_meta : ''?>">
         <label for="vidtypefile">Minutes:</label><br>
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
-        <label for="ghc_stream_embed_code">Streaming embed code or shortcode</label><br>
+        <label for="ghc_stream_embed_code">Embed Code of Stream:</label><br>
         <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>        
         <label for="ghc_author_name">Author Bio:</label><br>
         <textarea type="textarea" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo ($streambio_meta) ? $streambio_meta: ''?></textarea>
+        <?php 
+            $new_promo_markup = '<label for="ghc_stream_promo">Promo Code:</label><br><input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value=""><br>';
+            $exists_promo_markup = '<p>Promo Code (once set, Promo Codes cannot be changed): ';
+        echo ($stream_promo) ? $exists_promo_markup.$stream_promo.'</p>' : $new_promo_markup; ?>
+        <label for="ghc_stream_promocount">Promo Codes Remaining:</label><br>
+        <input type="text" id="ghc_stream_promocount" name="ghc_stream_promocount" value="<?php echo $stream_promocount ?>" disabled>
         
 
 
@@ -434,8 +449,16 @@ class Setup extends \GreenheartConnects {
 
         if (!current_user_can('edit_post', $post_id)) return;
         foreach( $_POST as $key => $value ) {
-            if( $key == 'ghc_stream_start' || $key == 'ghc_stream_length' || $key == 'ghc_author_name' || $key == 'ghc_author_bio' || $key == 'ghc_stream_embed_code' ){
+            if( $key == 'ghc_stream_start' 
+            || $key == 'ghc_stream_length' 
+            || $key == 'ghc_author_name' 
+            || $key == 'ghc_author_bio' 
+            || $key == 'ghc_stream_embed_code' 
+            || $key == 'ghc_stream_promo' ){
                 \update_post_meta( $post_id, $key, $value );
+                if($key == 'ghc_stream_promo'){
+                    \update_post_meta( $post_id, 'ghc_stream_promocount', 50);
+                }
             }
         }
     }

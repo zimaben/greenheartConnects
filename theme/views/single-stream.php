@@ -50,7 +50,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <div class="infowrap">
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>
-                    <div class="info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', true ), 20) ?></div>
+                    <div class="info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', true ), 120) ?></div>
                 </div>
                 <div class="info-row">
                     <div class="author d-none d-md-block"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></div>
@@ -85,7 +85,12 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
     <div class="row">
         <div class="col-12 hero-bg">
             <div class="info-row">
-                    <!-- TODO remove this when we get EMBED CODE down -->
+                    
+                    <?php 
+                    if( $secs_diff < 600 ){
+                        echo \get_post_meta( \get_the_ID(), 'ghc_stream_embed_code', true );
+                    } else {
+                    ?>
                     <div class="timeto d-none d-md-block">Livestream Starts in <?php
                             $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
                             $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ) );   
@@ -96,18 +101,20 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                             $new_secs = Modules::return_remaining_seconds_hours($new_secs);
                             $mins = floor($new_secs / 60 );
                             $secs = Modules::return_remaining_seconds_mins($new_secs);
-                            $zoomid = \get_post_meta( \get_the_ID(), 'ghc_zoom_meeting_id', true);
 
                             echo '<span id="timewrap" data-seconds="'.$secs_diff.'" data-action="final_countdown">';
                             echo ( $days ) ? '<span id="hero_closest_days">'.$days.'</span> Days, ' : '<span id="hero_closest_days"></span>';
                             echo ( $hours) ? '<span id="time2stream">'.$hours.':' : '<span id="time2stream">';
                             echo ( $mins ) ? $mins.':' : '0:';
-                            echo $secs.'</span>';           
-                        ?>
-                    </div>
-                </div>
+                            echo $secs.'</span>';  
+                    ?>
+                    </div> 
+                    <?php     
+                    } 
+                    ?>  
+            </div>
             <?php 
-            \do_shortcode( '[zoom_api_link meeting_id="'.$zoomid.'" class="zoom-meeting-window" id="zoom-meeting-window" title="Your Page Title" countdown-title="Meeting starts in" width="" height=""]'); 
+            #\do_shortcode( '[zoom_api_link meeting_id="'.$zoomid.'" class="zoom-meeting-window" id="zoom-meeting-window" title="Your Page Title" countdown-title="Meeting starts in" width="" height=""]'); 
             ?>
         </div>
     </div>

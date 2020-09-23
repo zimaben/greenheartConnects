@@ -23,7 +23,9 @@ class Core extends \GreenheartConnects {
                        
                 }        
             }
-            error_log(print_r($payment_keys, true));
+            if( self::$debug ){ 
+               # error_log(print_r($payment_keys, true));
+            }
         } else {
             if( self::$debug ){
                 error_log( 'CORE::NO KEYS IN DATABASE');
@@ -34,6 +36,18 @@ class Core extends \GreenheartConnects {
                 error_log( 'CORE::NO PAYMENT KEYS IN DATABASE');
             }
             $payment_keys['cn_status']='unpaid';
+            $user_meta=get_userdata($userid);
+            $user_roles=$user_meta->roles;
+            if(!empty($user_roles) && is_array($user_roles)){
+                foreach($user_roles as $user_role){
+                    if($user_role == 'greenheart_staff' || $user_role == 'greenheart_speaker'){
+                        $payment_keys['cn_status']='paid';
+                    }
+                }
+            } elseif( $payment_keys['cn_status'] !== 'paid'){
+                $payment_keys['cn_status']='unpaid';
+            }
+            
         } elseif( $payment_keys['cn_status'] !== 'paid'){
             $payment_keys['cn_status']='unpaid';
         }

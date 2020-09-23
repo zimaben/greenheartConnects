@@ -11,23 +11,127 @@ class GravityFormsAuthNet extends \GreenheartConnects {
 
     }
     public static function run(){
-        error_log('GRAVITY FORMS FIRING');
+
         \add_action( 'gform_authorizenet_post_capture', array(get_class(), 'connects_postcapture'), 10, 6 );
         \add_filter( 'gform_authorizenet_transaction_pre_authorize', array(get_class(),'connects_preauthorize'), 10, 4 );
         \add_filter( 'gform_authorizenet_transaction_pre_capture', array(get_class(),'connects_precapture'), 10, 5 );
         \add_filter( 'gform_authorizenet_subscription_pre_create', array(get_class(),'connects_pre_subscription'), 10, 5 );
+        
+        #add promo code evaluation to the form marked as master payment form
+        $paymentform_val_name = 'gform_field_validation_' . trim( \get_option('ghc_payment_form_id'));
+        \add_filter( $paymentform_val_name, array(get_class(), 'ghc_validate_promocode' ), 10, 4 );
     }
 
     public static function connects_pre_subscription($subscription, $form_data, $config, $form, $entry){
-        error_log('GRAVITY PRE SUBSCRIPTION FIRING');
         $userID = \get_current_user_id();
-        \update_user_meta( $userID, 'cn_last_payment_on', date('d-m-Y') );
-        \update_user_meta( $userID, 'cn_last_payment_amt', $form_data['item_name'] );
-        \update_user_meta( $userID, 'cn_status', 'paid' );
-        error_log('ID:');
-        error_log($userID);
-        error_log(print_r($subscdription));
+        #Get User ID, this will be our Invoice ID and connect the WP database and Auth.Net
+        $userID = \get_current_user_id(); //Form Can't be sent if not logged in
+        #Form should not allow subscription amounts below minimum, but check in case of bad content
+        $monthly_min = 7;
+        if( $subscription->amount >= $monthly_min ){
+            \update_user_meta( $userID, 'cn_last_payment_on', date('d-m-Y') );
+            \update_user_meta( $userID, 'cn_last_payment_amt', $subscription->amount );
+            \update_user_meta( $userID, 'cn_status', 'paid' );
+            #Invoice must be set to UserID to tie the WP user to payment info
+            $subscription->orderInvoiceNumber = $userID;
+            //is there a promocode? If form field has admin label set to promocode this returns field value
+            $fieldval = self::gf_get_admin_label_val_by_name('promocode', $form, $entry);
+            if($fieldval){
+                global $wpdb;
+                //get all promo codes
+                $rows = $wpdb->get_results($wpdb->prepare( 
+                    "SELECT * FROM wp_postmeta WHERE meta_key = %s",
+                    'ghc_stream_promo'
+                ));
+                if( $rows ) {
+                    foreach($rows as $row){
+                        if( strtoupper(trim($fieldval) ) == strtoupper(trim($row->meta_value)) ){
+                            #PROMO CODE MATCH 
+                            //get remaining codes
+                            $stream_promocount = \get_post_meta( $row->post_id, 'ghc_stream_promocount', true);
+                            if($stream_promocount && $stream_promocount > 0 ){
+                                if(self::$debug){
+                                    error_log( 'Promo Code Match on code: '.$fieldval );
+                                }
+                                $updated = \update_post_meta($row->post_id, 'ghc_stream_promocount', $stream_promocount - 1 );
+                                #PROMO CODE SUCCESSFULL
+                                #$subscription->trialOccurrences = 1; // This will set a 1 month trial period as long as Billig Cycle is using Months on payment feed
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            #error - minimum amount not reached
+            $message = json_encode('7 Dollar minimum required.');
+            return $message;
+        }
+        error_log('SUBSCRIPTION:');
+        error_log(print_r($subscription,true));
         return $subscription;
+    }
+
+    public static function gf_get_admin_label_val_by_name($labelname, $form, $entry){
+        $_return = false;
+        $fields = $form['fields'];
+        foreach($fields as $field){
+            if( isset($field['adminLabel']) && $field['adminLabel'] == $labelname ) {
+                //if we are evaluating the right field (promocode) return value
+                $_return = rgar( $entry, strval( $field['id'] ) ); 
+                return $_return;
+            }
+        }
+        return $_return;
+    }
+    public static function ghc_validate_promocode($result, $value, $form, $field ){
+        #confirm dynamic naming works
+        error_log('PROMO CODE VERIFICATION IS HAPPENING');
+        #failed
+        $match = true;
+        $validform = $result['is_valid']; //BOOLEAN will always return 1 when called here
+        
+        if($field->adminLabel == 'promocode'){
+            #eval the promocode
+            if(isset($value) && !empty($value)){
+                $match = false;
+                $promo_code = $value;
+                global $wpdb;
+                //get all promo codes
+                $rows = $wpdb->get_results($wpdb->prepare( 
+                    "SELECT * FROM wp_postmeta WHERE meta_key = %s",
+                    'ghc_stream_promo'
+                ));
+                if( $rows ) {
+                    foreach($rows as $row){
+                        error_log(print_r($row,true));
+                        if($promo_code == trim($row->meta_value)){
+                            #PROMO CODE MATCH 
+                            //get remaining codes
+                            $stream_promocount = get_post_meta( $row->post_id, 'ghc_stream_promocount', true);
+                            if($stream_promocount && $stream_promocount > 0 ){
+                                error_log('MATCHED PROMO CODE: Remaining codes');
+                                error_log($stream_promocount);
+                                $match = true;
+                            } else {
+                                $error = 'Limit Reached for that Promo Code.';
+                            }
+                        }
+                    }
+                if(!$match) $error = 'We couldn\'t find that Promo Code.';     
+                } else {
+                    $error = 'There are no current Promo Codes.';
+                }
+            }
+        }
+
+        if(!$match) {
+            error_log($error);
+            $return_result = array( 'is_valid' => false, 'message' => $error );
+        } else {
+            $return_result = array( 'is_valid' => true );
+        }
+
+    return $return_result;
     }
 
     public static function connects_postcapture( $is_authorized, $amount, $entry, $form, $config, $response ){

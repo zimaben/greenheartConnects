@@ -66,13 +66,11 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
     <div class="row">
     <div class="col-12 col-md-8 offset-md-2 video-center">
         <?php
-        $type = \get_post_meta( \get_the_ID(), 'ghc_video_type', true);
+        #$type = \get_post_meta( \get_the_ID(), 'ghc_video_type', true);
+        $type = 'embed';
         $path = \get_post_meta( \get_the_ID(), 'ghc_video_path', true);
         if( $type && strtolower($type) == 'embed'){
-            $embed_id = array_pop( explode('v=', $path) );
-            if ($embed_id ) {
-                echo '<iframe width="100%" height="500" src="https://www.youtube.com/embed/'.$embed_id.'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-            }
+            echo get_post_meta( \get_the_ID(), 'ghc_video_path',true );
         } elseif ($type && strtolower($type) == 'file') {
             #DO FILE HERE
         } else{

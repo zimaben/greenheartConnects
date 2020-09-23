@@ -3,7 +3,7 @@
     display: inline-flex;
     justify-content: flex-end;
     align-items: flex-end;
-    width: 200px;
+    min-width: 200px;
     .avatar-display{
         display: flex;
         width: 40px;

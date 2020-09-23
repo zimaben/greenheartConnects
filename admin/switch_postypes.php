@@ -87,6 +87,10 @@ class SwitchPost extends \GreenheartConnects {
         //get existing post data
         $ogtitle = \get_the_title( $post_id );
         $ogexcerpt = \get_the_excerpt( $post_id );
+
+        //if the page has already been copied
+        $isVideo = \get_page_by_title( $ogtitle, 'OBJECT', 'videos' );
+        if($isVideo) return false;
         
         //get Postmeta
         $ogpostdate = \get_post_meta( $post_id, 'ghc_stream_start', true );
@@ -111,7 +115,7 @@ class SwitchPost extends \GreenheartConnects {
         /* IMPORTANT, calling wp_insert_post inside save loops the save function, resulting
         in and infinite loop without this post type check */
         if ( \get_post_type($post_id) === 'streams'  ){ 
-            error_log('ONCE');
+
            # $new_post_id = true;
             $new_post_id = \wp_insert_post( $postarr );
             if ( \is_wp_error( $new_post_id ) ) {

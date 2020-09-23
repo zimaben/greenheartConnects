@@ -86,9 +86,10 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
         private static function load_libraries() {
 
             // GF Integration ##
+            require_once self::get_plugin_path( 'admin/authnet.php') ; //AUTH.NET php SDK 
             require_once self::get_plugin_path( 'admin/admin.php' ); 
             require_once self::get_plugin_path( 'control/gravityforms.php'); //GravityForms Auth.net Integration Class   
-            #require_once self::get_plugin_path( 'vendor/autoload.php') ; //AUTH.NET php SDK 
+            
             
             // setup ##
             require_once self::get_plugin_path( 'theme/setup.php' ); //setup frontend files (wp-load, enqueue, image register)
@@ -114,8 +115,17 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
             $option = self::text_domain . '-version';
             \update_option( $option, self::version );     
 
-            \add_role( 'ghc_user', 'Connects User', array( 'read' => true, 'level_0' => true, 'upload_files' => true ) );
+            \add_role( 'ghc_user', 'Connects User', array( 'read' => true, 'level_1' => true, 'upload_files' => true ) );
             \update_option('default_role','ghc_user');
+
+            #Schedule our Database Cleanup
+            #Use wp_next_scheduled to check if the event is already scheduled
+            $timestamp = \wp_next_scheduled( 'ghc_daily_subscription_update');
+            //If $timestamp == false schedule daily backups since it hasn't been done previously
+            if( $timestamp == false ){
+                //Schedule the event for right now, then to repeat daily using the hook 'wi_create_daily_backup'
+                \wp_schedule_event( time(), 'daily', 'ghc_daily_subscription_update' );
+            }
         }
 
 

@@ -1,9 +1,9 @@
 body.videos-template-default{
     .video-center{
-        margin-top:50px;
-        margin-bottom:50px;
-        background: black;
-        min-height: 500px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
     }
     .infobody .infowrap .info-excerpt {
         font: 18px/24px Lato,"Open Sans",Helvetica,Arial,sans-serif;
