@@ -27,6 +27,13 @@ button.backhome {
         background: white;
         min-height: 0px;
     }
+    .hero-bg {
+        .info-row{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
 .pagecontent{
     margin-bottom:40px;

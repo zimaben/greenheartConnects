@@ -82,7 +82,7 @@ h1.hometitle{
 }
 .infobody {
     background: $background-grey; 
-    .infowrap{
+    .infowrap{ 
         h1{
             font: 38px/48px "Sanchez",Georgia,serif;
         }
@@ -90,7 +90,8 @@ h1.hometitle{
         position:relative;
         .info-row {
             display: flex;
-            justify-content: space-between;
+            /* justify-content: space-between; */
+            justify-content:flex-end;
             bottom: 10px;
             position: absolute;
             width: 100%;

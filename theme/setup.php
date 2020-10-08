@@ -41,6 +41,13 @@ class Setup extends \GreenheartConnects {
         \add_action( 'add_meta_boxes', array( get_class(),'add_video_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'video_metabox_save') );
+
+        //Add promo post type
+        \add_action( 'init', array( get_class(), 'add_promo_cpt') );
+        //Add meta box
+        \add_action( 'add_meta_boxes', array( get_class(), 'add_promo_metabox') );
+        //Add meta save function
+        \add_action( 'save_post', array( get_class(), 'promo_metabox_save') );
         
         //Add livestream post type
         \add_action( 'init', array( get_class(), 'add_stream_cpt' )  ); 
@@ -82,6 +89,13 @@ class Setup extends \GreenheartConnects {
         \add_action('wp_ajax_ghc_BTTTTR_deleteUser', array( get_class(), 'ghc_BTTTTR_deleteUser' ));
         \add_action('wp_ajax_nopriv_ghc_BTTTTR_deleteUser', array( get_class(),'ghc_BTTTTR_deleteUser' )); 
         
+        //Javascript wp_ajax Real Time Comments
+        \add_action('wp_ajax_get_new_comments', array( get_class(), 'get_new_comments'));
+        \add_action('wp_ajax_nopriv_get_new_comments', array( get_class(), 'get_new_comments'));
+
+        \add_action( 'comment_post', array(get_class(), 'add_ajax_comment'), 20, 2 );
+        \add_filter( 'comment_form_submit_button',array(get_class(), 'add_new_comment_button'), 10, 2 );
+
 
         //set Javascript variables
         \add_action( 'wp_head', array(get_class(), 'set_plugin_js_variables'));
@@ -100,6 +114,92 @@ class Setup extends \GreenheartConnects {
 
         /* Do Analytics */
          \add_action( 'wp_head', array(get_class(), 'do_analytics') );
+    }
+    //AJAX RT Comments 
+    public static function add_new_comment_button( $submit_button, $args ) {
+        #<input name="submit" type="submit" id="submit" class="submit" value="Post Comment" />
+        if ( \get_post_type( \get_the_ID() ) == 'streams' ) {
+            
+            $submit_button = '<button id="submit" class="submit" onclick="addAjaxComment(event);return false;">Post Comment</button>'; 
+        }
+        return $submit_button;
+    }
+    public static function add_ajax_comment( $comment_ID, $comment_status ){
+        //arbitrary flag in the request
+        if( isset($_POST['doing_ghc_ajax_comment']) ){
+            #bail if moderation settings prevent real time comments
+            if($comment_status == 0) return false;
+            $post_id = $_POST['comment_post_ID'];
+            $comments = \get_comments(array(
+                    'post_id' => $post_id,
+                    'status' => 'approve' 
+                ));
+            $com_code = \wp_list_comments(array(
+                'per_page' => 50, 
+                'reverse_top_level'=> false,
+                'echo'=> false), $comments);
+            $com_code = str_replace(array("\r", "\n", "\t", "\v" ), '', $com_code );
+            $com_code = self::remove_html_comments($com_code);
+            if($com_code){
+                $ret = array(
+                    "status"=>200, 
+                    "markup"=>$com_code);
+            } else {
+                $ret = array("status"=>400, "markup"=> "Failed to load comment");
+            }
+            error_log(json_encode($ret));
+            // echo it back
+            die( json_encode($ret) );
+            #wp_die(); cant use wp_die(), hijacking the core comment handler this way produces WP Error object, which will wreck our json if allowed
+            //stop downstream actions like page reload
+            }
+    }
+    public static function remove_html_comments($content = '') {
+        return preg_replace('/<!--(.|\s)*?-->/', '', $content);
+    }
+    public static function get_new_comments(){
+        if( isset($_POST['comment_count']) && isset($_POST['post_id']) ){
+            #check if Real Time Commenting is Disabled
+            $RTC_enabled = (int)\get_option( 'do_realtime_comments' );
+            if($RTC_enabled !== 1){
+                $retval = array('status'=>200,'killRTC'=>'true','markup'=>'Real Time Commenting has been turned off for this post. Please refresh page.');
+                echo json_encode($retval);
+                wp_die();
+            }
+            $client_count = (int)$_POST['comment_count'];
+            $post_id = $_POST['post_id'];
+
+            $server_count = \get_comments_number($post_id);
+            if($server_count > $client_count){
+                $comments = \get_comments(array(
+                    'post_id' => $post_id,
+                    'status' => 'approve' 
+                ));
+                $com_code = \wp_list_comments(array(
+                    'per_page' => 50, 
+                    'reverse_top_level'=> false,
+                    'echo'=> false), $comments);
+                $com_code = str_replace(array("\r", "\n", "\t", "\v" ), '', $com_code );
+                $com_code = self::remove_html_comments($com_code);
+                $retval = array(
+                    'status'=>200, 
+                    'commentCount'=>$server_count, 
+                    'markup'=>$com_code);
+                echo json_encode($retval);
+                wp_die();
+            } else {
+                $retval = array('status'=>200, 'commentCount'=>$server_count);
+                echo json_encode($retval);
+                wp_die();
+            } 
+        } else {
+            $retval = array('status'=>400, 'message'=>'comment is missing required data');
+            echo json_encode($retval);
+            wp_die();
+        }
+    $retval = array('status'=>400, 'message'=>'Bad Request');
+    echo json_encode($retval);
+    wp_die(); 
     }
     public static function do_analytics(){
         $x = get_option( 'do_ga' );
@@ -297,6 +397,16 @@ class Setup extends \GreenheartConnects {
             'high' 
         );
     }
+    public static function add_promo_metabox(){
+        \add_meta_box(
+            'promo_meta', #id
+            'Promo Code Details',
+            array( get_class(), 'call_promo_metabox'), #cb
+            'promo',
+            'normal',
+            'high'
+        );
+    }
     public static function add_login_video_embed_metabox(){ 
         $login_page_object = get_page_by_path('login');
         $post_id = $_GET['post'];
@@ -373,8 +483,8 @@ class Setup extends \GreenheartConnects {
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
         $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
-        $stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
-        $stream_promocount = get_post_meta( $post->ID, 'ghc_stream_promocount', true);
+        //$stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
+        //$stream_promocount = get_post_meta( $post->ID, 'ghc_stream_promocount', true);
         ?>
         <h4>Live Stream Details</h4>
         <div id="timepicker_container" style="position:relative;max-width:60%;margin:0 auto;"></div>
@@ -389,11 +499,11 @@ class Setup extends \GreenheartConnects {
         <label for="ghc_author_name">Author Bio:</label><br>
         <textarea type="textarea" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo ($streambio_meta) ? $streambio_meta: ''?></textarea>
         <?php 
-            $new_promo_markup = '<label for="ghc_stream_promo">Promo Code:</label><br><input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value=""><br>';
-            $exists_promo_markup = '<p>Promo Code (once set, Promo Codes cannot be changed): ';
-        echo ($stream_promo) ? $exists_promo_markup.$stream_promo.'</p>' : $new_promo_markup; ?>
-        <label for="ghc_stream_promocount">Promo Codes Remaining:</label><br>
-        <input type="text" id="ghc_stream_promocount" name="ghc_stream_promocount" value="<?php echo $stream_promocount ?>" disabled>
+            #$new_promo_markup = '<label for="ghc_stream_promo">Promo Code:</label><br><input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value=""><br>';
+           # $exists_promo_markup = '<p>Promo Code (once set, Promo Codes cannot be changed): ';
+        #echo ($stream_promo) ? $exists_promo_markup.$stream_promo.'</p>' : $new_promo_markup; ?>
+        <!--<label for="ghc_stream_promocount">Promo Codes Remaining:</label><br>
+        <input type="text" id="ghc_stream_promocount" name="ghc_stream_promocount" value="<?php #echo $stream_promocount ?>" disabled> -->
         
 
 
@@ -408,6 +518,58 @@ class Setup extends \GreenheartConnects {
             });  
         </script>
         <?php 
+    }
+    public static function call_promo_metabox(){
+        global $post;
+        \wp_nonce_field( 'promo_metabox_nonce', 'promo_metabox_nonce' );
+        echo self::promo_metabox_stylesheet();
+        $promo_code = \get_post_meta( $post->ID, 'ghc_stream_promo',true );
+        $promo_quantity = \get_post_meta( $post->ID, 'ghc_stream_promocount',true );
+        $promo_quantity_max = \get_post_meta( $post->ID, 'ghc_promo_quantity_max',true );
+        $promo_expiration = \get_post_meta( $post->ID, 'ghc_promo_expiration',true );
+        $promo_active = \get_post_meta( $post->ID, 'ghc_promo_active', true);
+        if($promo_active === "false") $promo_active = false;
+        if( $promo_code ) {
+        ?>
+        <h4>Promo Code (cannot be modified):</h4>
+        <input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value="<?php echo $promo_code ?>"<?php echo ' disabled'?>/>
+        <h4>Quantity Remaining:</h4>
+        <?php
+           $amount_remaining = $promo_quantity_max - $promo_quantity;
+        ?>
+        <input type="text" id="ghc_promo_quantity" name="ghc_promo_quantity" value="<?php echo $amount_remaining . ' of ' . $promo_quantity_max ?>" disabled>
+        <br><br>
+        <label for="ghc_promo_addcheck">Add More Codes:</label> 
+        <input type="checkbox" name="addcheck" id="addcheck" data-target="ghc_promo_addcode" onclick="toggle_hideit(event);" \>
+        <input type="text" class="hideit inline_input" id="ghc_promo_addcode" name="ghc_promo_addcode" value="" placeholder="Additional Codes" />
+        <br><br>
+
+        <h4>Expiration Date</h4>
+        <input type="text" id="ghc_promo_expiration" onfocus="popCalendar();" name="ghc_promo_expiration" value="<?php echo $promo_expiration ?>">
+        <br>
+        <div id="calendar_wrap"></div>
+        <br>
+        <label for="ghc_promo_active">Promo Code Active:</label>
+        <input type="checkbox" name="ghc_promo_active" <?php echo ($promo_active) ? 'checked' : ''?>>
+        
+        <?php 
+        echo self::promo_metabox_edit();
+        } else {
+            ?>
+            <h4>Promo Code:</h4>
+            <input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value="">
+            <h4>Total Quantity:</h4>
+            <input type="text" id="ghc_promo_quantity_max" name="ghc_promo_quantity_max" value="">
+            <h4>Expiration Date</h4>
+            <input type="text" id="ghc_promo_expiration" onfocus="popCalendar();" name="ghc_promo_expiration" value="<?php echo $promo_expiration ?>">
+            <br>
+            <div id="calendar_wrap"></div>
+            <br>
+            <label for="ghc_promo_active">Promo Code Active:</label>
+            <input type="checkbox" name="ghc_promo_active" checked>
+            <?php
+            echo self::promo_metabox_edit();
+        }
     }
     public static function video_metabox_save($post_id) {
         if ( ! isset( $_POST['vidurl_metabox_nonce'] ) ||
@@ -454,15 +616,102 @@ class Setup extends \GreenheartConnects {
             || $key == 'ghc_author_name' 
             || $key == 'ghc_author_bio' 
             || $key == 'ghc_stream_embed_code' 
-            || $key == 'ghc_stream_promo' ){
+            /*|| $key == 'ghc_stream_promo'*/ ){
+
                 \update_post_meta( $post_id, $key, $value );
-                if($key == 'ghc_stream_promo'){
+
+               /* if($key == 'ghc_stream_promo'){
                     \update_post_meta( $post_id, 'ghc_stream_promocount', 50);
-                }
+                } */
             }
         }
     }
+    public static function promo_metabox_save($post_id){
+        if( ! isset( $_POST['promo_metabox_nonce'] ) ||
+        ! wp_verify_nonce( $_POST['promo_metabox_nonce'], 'promo_metabox_nonce') ) {
+            return;
+        }
+        if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
 
+        if(!current_user_can('edit_post', $post_id)) return;
+        
+        $is_active_checkbox = false; #in case active checkbox is unchecked
+        foreach( $_POST as $key => $value ) {    
+            if( $key == 'ghc_promo_quantity_max' || $key == 'ghc_stream_promo' ){
+                \update_post_meta( $post_id, $key, $value);
+                if($key == 'ghc_promo_quantity_max'){
+                    $current_promocount = \get_post_meta($post_id, 'ghc_stream_promocount', true);
+                    if(!$current_promocount) \update_post_meta($post_id, 'ghc_stream_promocount', 0);
+                }
+            } else if($key == 'ghc_promo_active'){
+                \update_post_meta( $post_id, $key, "true");
+                $is_active_checkbox = true;
+            } else if($key == 'ghc_promo_addcode') {
+                $current_max = \get_post_meta($post_id, 'ghc_promo_quantity_max', true);
+                $new_max = intval($current_max) + intval($value);
+                 \update_post_meta($post_id, 'ghc_promo_quantity_max', $new_max);   
+            } else if( $key == 'ghc_promo_expiration' ){
+                \update_post_meta($post_id, 'ghc_promo_expiration', $value); 
+            }
+
+        }
+        if(!$is_active_checkbox){
+            \update_post_meta($post_id, 'ghc_promo_active', "false");
+        }
+    }
+    public static function promo_metabox_stylesheet(){
+        $markup = '<style>';
+        $markup .= '.hideit {display:none;}#calendar_wrap{width:50%;}';
+        $markup .= '.inline_input {margin:10px;transition:all .4s ease-in-out;}';
+        $markup .= '</style>';
+        return $markup;
+    }
+    /* 
+    https://www.cssscript.com/calendar-date-picke/ (for the widget placement & moment to translate)
+    moment().format();
+    */
+    public static function promo_metabox_javascript(){
+        $markup = '<script>';
+        $markup .= 'function toggle_hideit(e){';
+        $markup .= '    var target = document.getElementById(e.target.dataset.target);';
+        $markup .= '    target.classList.toggle("hideit");';
+        $markup .= '}';
+        $markup .= 'function initCalendar(){';
+        $markup .= '    var widget = new CalendarPicker("#calendar_wrap", {';
+        $markup .= '    min: new Date() ';  
+        $markup .= '    });';
+        $markup .= '    widget.onValueChange(function(currentValue){';
+        $markup .= '        var convertedDate = moment(currentValue).format("YYYY-MM-DD");';
+        $markup .= '        var targetInput = document.getElementById("ghc_promo_expiration");';
+        $markup .= '        targetInput.value = convertedDate;';
+        $markup .= '    });';
+        $markup .= '}';
+        $markup .= 'initCalendar();';
+        $markup .= '</script>';
+        return $markup;
+    }
+    public static function promo_metabox_edit(){
+        $markup = '<script>';
+        $markup .= 'function toggle_hideit(e){';
+        $markup .= '    var target = document.getElementById(e.target.dataset.target);';
+        $markup .= '    target.classList.toggle("hideit");';
+        $markup .= '}';
+        $markup .= 'function popCalendar(){';
+        $markup .= '    document.getElementById("calendar_wrap").innerHTML = "";';
+        $markup .= '    document.getElementById("calendar_wrap").classList.remove("hideit");';
+        $markup .= '    var widget = new CalendarPicker("#calendar_wrap", {';
+        $markup .= '    min: new Date() ';  
+        $markup .= '    });';
+        $markup .= '    widget.onValueChange(function(currentValue){';
+        $markup .= '        var convertedDate = moment(currentValue).format("YYYY-MM-DD");';
+        $markup .= '        var targetInput = document.getElementById("ghc_promo_expiration");';
+        $markup .= '        targetInput.value = convertedDate;';
+        $markup .= '        document.getElementById("calendar_wrap").classList.add("hideit");';
+        $markup .= '    });';
+        $markup .= '}';
+        $markup .= '</script>';
+        return $markup;
+    }
     public static function open_cpt_comments( $open, $post_id ) {     
         $post = get_post( $post_id );  
         if ( 'streams' == $post->post_type ||  'videos' == $post->post_type )
@@ -481,6 +730,10 @@ class Setup extends \GreenheartConnects {
     public static function connects_admin_enqueue(){
         \wp_enqueue_script( 'picker-js', self::get_plugin_url( 'library/dist/js/picker.min.js'), array(), '1.2.1', false );
         \wp_enqueue_style( 'picker-css', self::get_plugin_url( 'library/dist/css/picker.min.css'), array(), '1.2.1', 'all');
+        \wp_enqueue_script( 'calendarpicker-js', self::get_plugin_url( 'library/dist/js/CalendarPicker.js'), array(), '1.1', false );
+        \wp_enqueue_style( 'calendarpicker-css', self::get_plugin_url( 'library/dist/css/CalendarPicker.style.css'), array(), '1.1', 'all');
+        \wp_enqueue_script( 'moment-js', self::get_plugin_url( 'library/dist/js/moment.min.js'), array(), '1.1', false );
+        
     }
 
     public static function connects_enqueue(){
@@ -634,6 +887,11 @@ class Setup extends \GreenheartConnects {
                 return self::get_plugin_path('theme/views/single-video.php' );
             }
         }
+        if( $post->post_type == 'promo' ) {
+            if(file_exists( self::get_plugin_path('theme/views/single-promo.php' ) ) ) {
+                return self::get_plugin_path('theme/views/single-promo.php' );
+            }
+        }
         return $single;
     }
 
@@ -714,6 +972,45 @@ class Setup extends \GreenheartConnects {
         );
      
         \register_post_type( 'streams', $args );
+    }
+    //Add Promo Post Type 
+    public static function add_promo_cpt(){
+
+        $labels = array(
+            'name'               => _x( 'Promo Code', 'post type general name', self::text_domain ),
+            'singular_name'      => _x( 'Promo Code', 'post type singular name', self::text_domain ),
+            'menu_name'          => _x( 'Promo Codes', 'admin menu', self::text_domain ),
+            'name_admin_bar'     => _x( 'Promo Codes', 'add new on admin bar', self::text_domain ),
+            'add_new'            => _x( 'New', 'Promo Code', self::text_domain ),
+            'add_new_item'       => __( 'New Promo Code', self::text_domain ),
+            'new_item'           => __( 'New Promo Code', self::text_domain ),
+            'edit_item'          => __( 'Edit Promo Code', self::text_domain ),
+            'view_item'          => __( 'View Promo Codes', self::text_domain ),
+            'all_items'          => __( 'All Promo Codes', self::text_domain ),
+            'search_items'       => __( 'Search Promo Codes', self::text_domain ),
+            'not_found'          => __( 'No Promo Codes found.', self::text_domain ),
+            'not_found_in_trash' => __( 'No Promo Codes found in Trash.', self::text_domain )
+        );
+        
+        $args = array(
+            'labels'             => $labels,
+            'description'        => __( 'Description.', self::text_domain ),
+            'public'             => true,
+            'publicly_queryable' => true,
+            'show_ui'            => true,
+            'show_in_menu'       => true,
+            'query_var'          => true,
+            'rewrite'            => array( 'slug' => 'promo' ),
+            'capability_type'    => 'post',
+            'has_archive'        => false,
+            'hierarchical'       => false,
+            'show_in_menu'       => true,
+            'menu_position'      => 5,
+            'show_in_rest'       => false,
+            'supports'           => array( 'title', 'editor', 'custom-fields'  )
+        );
+        
+        \register_post_type( 'promo', $args );
     }
 
 }

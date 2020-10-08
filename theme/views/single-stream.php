@@ -50,13 +50,13 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <div class="infowrap">
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>
-                    <div class="info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', true ), 120) ?></div>
+                    <div class="info-excerpt"><?php echo  \get_post_meta( \get_the_ID(), 'ghc_author_bio', true ) ?></div>
                 </div>
                 <div class="info-row">
                     <div class="author d-none d-md-block"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></div>
                     <div class="timeto d-none d-md-block">Livestream Starts in <?php
                             $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                            $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ) );   
+                            $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ), new \DateTimeZone('America/Chicago') ); 
                             $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
                             $days = floor($secs_diff / 86400 );
                             $new_secs = Modules::return_remaining_seconds_days($secs_diff);
@@ -87,13 +87,14 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
             <div class="info-row">
                     
                     <?php 
-                    if( $secs_diff < 600 ){
+                    if( $secs_diff < 1800 ){
                         echo \get_post_meta( \get_the_ID(), 'ghc_stream_embed_code', true );
                     } else {
                     ?>
                     <div class="timeto d-none d-md-block">Livestream Starts in <?php
+
                             $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                            $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ) );   
+                            $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ), new \DateTimeZone('America/Chicago') );     
                             $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
                             $days = floor($secs_diff / 86400 );
                             $new_secs = Modules::return_remaining_seconds_days($secs_diff);
@@ -142,8 +143,15 @@ wp_reset_postdata();
 /*/ Modules::single_col($userState);  
 /*                                  
 /*                                 
-/*/ Modules::single_comments($userState);     
-
+/*/ Modules::single_comments($userState); 
+### for livestream only we will include our real-time-chat application ###
+$RTC_enabled = (int)\get_option( 'do_realtime_comments' );
+if($RTC_enabled === 1){
+?><!-- OUR RTC APP HERE -->
+<script src="<?php echo GreenheartConnects::get_plugin_url('library/src/es6/global/realtimechat.js')?>"></script>
+<script src="<?php echo GreenheartConnects::get_plugin_url('library/src/es6/global/ajaxcomment.js')?>"></script>
+<?php
+    } else { ?> <script src="<?php echo GreenheartConnects::get_plugin_url('library/src/es6/global/ajaxcomment.js')?>"></script> <?php }
  } else {
     //payment form here
     require_once GreenheartConnects::get_plugin_path('theme/views/components/hero_section-unpaid.php');

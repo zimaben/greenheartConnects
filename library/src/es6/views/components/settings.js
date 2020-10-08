@@ -9,10 +9,19 @@ const sendit = async(location, senddata ) => {
     };
     try {
         const fetchResponse = await fetch(location, settings);
-        const receivedata = await fetchResponse.json();
-        if(receivedata.status == 200){
-            return receivedata;
+        if(fetchResponse){
+            if (!fetchResponse.ok) {
+                return Error(response.statusText);
+            }
+            const receivedata = await fetchResponse.json();
+            if(receivedata){
+                return receivedata;
+            } else {
+                return 'there was a problem with your fetch request.'
+            }
         }
+        
+
         // do success stuff
     } catch (e) {
         

@@ -63,12 +63,12 @@ use gh_connects\theme\classes\Condenser as Condenser;
                 </div>
                 <div class="col-8 infobody">
                     <div class="infowrap">
-                        <h1 class="pagetitle frontpage"><?php echo Condenser::limitWords($title, 12) ?></h1>
+                        <h1 class="pagetitle frontpage"><?php echo $title ?></h1>
                         <div class="info-accordion"><span class="hamburger-expand"></span>
-                            <div class="info-excerpt"><?php echo Condenser::limitWords($excerpt, 10) ?></div>
+                            <div class="info-excerpt"><?php echo $excerpt ?></div>
                         </div>
                         <div class="info-row">
-                            <div class="author d-none d-md-block"><?php echo $authorname ?></div>
+                            <!--<div class="author d-none d-md-block"><?php echo $authorname ?></div> -->
                             <div class="timeto d-none d-md-block">Livestream Starts in <?php
                                     echo '<span id="timewrap" data-seconds="'.$this->secs_diff.'" data-action="final_countdown">';
                                     echo ( $this->days2livestream ) ? '<span id="hero_closest_days">'.$this->days2livestream.'</span> Days, ' : '<span id="hero_closest_days"></span>';

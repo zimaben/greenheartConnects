@@ -183,7 +183,10 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 					 <ul>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
-						<li>Next Episode Airs on 09/24/2020 9am CDT, “Eco Living at Casita Verde” with Chris Dews</li>
+						<?php 
+						$bullet_three = \get_option('ghc_login_bullet_point');
+						echo ($bullet_three) ? '<li>'.$bullet_three.'</li>' : '';
+						?>
 					</ul>
 					<div class="the-video">
 						<?php echo get_post_meta( get_the_ID(), 'ghc_login_video', true); ?>

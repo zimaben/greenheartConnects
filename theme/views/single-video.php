@@ -69,8 +69,8 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
         #$type = \get_post_meta( \get_the_ID(), 'ghc_video_type', true);
         $type = 'embed';
         $path = \get_post_meta( \get_the_ID(), 'ghc_video_path', true);
-        if( $type && strtolower($type) == 'embed'){
-            echo get_post_meta( \get_the_ID(), 'ghc_video_path',true );
+        if( $type && strtolower($type) == 'embed'){ 
+            echo \get_post_meta( \get_the_ID(), 'ghc_video_path', true );
         } elseif ($type && strtolower($type) == 'file') {
             #DO FILE HERE
         } else{

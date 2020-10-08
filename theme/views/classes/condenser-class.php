@@ -27,7 +27,7 @@ class Condenser extends \GreenheartConnects {
                 if(count($word_array)) $return = $return.='...';
             } else {
                 $return = trim($text);
-            }    
+            }
         }
     return $return;
     }

@@ -57,7 +57,7 @@ class Modules extends \GreenheartConnects {
             
             foreach($stream_array as $this_array){
                 $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                $strt = new \DateTime($this_array['starttime']);
+                $strt = new \DateTime($this_array['starttime'], new \DateTimeZone('America/Chicago'));
                 date_modify($strt, '+' .$this_array['length'].'minutes' );
                 if($strt->format("Y-m-d H:i:s") > $now->format("Y-m-d H:i:s")){
 
@@ -77,6 +77,10 @@ class Modules extends \GreenheartConnects {
         }   
     }
     public static function open_page(){
+        require_once self::get_plugin_path('theme/views/components/header.php');
+
+    }
+    public static function open_page_norobots(){
         require_once self::get_plugin_path('theme/views/components/header.php');
 
     }
@@ -147,7 +151,7 @@ class Modules extends \GreenheartConnects {
                 //If Nearest Livestream
                 if($closest_item){
                     $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                    $start = new \DateTime( \get_post_meta( $closest_item['id'] , 'ghc_stream_start', true ) );   
+                    $start = new \DateTime( \get_post_meta( $closest_item['id'] , 'ghc_stream_start', true ), new \DateTimeZone('America/Chicago') );  
                     $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
                     $days = floor($secs_diff / 86400 );
                     $new_secs = self::return_remaining_seconds_days($secs_diff);

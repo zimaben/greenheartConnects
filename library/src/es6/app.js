@@ -100,7 +100,7 @@ const expandMenu = (e) => {
         let avatar_div = e.target.closest('.avatar-right'); //up the dom to avatar    
         let avatar_menu = avatar_div.querySelector('.avatar-right-dropdown');
         avatar_menu.classList.toggle('active');
-    }
+    } 
 
     e.stopPropagation(); //so parent document doesn't notice the click and fire dismiss logic
 }
@@ -145,10 +145,19 @@ const sendit = async(location, senddata ) => {
     };
     try {
         const fetchResponse = await fetch(location, settings);
-        const receivedata = await fetchResponse.json();
-        if(receivedata.status == 200){
-            return receivedata;
+        if(fetchResponse){
+            if (!fetchResponse.ok) {
+                return Error(response.statusText);
+            }
+            const receivedata = await fetchResponse.json();
+            if(receivedata){
+                return receivedata;
+            } else {
+                return 'there was a problem with your fetch request.'
+            }
         }
+        
+
         // do success stuff
     } catch (e) {
         

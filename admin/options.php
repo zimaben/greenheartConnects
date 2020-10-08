@@ -43,8 +43,11 @@ class Options extends \GreenheartConnects {
   
         \register_setting( 'ghc-settings', 'google_analytics_code' );
         \register_setting( 'ghc-settings', 'ghc_payment_form_id' );
-
+        \register_setting( 'ghc-settings', 'ghc_manage_form_id');
+        \register_setting( 'ghc-settings', 'ghc_login_bullet_point');
+        \register_setting( 'ghc-settings', 'do_realtime_comments');
         \add_settings_field( 'do_ga', 'On / Off', array(get_class(), 'ghc_do_radio'), 'options', 'ghc-analytics-on' );
+
     }
     public static function ghc_do_radio(){
         ?>
@@ -73,6 +76,11 @@ class Options extends \GreenheartConnects {
                         <tr><td><label for="ghc_payment_form_id">The Gravity Forms Form ID that controls Payments:</label>
                         <input name="ghc_payment_form_id" id="ghc_payment_form_id" value="<?php echo esc_attr( get_option('ghc_payment_form_id') ); ?>">
                         </tr>
+                        <tr valign="top">
+                        <th scope="row">Management Form ID:</th></tr>
+                        <tr><td><label for="ghc_manage_form_id">The Gravity Forms Form ID where User can cancel membership:</label>
+                        <input name="ghc_manage_form_id" id="ghc_manage_form_id" value="<?php echo esc_attr( get_option('ghc_manage_form_id') ); ?>">
+                        </tr>
                     </table>
                     <h3>Turn on Google Analytics? </h3>
                     <div>off / on</div>
@@ -87,6 +95,23 @@ class Options extends \GreenheartConnects {
                         <th scope="row">Google Analytics</th></tr>
                         <tr><td><label for="google_analytics_code">Paste Code Here:</label>
                         <textarea type="textarea" class="widefat" cols="40" rows="4" name="google_analytics_code"><?php echo esc_attr( get_option('google_analytics_code') ); ?></textarea></td>
+                        </tr>
+                    </table>
+
+                    <h3>Real Time Comments?</h3>
+                    <div>Real Time Commenting is an experimental feature that might affect bandwidth usage and site performance.</div>
+                    <div>off / on</div>
+                    <div>
+                        <input name="do_realtime_comments" type="radio" value="0" <?php checked( '0', get_option( 'do_realtime_comments' ) ); ?> />
+                        <input name="do_realtime_comments" type="radio" value="1" <?php checked( '1', get_option( 'do_realtime_comments' ) ); ?> />
+                    </div>
+                    <br>
+
+                    <table class="form-table">
+                        <tr valign="top">
+                        <th scope="row">Login Page Bullet Point:</th></tr>
+                        <tr><td><label for="ghc_login_bullet_point">Add the next stream title:</label>
+                        <textarea type="textarea" class="widefat" cols="40" rows="2" name="ghc_login_bullet_point"><?php echo esc_attr( get_option('ghc_login_bullet_point') ); ?></textarea></td>
                         </tr>
                     </table>
                     

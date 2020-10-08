@@ -45,8 +45,10 @@ class Admin extends \GreenheartConnects{
 
     public static function keep_users_out(){
         $user = \wp_get_current_user( \get_current_user_id() );
-        if( in_array( 'ghc_user', (array) $user->roles ) ) { 
-            \wp_safe_redirect( get_site_url() );
+        if(! \wp_doing_ajax() ){
+            if( in_array( 'ghc_user', (array) $user->roles ) ) { 
+                \wp_safe_redirect( get_site_url() );
+            }
         }
     }
     public static function register_user_front_end() {

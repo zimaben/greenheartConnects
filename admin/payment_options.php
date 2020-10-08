@@ -45,13 +45,61 @@ class PaymentOptions extends \GreenheartConnects {
         \wp_schedule_single_event($first_run, 'daily', array(get_class(), 'ghc_daily_subscription_update'));
         
     }
-    public static function ghc_cancel_subscription(){
-        if(isset($_POST['user_id'])){
-            $user_id = $_POST['user_id'];
-            #user_id is the Auth.NET invoice ID
-            #get Auth.NET subscription by invoiceID
-
+    public static function ghc_cancel_subscription_ajax($user_id){
+        #Try meta flag
+        $subscription = \get_user_meta( $user_id, 'cn_subscriptionid', true );
+        //try it
+        if(!$subscription || intval($subscription) <= 1 ) {
+            //else we don't have a cn_subscriptionid flag (legacy user)
+            $subscription = self::ghc_get_subscription_by_invoice($user_id);
+        } 
+        if($subscription){
+            $response = AuthNet::cancelSubscription($subscriptionId);
+            if( substr($response,0,7) == "SUCCESS" ) {
+                $retval = array('status'=>200, 'message'=>$response);
+            } else {
+                $retval = array('status'=>400, 'message'=> $response);
+            }  
+            
+        } else {
+            $retval = array('status'=>400, 'message'=> 'Sorry. We could not find a subscription for this user.');
         }
+        echo json_encode($retval);
+        wp_die();
+    }
+    public static function ghc_cancel_subscription($user_id){
+        error_log('userid');
+        error_log($user_id);
+        #Try meta flag
+        $subscription = \get_user_meta( $user_id, 'cn_subscriptionid', true );
+        error_log($subscription);
+        //try it
+        if(!$subscription || intval($subscription) <= 1 ) {
+            //else we don't have a cn_subscriptionid flag (brand new or legacy user)
+            $subscription = self::ghc_get_subscription_by_invoice($user_id);
+            error_log($subscription);
+        } 
+        if($subscription){
+            $response = AuthNet::cancelSubscription($subscription);   
+        } else {
+            $response = 'Sorry. We could not find a subscription for this user.';
+        }
+        return $response;
+    }
+    /* Functio Takes an invoice number and returns a subscription number */
+    public static function ghc_get_subscription_by_invoice($invoiceNum){
+        $returnval = false;
+        $subscriptions = AuthNet::getListOfSubscriptions('subscriptionActive');
+        if(is_array( $subscriptions->getSubscriptionDetails() ) ){
+            foreach ($subscriptions->getSubscriptionDetails() as $subscriptionDetails) {
+                if( !empty($subscriptionDetails->getInvoice()) ) {
+                    if($subscriptionDetails->getInvoice() == $invoiceNum){
+                        $returnval = $subscriptionDetails->getId();
+                    }   
+                }
+            }
+        }
+        return $returnval;
     }
     function ghc_daily_subscription_update() {
         //Add Subscription Flag for UserID 

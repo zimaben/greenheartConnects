@@ -26,7 +26,7 @@ class PaymentCron extends \GreenheartConnects {
     
     private function __construct() 
     {           
-        /* ADD WEEKLY CLEANUP */
+        /* ADD DAILY CLEANUP */
         \add_action('ghc_daily_subscription_update', array(get_class(), 'ghc_daily_subscription_update'));       
     }
     public static function ghc_daily_subscription_update() {
@@ -126,10 +126,10 @@ class PaymentCron extends \GreenheartConnects {
         if(is_array($entry))  {  
         //concatenate msg with datetime  
         foreach($entry as $key => $val)  
-            $stEntry.=($key.'='.$val."/n");  
+            $stEntry.=($key.'='.$val.PHP_EOL);  
         }  else  {   //concatenate msg with datetime  
             
-            $stEntry.=$entry."/n";  
+            $stEntry.=$entry.PHP_EOL;  
         }
         //create file with current date name  
         $stCurLogFileName='activitylog_'.date('Ymd').'.log';  

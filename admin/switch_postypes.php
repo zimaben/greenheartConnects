@@ -69,7 +69,6 @@ class SwitchPost extends \GreenheartConnects {
 		// If conditions for early Bail 
         if ( !isset( $_POST['ghc_convertpost_nonce'] ) || 
         ! wp_verify_nonce( $_POST['ghc_convertpost_nonce'], 'ghc_convertpost_nonce' ) ) {
-            error_log('FAILED NONCE');
             return false; 
         } 
         
@@ -77,9 +76,10 @@ class SwitchPost extends \GreenheartConnects {
         
         if (!\current_user_can('edit_post', $post_id)) return false;
         
+        if ( !\get_post_type($post_id) === 'streams'  ) return false;
 
         //do we have the new embed code?
-        if (!isset( $_POST['ghc_video_embed']) ) return false;
+        if (!isset( $_POST['ghc_video_embed']) || trim($_POST['ghc_video_embed']) == '' ) return false;
 
         //Get New Info from Metabox
         $newembedcode = $_POST['ghc_video_embed'];
@@ -90,6 +90,7 @@ class SwitchPost extends \GreenheartConnects {
 
         //if the page has already been copied
         $isVideo = \get_page_by_title( $ogtitle, 'OBJECT', 'videos' );
+
         if($isVideo) return false;
         
         //get Postmeta
