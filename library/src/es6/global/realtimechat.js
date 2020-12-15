@@ -12,7 +12,7 @@ async function main(currentTime){
         
         // we only get to this point in the code every 1 second divided by chat_speed
         lastRenderTime = currentTime;
-        console.log('sending nudge');
+
         let comment_list = document.getElementById('comment_list');
         let comment_num = comment_list.dataset.comments;
         let postid = comment_list.dataset.postid;
@@ -22,7 +22,7 @@ async function main(currentTime){
         let senddata = encodeURIComponent( 'post_id' ) + '=' + encodeURIComponent( postid );
         senddata += '&'+ encodeURIComponent( 'comment_count' ) + '=' + encodeURIComponent( comment_num );
         let response = await sendit(location, senddata);
-        console.log('response comment num: ' + response.commentCount );
+
         if( response.status == 200){
             //only update if we need to
             if( response.commentCount >= comment_num 
@@ -34,7 +34,7 @@ async function main(currentTime){
                 chat_speed = false;
             }
         } else {
-            console.log(response.message);
+           // console.log(response.message);
         }
     }
 

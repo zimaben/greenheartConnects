@@ -114,6 +114,7 @@ class Setup extends \GreenheartConnects {
 
         /* Do Analytics */
          \add_action( 'wp_head', array(get_class(), 'do_analytics') );
+         \add_action( 'login_head', array(get_class(), 'do_analytics') );
     }
     //AJAX RT Comments 
     public static function add_new_comment_button( $submit_button, $args ) {
@@ -202,8 +203,8 @@ class Setup extends \GreenheartConnects {
     wp_die(); 
     }
     public static function do_analytics(){
-        $x = get_option( 'do_ga' );
-        if( get_option( 'do_ga' )){
+        $x = \get_option( 'do_ga' );
+        if( \get_option( 'do_ga' )){
             echo get_option( 'google_analytics_code' );
         }
     }
