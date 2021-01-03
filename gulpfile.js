@@ -18,6 +18,7 @@ const watch = gulp.parallel( watchTask, doBrowserSync );
 
 function watchTask() {
   gulp.watch('library/src/scss/views/**/*.scss', doSass );
+  gulp.watch('library/src/scss/global/**/*.scss', doSass );
   gulp.watch('library/src/scss/login/login.scss', loginSass );
   gulp.watch('library/src/es6/views/**/*.js', gulp.series( bundle, footer_bundle ) );
   gulp.watch('library/src/es6/global/**/*.js', gulp.series( bundle, footer_bundle ) );
@@ -42,7 +43,8 @@ const javascript_modules = [
   'library/src/es6/views/dashboard.js',
 ]
 const javascript_close_body_modules = [
-  'library/src/es6/views/footer.js'
+  'library/src/es6/views/footer.js',
+  'library/src/es6/views/homesplash.js',
 ] 
 
 function bundle() {

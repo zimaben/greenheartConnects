@@ -21,8 +21,8 @@ body {
         min-height: 100%;
         position: relative;
         overflow: auto;
-        flex: 1 0 auto;
-        padding-bottom: 250px;
+        flex: 1 0 auto; 
+        padding-bottom: 150px;
         #primary{
             width:100%;
             height: calc(100% - 80px);
@@ -33,6 +33,7 @@ body {
 }
 .container{ .nopad {padding:0;}}
 @import 'views/dashboard';
+@import 'views/homesplash';
 @import 'views/video';
 @import 'views/components';
 @import 'global/modal';

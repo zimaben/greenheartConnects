@@ -11,7 +11,7 @@
 
 ?>
 </div>
-<footer>
+<footer class="site-footer">
 	<div class="container-fluid footer">
 		<div class="row">
 			<div class="col-12 col-lg-8 footer-info">

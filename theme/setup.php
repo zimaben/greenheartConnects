@@ -18,6 +18,7 @@ class Setup extends \GreenheartConnects {
         \add_action ( 'init', array( get_class(), 'add_custom_registration'), 1 );
         \add_action( 'init', array( get_class(), 'add_dashboard' ), 1 );
         \add_action( 'init', array( get_class(), 'add_profile' ), 1 );
+        \add_action( 'init', array( get_class(), 'add_homesplash' ), 1 );
         \add_action( 'wp_loaded', array( get_class(), 'gate_generic_page_templates'));
 
         //add custom styling and bootstrap to login page
@@ -31,6 +32,7 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'page_template', array( get_class(), 'set_registration_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_main_template' )  );
         \add_filter( 'page_template', array( get_class(), 'set_profile_template' )  );
+        \add_filter( 'page_template', array( get_class(), 'set_homesplash_template' )  );
         /* Filter the single_template with our custom function*/
         \add_filter('single_template', array( get_class(),'ghc_postype_assign_templates') );
         \add_filter( 'archive_template', array( get_class(),'ghc_postype_assign_archive_templates') );
@@ -814,7 +816,22 @@ class Setup extends \GreenheartConnects {
             $new_page_id = wp_insert_post($main_page);
         }
     }
-    //Creates a blank home page for application
+    public static function add_homesplash(){
+        $main_title = 'Coming Soon';
+        $main_content = '';
+        $page_check = \get_page_by_title($main_title);
+        $main_page = array(
+                'post_type' => 'page',
+                'post_title' => $main_title,
+                'post_content' => $main_content,
+                'post_status' => 'publish',
+                'post_name' => 'test-home-page'
+        );
+        if( !isset($page_check->ID) ){
+            $new_page_id = wp_insert_post($main_page);
+        }
+    }
+    //Creates a blank splash page for application
     public static function add_profile(){
         $main_title = 'Settings';
         $main_content = '';
@@ -830,6 +847,7 @@ class Setup extends \GreenheartConnects {
             $new_page_id = wp_insert_post($main_page);
         }
     }
+    //Creates a blank user profile page for application
     //Assigns template to our blank login page
     public static function set_login_template($page_template){
         if ( \is_page( 'login' ) ) {
@@ -854,6 +872,13 @@ class Setup extends \GreenheartConnects {
     public static function set_profile_template($page_template){
         if ( \is_page( 'profile' ) ) {
             $page_template = self::get_plugin_path( 'theme/views/profile.php' ); //assigns master theme to our application
+        }
+    return $page_template;
+    }
+
+    public static function set_homesplash_template($page_template){
+        if ( \is_page( 'test-home-page' ) ) {
+            $page_template = self::get_plugin_path( 'theme/views/homesplash.php' ); //assigns master theme to our application
         }
     return $page_template;
     }

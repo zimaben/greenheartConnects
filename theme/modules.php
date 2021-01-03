@@ -30,6 +30,12 @@ class Modules extends \GreenheartConnects {
         }
     return (isset($seconds_minus_days)) ? $seconds_minus_days : $seconds;     
     }
+    public static function top_login(){
+        ?>
+            login / register
+            </header>
+        <?php
+    }
     public static function return_remaining_seconds_hours($seconds){
         $hours = floor($seconds / 3600 );
         if ($hours >= 1 ){
@@ -217,5 +223,240 @@ class Modules extends \GreenheartConnects {
     }
     public static function single_comments($userState){
         require_once self::get_plugin_path('theme/views/components/comments.php');
+    }
+    public static function splash_footer() {
+    ?>
+    </div><?php // End of <div id="main">. ?>
+    <?php
+    /**
+     * Fires in the login page footer.
+     *
+     * @since 3.1.0
+     */
+    do_action( 'login_footer' ); ?>
+    <div class="clear"></div>
+        <footer>
+            <div class="container-fluid footer">
+                <div class="modal-warehouse">
+                    <div id="why-join">
+                        <div class="login-wrap container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h1>Why Choose Greenheart Connects?</h1>
+                                                <div class="card-p">
+                                                    <p>We are at a crux. Times are increasingly more challenging—climate change, extinctions, economic disparities, and social upheavals. To turn the tide, it will take all of us working together to make changes to our ways of life and in how we care for the earth and each other.</p>
+                                                </div>
+                                                <div class="card-p">
+                                                    <p>Greenheart wants to inspire and facilitate a connected global community who knows how to champion change for the sake of the earth and each other. </p>
+                                                </div>
+                                                <div class="card-p">
+                                                    <p>To find out more about Greenheart International, <a href="https://www.greenheart.org" target="_blank">click here</a>. 
+                                                    </p>
+                                                </div>
+                                                <div class="card-p-p">Topics will rotate through the four pillars that Greenheart represents, which include:
+                                                </div>
+                                                <div class="container-fluid pillarswrap">
+                                                    <div class="row">
+                                                        <div class="col-3 pillar">
+                                                            <h5>Environment</h5>
+                                                            <img src="https://i.imgur.com/1SC85MC.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Fair Trade</h5>
+                                                            <img src="https://i.imgur.com/SCIi0Ys.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Personal Development</h5>
+                                                            <img src="https://i.imgur.com/zXSa63A.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Volunteering</h5>
+                                                            <img src="https://i.imgur.com/IiNixSK.png">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>			
+                    </div>
+                    <div id="membership-levels">
+                        <div class="login-wrap">
+                            <h4 class="grid-header">Membership packages:</h4>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-6 grid-left" style="background:white;border-top:0;border-left:0"></div>
+                                    <div class="col-3 grid-center"><h5>Monthly</h5></div>
+                                    <div class="col-3 grid-right"><h5>Quarterly</h5></div>
+                                </div>
+                                <div class="row">
+                                <div class="col-6 grid-left"><h5>Cost*</h5></div> 
+                                    <div class="col-3 grid-center">$7</div>
+                                    <div class="col-3 grid-right">$15 (save 28%)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Number of Episodes</div>
+                                    <div class="col-3 grid-center">1</div>
+                                    <div class="col-3 grid-right">3</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Access to live Q &amp; A</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Access to past episodes</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                                <div class="row last-row">
+                                    <div class="col-6 grid-left">Access to resources</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                            </div>
+                            <div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php
+    }
+    public static function login_footer($input_id = '') {
+        global $interim_login;
+    
+        // Don't allow interim logins to navigate away from the page.
+        if ( ! $interim_login ): ?>
+        <!-- <p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
+            /* translators: %s: site title */
+            printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+        ?></a></p> -->
+        <?php endif; ?>
+    
+            
+                </div><!--end bootstrap row-->
+            </div><!--end container-->
+        </div><?php // End of <div id="login">. ?>
+    
+        <?php if ( !empty($input_id) ) : ?>
+        <script type="text/javascript">
+        try{document.getElementById('<?php echo $input_id; ?>').focus();}catch(e){}
+        if(typeof wpOnload=='function')wpOnload();
+        </script>
+        <?php endif; ?>
+    
+        <?php
+        /**
+         * Fires in the login page footer.
+         *
+         * @since 3.1.0
+         */
+        do_action( 'login_footer' ); ?>
+        <div class="clear"></div>
+        <footer>
+            <div class="container-fluid footer">
+                <div class="modal-warehouse">
+                    <div id="why-join">
+                        <div class="login-wrap container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h1>Why Choose Greenheart Connects?</h1>
+                                                <div class="card-p">
+                                                    <p>We are at a crux. Times are increasingly more challenging—climate change, extinctions, economic disparities, and social upheavals. To turn the tide, it will take all of us working together to make changes to our ways of life and in how we care for the earth and each other.</p>
+                                                </div>
+                                                <div class="card-p">
+                                                    <p>Greenheart wants to inspire and facilitate a connected global community who knows how to champion change for the sake of the earth and each other. </p>
+                                                </div>
+                                                <div class="card-p">
+                                                    <p>To find out more about Greenheart International, <a href="https://www.greenheart.org" target="_blank">click here</a>. 
+                                                    </p>
+                                                </div>
+                                                <div class="card-p-p">Topics will rotate through the four pillars that Greenheart represents, which include:
+                                                </div>
+                                                <div class="container-fluid pillarswrap">
+                                                    <div class="row">
+                                                        <div class="col-3 pillar">
+                                                            <h5>Environment</h5>
+                                                            <img src="https://i.imgur.com/1SC85MC.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Fair Trade</h5>
+                                                            <img src="https://i.imgur.com/SCIi0Ys.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Personal Development</h5>
+                                                            <img src="https://i.imgur.com/zXSa63A.png">
+                                                        </div>
+                                                        <div class="col-3 pillar">
+                                                            <h5>Volunteering</h5>
+                                                            <img src="https://i.imgur.com/IiNixSK.png">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>			
+                    </div>
+                    <div id="membership-levels">
+                        <div class="login-wrap">
+                            <h4 class="grid-header">Membership packages:</h4>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-6 grid-left" style="background:white;border-top:0;border-left:0"></div>
+                                    <div class="col-3 grid-center"><h5>Monthly</h5></div>
+                                    <div class="col-3 grid-right"><h5>Quarterly</h5></div>
+                                </div>
+                                <div class="row">
+                                <div class="col-6 grid-left"><h5>Cost*</h5></div> 
+                                    <div class="col-3 grid-center">$7</div>
+                                    <div class="col-3 grid-right">$15 (save 28%)</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Number of Episodes</div>
+                                    <div class="col-3 grid-center">1</div>
+                                    <div class="col-3 grid-right">3</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Access to live Q &amp; A</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 grid-left">Access to past episodes</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                                <div class="row last-row">
+                                    <div class="col-6 grid-left">Access to resources</div>
+                                    <div class="col-6 grid-right"><img src="<?php echo self::get_plugin_url('library/dist/css/img/check-circle-green.svg')?>"></div>
+                                    
+                                </div>
+                            </div>
+                            <div class="grid-footer">*Credit Card payments will be automatic and recurring until canceled.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        </body>
+        </html>
+        <?php
+    }
+    public static function hack_in_login_enqueue(){
+       \add_action('wp_head', array(get_class(), 'login_enqueue_hack')); 
+    }
+    public static function login_enqueue_hack(){
+        \do_action( 'login_enqueue_scripts' );
     }
 }

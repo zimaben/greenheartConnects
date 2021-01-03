@@ -1,0 +1,24 @@
+@import '../variables';
+
+li.homeslide_thumb {
+    display:none;
+    &.active{
+        display:flex;
+    }
+}
+ul.checkmarklist{
+    list-style: none;
+    margin: 15px 0 0 0;
+    padding: 0;
+    justify-content: center;
+    display: flex;
+    li{
+        background: no-repeat url(img/check-circle-grey.svg);
+        background-size: 32px;
+        font-size: 20px;
+        line-height: 32px;
+        min-height: 32px;
+        padding-left: 45px;
+        color: $text-black;
+    }
+}
