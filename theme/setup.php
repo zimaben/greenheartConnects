@@ -106,7 +106,7 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'comments_open', array(get_class(), 'open_cpt_comments'), 10, 2 );
         
         //image sizes
-        \add_action( 'after_setup_theme', array(get_class(), 'neon_avatar_image_sizes'));
+        \add_action( 'after_setup_theme', array(get_class(), 'gh_connects_image_sizes'));
 
         /* Disable the Admin Bar. */
         \add_filter( 'show_admin_bar', array(get_class(), 'kill_topbar'), 100, 1);
@@ -735,8 +735,7 @@ class Setup extends \GreenheartConnects {
         \wp_enqueue_style( 'picker-css', self::get_plugin_url( 'library/dist/css/picker.min.css'), array(), '1.2.1', 'all');
         \wp_enqueue_script( 'calendarpicker-js', self::get_plugin_url( 'library/dist/js/CalendarPicker.js'), array(), '1.1', false );
         \wp_enqueue_style( 'calendarpicker-css', self::get_plugin_url( 'library/dist/css/CalendarPicker.style.css'), array(), '1.1', 'all');
-        \wp_enqueue_script( 'moment-js', self::get_plugin_url( 'library/dist/js/moment.min.js'), array(), '1.1', false );
-        
+        \wp_enqueue_script( 'moment-js', self::get_plugin_url( 'library/dist/js/moment.min.js'), array(), '1.1', false );    
     }
 
     public static function connects_enqueue(){
@@ -751,10 +750,12 @@ class Setup extends \GreenheartConnects {
         \wp_enqueue_script( 'connects-js', self::get_plugin_url( 'library/dist/js/app.min.js'), array('jquery', 'runtime'), self::version, false );
         \wp_enqueue_script( 'connects-footer-js', self::get_plugin_url( 'library/dist/js/footer.min.js'), array('connects-js'), self::version, true );
     }
-    public static function neon_avatar_image_sizes(){
+    public static function gh_connects_image_sizes(){
         \add_image_size( 'neon_avatar_tiny', 32, 32, ['center','top']);
         \add_image_size( 'neon_avatar_small', 90, 90, ['center','top']);
         \add_image_size( 'neon_avatar_large', 233, 233, ['center','top']);
+
+        \add_image_size( 'large_thumb_square', 600, 600, array( 'center', 'top' ) );
     }
     //Sets WP Login Page within core functions
     public static function set_wp_login_page( $login_url, $redirect, $force_reauth ) {

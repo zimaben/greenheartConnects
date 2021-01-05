@@ -40,10 +40,12 @@ const NeonModalFactory = (function(){
         //close modal event listener
         backbutton.addEventListener('click', function(e){
             e.preventDefault();
+            var body = document.getElementsByTagName('BODY')[0];
             var modal = document.getElementsByClassName('neon-modal')[0];
             var resp = modal.querySelector('#neonid-signup-response');
             if(resp !== null) resp.innerHTML = '';
             body.classList.remove('modal-open');
+            body.setAttribute("style", "");
             body.removeChild(container);
             NeonModalFactory.instance = null;
         })

@@ -32,8 +32,8 @@ class Modules extends \GreenheartConnects {
     }
     public static function top_login(){
         ?>
-            login / register
-            </header>
+        <ul class="menu menu-right"><li class="menu-item"><a href="/login/">login / register</a></li></ul>
+        </header>
         <?php
     }
     public static function return_remaining_seconds_hours($seconds){
@@ -454,7 +454,8 @@ class Modules extends \GreenheartConnects {
         <?php
     }
     public static function hack_in_login_enqueue(){
-       \add_action('wp_head', array(get_class(), 'login_enqueue_hack')); 
+       #\add_action('wp_head', array(get_class(), 'login_enqueue_hack')); 
+        \do_action( 'login_enqueue_scripts' );
     }
     public static function login_enqueue_hack(){
         \do_action( 'login_enqueue_scripts' );

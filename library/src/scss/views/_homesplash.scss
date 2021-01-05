@@ -1,4 +1,29 @@
 @import '../variables';
+ 
+ul.menu-right{
+    list-style:none;
+    display:flex;
+    margin: 0;
+    padding: 0;
+    width: fit-content;
+    li {
+        white-space: nowrap;
+        width: 100%;
+        a {
+        display:inline-flex;
+        text-decoration: none;
+        color: #363637;
+        font: 16px/20px Lato,"Open Sans",Helvetica,Arial,sans-serif;
+        }
+    }
+}
+
+.checkmarklist {
+    li a {
+        color: #363637;
+        text-decoration: underline;
+    }
+}
 
 li.homeslide_thumb {
     display:none;
@@ -21,4 +46,19 @@ ul.checkmarklist{
         padding-left: 45px;
         color: $text-black;
     }
+}
+
+.carousel-indicators {
+    background: rgba(0,0,0,.2);
+    border-radius: 4px;
+    margin-left: 0;
+    margin-right: 0;
+}
+.carousel-control-prev {
+    left: 0;
+    background-image: linear-gradient(to right, rgba(255,255,255,.7), rgba(0,0,0,0));
+}
+.carousel-control-next {
+    right: 0;
+    background-image: linear-gradient(to left, rgba(255,255,255,.7), rgba(0,0,0,0));
 }
