@@ -449,6 +449,7 @@ class Setup extends \GreenheartConnects {
         global $post;
         \wp_nonce_field( 'vidurl_metabox_nonce', 'vidurl_metabox_nonce' );
         $vidurl_meta = get_post_meta( $post->ID, 'ghc_video_path',true );
+        $vidurl_meta_prev = get_post_meta( $post->ID, 'ghc_video_preview', true );
         $vidtype_meta = get_post_meta( $post->ID, 'ghc_video_type',true );
         $vid_author_bio = get_post_meta( $post->ID, 'ghc_author_bio',true );
         $vid_author_name = get_post_meta( $post->ID, 'ghc_video_author', true);
@@ -462,6 +463,10 @@ class Setup extends \GreenheartConnects {
         <h4>Video Embed Code</h4>
         <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_video_path" name="ghc_video_path"><?php echo $vidurl_meta ?></textarea>
 
+        <h4>Preview Embed Code</h4>
+        <span>Upload a preview/teaser video</span>
+        <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_video_preview" name="ghc_video_preview"><?php echo $vidurl_meta_prev ?></textarea>
+
         <input type="radio" style="display:none;" id="vidtypefile" name="ghc_video_type" value="file"<?php echo ($vidtype_meta == "file") ? 'checked' : ''?>>
         <input type="radio" style="display:none;" id="vidtypeembed" name="ghc_video_type" value="embed"<?php echo ($vidtype_meta == "embed") ? 'checked' : ''?>>
         
@@ -470,6 +475,9 @@ class Setup extends \GreenheartConnects {
             ?>
             <h4>Video Embed Code:</h4>
             <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="vidurl" name="ghc_video_path"></textarea>
+            <h4>Preview Embed Code</h4>
+            <span>Upload a preview/teaser video</span>
+            <textarea type="textarea" rows="5" cols="50" class="widefat" style="width:100%;" id="ghc_video_preview" name="ghc_video_preview"><?php echo $vidurl_meta_prev ?></textarea>
             <h4>Type:</h4>
             <input type="radio" id="vidtypefile" name="ghc_video_type" value="file">
             <label for="vidtypefile">File</label><br>
@@ -486,6 +494,7 @@ class Setup extends \GreenheartConnects {
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
         $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
+        $stream_preview = get_post_meta( $post->ID, 'ghc_stream_preview',true );
         //$stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
         //$stream_promocount = get_post_meta( $post->ID, 'ghc_stream_promocount', true);
         ?>
@@ -498,7 +507,9 @@ class Setup extends \GreenheartConnects {
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
         <label for="ghc_stream_embed_code">Embed Code of Stream:</label><br>
-        <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>        
+        <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>       
+        <label for="ghc_stream_embed_code">Video Preview Embed Code:</label><br>
+        <textarea type="textarea" style="width:100%;" id="ghc_stream_preview" name="ghc_stream_preview"><?php echo ($stream_preview) ? $stream_preview: ''?></textarea>    
         <label for="ghc_author_name">Author Bio:</label><br>
         <textarea type="textarea" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo ($streambio_meta) ? $streambio_meta: ''?></textarea>
         <?php 
@@ -586,7 +597,7 @@ class Setup extends \GreenheartConnects {
 
         foreach( $_POST as $key => $value ) {
             
-            if( $key == 'ghc_video_type' || $key == 'ghc_video_path' || $key == 'ghc_author_bio' || $key == 'ghc_video_author'){
+            if( $key == 'ghc_video_type' || $key == 'ghc_video_path' || $key == 'ghc_video_preview' || $key == 'ghc_author_bio' || $key == 'ghc_video_author'){
                 \update_post_meta( $post_id, $key, $value );
             }
         }
@@ -618,7 +629,8 @@ class Setup extends \GreenheartConnects {
             || $key == 'ghc_stream_length' 
             || $key == 'ghc_author_name' 
             || $key == 'ghc_author_bio' 
-            || $key == 'ghc_stream_embed_code' 
+            || $key == 'ghc_stream_embed_code'
+            || $key == 'ghc_stream_preview' 
             /*|| $key == 'ghc_stream_promo'*/ ){
 
                 \update_post_meta( $post_id, $key, $value );
