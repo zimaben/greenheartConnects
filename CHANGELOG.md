@@ -1,3 +1,7 @@
+### 1.0.4 ###
+
+Fixed function bugs chaining BS Carousel object and vimeo SDK
+
 ### 1.0.3 ###
 
 Fixed falsy error with iframe check for vimeo SDK

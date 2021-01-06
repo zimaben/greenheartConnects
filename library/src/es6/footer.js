@@ -41,13 +41,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
 //On Load Check for Videos inside Carousels & bolt on logic to deal with them
 window.addEventListener('DOMContentLoaded', (event) => {
     let iframes = document.querySelectorAll('iframe.vimeo');
+    var collection=[];
+
     if(iframes){
-        for(let iframe of iframes){
-            var player = new Vimeo.Player(iframe);
-            player.on('play', function() {
-                console.log('click detected');
-                let carousel = 'homesplashCarousel';
-                pauseCarousel(carousel)
+        for(let i=0;i<iframes.length;i++){
+            collection[i] = new Vimeo.Player(iframes[i]);
+            collection[i].on('play', function() {              
+                pauseCarousel('homesplashCarousel')
             });
         }
     }
@@ -62,20 +62,22 @@ jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
 });
 
 const pauseCarousel = (carouselid) => {
-    jQuery('#'+carouselid).carousel({
-        pause: true,
-        interval: false
-    });
+    
+    if(carouselid.indexOf('#') !== 0) carouselid = '#'+carouselid;
+
+    jQuery(carouselid).carousel('pause');
+
 }
 
 const pauseVimeos = () => {
 
     //Note Requires Vimeo SDK if you see undefined functions
-
     let iframes = document.querySelectorAll('iframe.vimeo');
+
     if(iframes){
         for(let iframe of iframes){
-            iframe.pause();
+            var pausethis = new Vimeo.Player(iframe);
+            pausethis.pause();
         }
     }
 }
