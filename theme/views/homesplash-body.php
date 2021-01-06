@@ -13,7 +13,9 @@ function check_for_video($postid = null){
 function return_vimeo($markup){
     $new_markup = false;
     $insertion = strpos( $markup, '<iframe ');
-    if( $insertion ){
+    if( $insertion !== false ){
+        #account for the character distance of <iframe (with space)
+        $insertion = $insertion + 8;
         $mark_start = substr($markup, 0, $insertion);
         $mark_end = substr($markup, $insertion);
         $new_markup = $mark_start . 'class="vimeo" '.$mark_end;
