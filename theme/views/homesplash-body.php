@@ -10,15 +10,28 @@ function check_for_video($postid = null){
     }
     return $video;
 }
+function trim_trailing_markup($iframe){
+    $endposition = strpos($iframe, '</iframe>');
+    $trimmed = false;
+    if($endposition){
+        $trimmed = substr($iframe, 0, $endposition + 9);
+    }
+    return ($endposition) ? $trimmed : $iframe;
+}
 function return_vimeo($markup){
     $new_markup = false;
     $insertion = strpos( $markup, '<iframe ');
     if( $insertion !== false ){
-        #account for the character distance of <iframe (with space)
-        $insertion = $insertion + 8;
-        $mark_start = substr($markup, 0, $insertion);
-        $mark_end = substr($markup, $insertion);
-        $new_markup = $mark_start . 'class="vimeo" '.$mark_end;
+        #so far so good now check that it's a vimeo embed
+        $vimeocheck = strpos($markup, 'player.vimeo.com');
+        if($vimeocheck !== false){
+            #account for the character distance of <iframe (with space)
+            $insertion = $insertion + 8;
+            $mark_start = substr($markup, 0, $insertion);
+            $mark_end = substr($markup, $insertion);
+            $new_markup = trim_trailing_markup( $mark_start . 'class="vimeo" '.$mark_end );
+        }
+
     }
     return ($new_markup) ? $new_markup : $markup;
 }

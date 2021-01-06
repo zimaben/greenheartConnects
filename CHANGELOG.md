@@ -1,3 +1,7 @@
+### 1.0.5 ###
+
+Bugfix now Vimeo can live in the same carousel with YouTube
+
 ### 1.0.4 ###
 
 Fixed function bugs chaining BS Carousel object and vimeo SDK
