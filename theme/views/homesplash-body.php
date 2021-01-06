@@ -105,7 +105,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                     </div>
                                 </div>
                                 <div class="row d-flex justify-content-between">
-                                    <div class="col col-12 col-md-6 justify-content-center align-items-center">
+                                    <div class="col col-12 col-md-6 d-flex flexcolumn justify-content-center align-items-center">
                                         <div class="videowrap">
                                             <?php 
                                             #embed logic here
@@ -142,7 +142,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                                 $this_quote = $this_slide->post_excerpt;
                                             }
                                             ?>
-                                        <blockquote class="blockquote"><p class="mb-0"><?php echo $this_quote ?></p></blockquote>
+                                        <blockquote class="blockquote m-5"><p class="mb-0"><?php echo $this_quote ?></p></blockquote>
 
                                     </div>
                                 </div>
@@ -189,7 +189,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                         <a data-slide="<?php echo $loopidx ?>" onclick="goToHomeSlide(event);" href="#" class="thumbnail">
                         <picture>
                             <!--<source srcset="holder.js/300x150?theme=vine" type="image/svg+xml"> -->
-                            <img src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $this_thumb->ID),'neon_avatar_large',false)[0]; ?>" class="h-50 img-fluid img-thumbnail" alt="thumbnail" />
+                            <img src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $this_thumb->ID),'neon_avatar_large',false)[0]; ?>" class="img-fluid img-thumbnail" alt="thumbnail" />
                                 <p><?php echo $this_thumb->post_title ?></p>
                         </picture>
                         </a>
