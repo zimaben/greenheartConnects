@@ -1,5 +1,34 @@
 <?php
 
+#UTILITY FUNCTIONS FOR THIS PAGE
+function check_for_video($postid = null){
+    $video = false;
+    if($postid){
+
+        if(!$video) $video = get_post_meta( $postid, 'ghc_video_preview', true );
+        if(!$video) $video = get_post_meta( $postid, 'ghc_stream_preview',true );
+    }
+    return $video;
+}
+function return_vimeo($markup){
+    $new_markup = false;
+    $insertion = strpos( $markup, '<iframe ');
+    if( $insertion ){
+        $mark_start = substr($markup, 0, $insertion);
+        $mark_end = substr($markup, $insertion);
+        $new_markup = $mark_start . 'class="vimeo" '.$mark_end;
+    }
+    return ($new_markup) ? $new_markup : $markup;
+}
+function return_thumbnail($postid){
+    $imgsrc = wp_get_attachment_image_src( get_post_thumbnail_id( $postid ),'large_thumb_square', false)[0];
+    if(!$imgsrc) $imgsrc = wp_get_attachment_image_src( get_post_thumbnail_id( $postid ),'large',false)[0];
+    if($imgsrc){
+        $markup = '<img class="img-fluid w-100 m-30 w-60" src="'.$imgsrc.'" alt="Slide Image">';
+    }
+    return ($imgsrc) ? $markup : false;
+}
+
 #Arguments for Livestream query
 $stream_args = array(  
     'post_type' => 'streams',
@@ -77,11 +106,19 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                 </div>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col col-12 col-md-6 justify-content-center align-items-center">
-                                        <?php 
-                                        $imgsrc = wp_get_attachment_image_src( get_post_thumbnail_id( $this_slide->ID),'large_thumb_square',false)[0];
-                                        if(!$imgsrc) $imgsrc = wp_get_attachment_image_src( get_post_thumbnail_id( $this_slide->ID),'large',false)[0];
-                                        ?>
-                                        <img class="img-fluid w-100 m-30 w-60" src="<?php echo $imgsrc ?>" alt="Slide Image">
+                                        <div class="videowrap">
+                                            <?php 
+                                            #embed logic here
+                                            $is_preview = check_for_video($this_slide->ID);
+                                            if($is_preview){
+                                                $markup = return_vimeo($is_preview);
+                                                echo $markup;
+                                            } else {
+                                                $img_markup = return_thumbnail($this_slide->ID);
+                                                echo ($img_markup) ? $img_markup : '';
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                     <div class="ccol col-12 col-md-6 d-flex flex-column justify-content-center align-items-center pr-5">
                                         <h2><?php echo $this_slide->post_title ?></h2>

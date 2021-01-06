@@ -760,7 +760,8 @@ class Setup extends \GreenheartConnects {
         \wp_enqueue_script('wpmedia', self::get_plugin_url( 'library/dist/js/wpmedia.js'), array('jquery', 'media-views', 'media-editor','media-audiovideo' ), '1.1', false);
         \wp_enqueue_style( 'connects-css', self::get_plugin_url( 'library/dist/css/app.min.css'), array(), self::version, 'all' );
         \wp_enqueue_script( 'connects-js', self::get_plugin_url( 'library/dist/js/app.min.js'), array('jquery', 'runtime'), self::version, false );
-        \wp_enqueue_script( 'connects-footer-js', self::get_plugin_url( 'library/dist/js/footer.min.js'), array('connects-js'), self::version, true );
+        \wp_enqueue_script( 'vimeo-sdk', 'https://player.vimeo.com/api/player.js', array(), self::version, true);
+        \wp_enqueue_script( 'connects-footer-js', self::get_plugin_url( 'library/dist/js/footer.min.js'), array('connects-js', 'vimeo-sdk'), self::version, true );
     }
     public static function gh_connects_image_sizes(){
         \add_image_size( 'neon_avatar_tiny', 32, 32, ['center','top']);

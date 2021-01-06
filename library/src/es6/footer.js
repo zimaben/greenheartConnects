@@ -38,11 +38,47 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-//hook into Bootstrap Carousel Slide
+//On Load Check for Videos inside Carousels & bolt on logic to deal with them
+window.addEventListener('DOMContentLoaded', (event) => {
+    let iframes = document.querySelectorAll('iframe.vimeo');
+    if(iframes){
+        for(let iframe of iframes){
+            var player = new Vimeo.Player(iframe);
+            player.on('play', function() {
+                console.log('click detected');
+                let carousel = 'homesplashCarousel';
+                pauseCarousel(carousel)
+            });
+        }
+    }
+});
 
+//hook into Bootstrap Carousel Slide
 jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
     moveThumbs( e.to );
+    //pause any playing videos
+    pauseVimeos();
+ 
 });
+
+const pauseCarousel = (carouselid) => {
+    jQuery('#'+carouselid).carousel({
+        pause: true,
+        interval: false
+    });
+}
+
+const pauseVimeos = () => {
+
+    //Note Requires Vimeo SDK if you see undefined functions
+
+    let iframes = document.querySelectorAll('iframe.vimeo');
+    if(iframes){
+        for(let iframe of iframes){
+            iframe.pause();
+        }
+    }
+}
 
 const moveThumbs = (toIndex) => {
 
