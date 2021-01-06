@@ -128,17 +128,15 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
             </div>
         </div>
         <div class="row the-content m-5 p-5">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <ul class="checkmarklist">
                     <li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
                 </ul>
             </div>
-            <div class="col-6">
-            <div class="col-6">
+            <div class="col-12 col-md-6">
                 <ul class="checkmarklist">
                     <li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
                 </ul>
-            </div>
             </div>
         </div>
         <div class="row d-flex justify-content-between mt-5">
