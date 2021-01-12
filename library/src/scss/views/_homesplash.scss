@@ -47,12 +47,11 @@ ul.checkmarklist{
         color: $text-black;
     }
 }
-
-.carousel-indicators {
-    background: rgba(0,0,0,.2);
-    border-radius: 4px;
-    margin-left: 0;
-    margin-right: 0;
+.carousel-indicators li {
+    border-radius: 50% !important;
+    width: 22px !important;
+    height: 22px !important;
+    background-color: #78c729!important;
 }
 .carousel-control-prev {
     left: 0;

@@ -157,7 +157,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                                 $this_quote = $this_slide->post_excerpt;
                                             }
                                             ?>
-                                        <blockquote class="blockquote m-5"><p class="mb-0"><?php echo $this_quote ?></p></blockquote>
+                                        <div class="card-body bg-light d-flex align-items-center w-100 p-5"><p class="mb-0"><?php echo $this_quote ?></p></div>
 
                                     </div>
                                 </div>
