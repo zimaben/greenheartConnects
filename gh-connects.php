@@ -35,7 +35,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
         private static $instance = null;
 
         // Plugin Settings Generic
-        const version = '1.0.9';
+        const version = '1.0.7';
         static $debug = true; //turns PHP and javascript logging on/off
         const text_domain = 'gh_connects'; // for translation ##
         const js_domain = 'gh_connects';
