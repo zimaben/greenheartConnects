@@ -1,4 +1,4 @@
-### 1.0.9 ### 
+### 1.1.0 ### 
 
 Switching to new patch version to get update tooling caught up.
 
@@ -8,11 +8,11 @@ Prepped for version 1.1.0 final note-taking draft of Splash Page
 
 ### 1.0.8 ###
 
-Quick deletion notes
+Or this
 
 ### 1.0.7 ###
 
-Quick deletion notes
+This could be the problem
 
 ### 1.0.6 ###
 
