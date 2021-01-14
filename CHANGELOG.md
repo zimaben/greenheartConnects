@@ -10,6 +10,10 @@ Quick deletion notes
 
 Quick deletion notes
 
+### 1.0.6 ###
+
+Quick deletion notes
+
 ### 1.0.5 ###
 
 Bugfix now Vimeo can live in the same carousel with YouTube

@@ -12,7 +12,7 @@
  * Plugin Name:     Greenheart Connects
  * Plugin URI:      https://greenheartconnects.org
  * Description:     Extends the Greenheart theme with Greenheart Connects features, functionality, and feature-specific theming and styling. 
- * Version:         1.0.9
+ * Version:         1.0.7
  * Author:          Ben Toth
  * Author URI:      https://ben-toth.com/
  * License:         GNU
