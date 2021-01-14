@@ -1,3 +1,7 @@
+### 1.0.8 ###
+
+Quick deletion notes
+
 ### 1.0.7 ###
 
 Quick deletion notes

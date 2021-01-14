@@ -112,16 +112,18 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                     foreach($mainloop as $this_slide){
                         ?>
                         <div data-slidenum="<?php echo $loopidx?>" class="carousel-item<?php echo ($loopidx ==$index_of_first) ? ' active' : ''?>">
-                            <div class="container-fluid">
+                            <div class="h-100 container-fluid">
+                                <!--
                                 <div class="row">
                                     <div class="col col-12 col-md-6 justify-content-center">
-                                        <h2 class="text-center"><?php echo ($this_slide->post_type == 'streams') ? 'Upcoming Stream:' : 'Previous Video:'?>
+                                        <h2 class="text-center p-0"><?php echo ($this_slide->post_type == 'streams') ? 'Upcoming Stream:' : 'Previous Video:'?>
                                         </h2>
                                     </div>
-                                </div>
-                                <div class="row d-flex justify-content-between">
+                                </div> -->
+                                <div class="row h-100 d-flex justify-content-between">
                                     <div class="col col-12 col-md-6 d-flex flexcolumn justify-content-center align-items-center">
                                         <div class="videowrap">
+                                        <h2 class="text-center p-4"><?php echo ($this_slide->post_type == 'streams') ? 'Upcoming Stream:' : 'Previous Video:'?>
                                             <?php 
                                             #embed logic here
                                             $is_preview = check_for_video($this_slide->ID);
@@ -157,7 +159,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                                 $this_quote = $this_slide->post_excerpt;
                                             }
                                             ?>
-                                        <div class="card-body bg-light d-flex align-items-center w-100 p-5"><p class="mb-0"><?php echo $this_quote ?></p></div>
+                                        <div class="bg-light d-flex align-items-center justify-content-center w-100 p-5"><p class="mb-0"><?php echo $this_quote ?></p></div>
 
                                     </div>
                                 </div>
@@ -179,6 +181,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                 </div>
             </div>
         </div>
+        <!--
         <div class="row the-content m-5 p-5">
             <div class="col-12 col-md-6">
                 <ul class="checkmarklist">
@@ -203,7 +206,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                     <li class="homeslide_thumb span12<?php echo ($this_thumb->ID == $prev) ? ' active' : '' ?>">
                         <a data-slide="<?php echo $loopidx ?>" onclick="goToHomeSlide(event);" href="#" class="thumbnail">
                         <picture>
-                            <!--<source srcset="holder.js/300x150?theme=vine" type="image/svg+xml"> -->
+
                             <img src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $this_thumb->ID),'neon_avatar_large',false)[0]; ?>" class="img-fluid img-thumbnail" alt="thumbnail" />
                                 <p><?php echo $this_thumb->post_title ?></p>
                         </picture>
@@ -227,7 +230,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                         <li class="homeslide_thumb span12<?php echo ($this_thumb->ID == $next) ? ' active' : '' ?>">
                             <a data-slide="<?php echo $loopidx ?>" onclick="goToHomeSlide(event);" href="#" class="thumbnail">
                             <picture>
-                                <!--<source srcset="holder.js/300x150?theme=vine" type="image/svg+xml"> -->
+
                             <img src="<?php echo wp_get_attachment_image_src( get_post_thumbnail_id( $this_thumb->ID),'neon_avatar_large',false)[0]; ?>" class="img-fluid img-thumbnail" alt="thumbnail" />
                                 <p><?php echo $this_thumb->post_title ?></p>
                             </picture>
@@ -240,6 +243,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                 </ul>
             </div>
         </div>
+        -->
     </div>
     <?php
 } else { error_log("No Videos or Livestreams for Splashpage"); }

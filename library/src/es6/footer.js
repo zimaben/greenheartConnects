@@ -38,28 +38,58 @@ window.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
+//carousel functions
+function normalizeSlideHeights(slides){
+    let parent=slides[0].parentElement;
+    let placeholder = document.createElement('div');
+    placeholder.classList = parent.classList;
+    placeholder.setAttribute('style', 'position:absolute;left:-10000px;visibility:hidden;');
+    if(parent && slides.length){//will work on all but the body element
+      var maxheight = 0;
+      parent.parentElement.insertBefore(placeholder, parent);//to get correct CSS hierarchy
+      
+      for(let slide of slides){
+        let clone = slide.cloneNode(true);
+        clone.classList.add('active'); //otherwise in Bootstrap it's display:none
+        placeholder.appendChild(clone);
+        if(clone.clientHeight > maxheight) maxheight = clone.clientHeight
+        //remove clone before loop closes to avoid list mutation
+        clone.remove();
+      };
+      placeholder.remove();
+      for(let slide of slides){
+        slide.setAttribute('style', 'height:'+ maxheight + 'px;');
+      };  
+    }
+  }
 //On Load Check for Videos inside Carousels & bolt on logic to deal with them
 window.addEventListener('DOMContentLoaded', (event) => {
-    let iframes = document.querySelectorAll('iframe.vimeo');
-    var collection=[];
+    if(document.getElementsByClassName('carousel').length){
+        let the_slides = document.getElementsByClassName("carousel-item");
+        normalizeSlideHeights(the_slides);
 
-    if(iframes){
-        for(let i=0;i<iframes.length;i++){
-            collection[i] = new Vimeo.Player(iframes[i]);
-            collection[i].on('play', function() {              
-                pauseCarousel('homesplashCarousel')
-            });
+        let iframes = document.querySelectorAll('iframe.vimeo');
+        var collection=[];
+      
+        if(iframes){
+            for(let i=0;i<iframes.length;i++){
+                collection[i] = new Vimeo.Player(iframes[i]);
+                collection[i].on('play', function() {              
+                    pauseCarousel('homesplashCarousel')
+                });
+            }
         }
+        //hook into Bootstrap Carousel Slide
+        jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
+            moveThumbs( e.to );
+            //pause any playing videos
+            pauseVimeos();
+        
+        });
     }
 });
 
-//hook into Bootstrap Carousel Slide
-jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
-    moveThumbs( e.to );
-    //pause any playing videos
-    pauseVimeos();
- 
-});
+
 
 const pauseCarousel = (carouselid) => {
     

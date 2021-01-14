@@ -1,5 +1,16 @@
-@import '../variables';
- 
+@import '../variables'; 
+
+#homesplashCarousel{
+    background-image: url(https://greenheartexchange.org/wp-content/plugins/q-theme-exchange/library/theme/css/images/1/desktop/new/world-map.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    .bg-light {
+        box-shadow: 2px 1px 8px 1px rgba(0,0,0,.2);
+    }
+    .carousel-inner {
+        overflow: visible;
+    }
+}
 ul.menu-right{
     list-style:none;
     display:flex;
