@@ -1,3 +1,7 @@
+### 1.1.1 ### 
+
+I'm baffled by the update process here
+
 ### 1.1.0 ### 
 
 Switching to new patch version to get update tooling caught up.
