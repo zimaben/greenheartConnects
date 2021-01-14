@@ -1,3 +1,7 @@
+### 1.0.9 ###
+
+Prepped for version 1.1.0 final note-taking draft of Splash Page
+
 ### 1.0.8 ###
 
 Quick deletion notes
