@@ -45,17 +45,22 @@ class Admin extends \GreenheartConnects{
 
     }
 
-    public static function password_reset_connects( string $message, $key, $user_login, $user_data ){
-        $link = \get_home_url().'/login/?action=rp&key='.$key.'&login='.$user_login;
+    public static function password_reset_connects( string $message, string $key, string $user_login, $user_data ){
 
-        $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login;
-        $message.= "
-        If this was a mistake just ignore this email. To reset the password click:
-        <a href='".$link."'>".$link."</a>
+    $new_key = \get_password_reset_key( $user_data);
 
-        Thanks,
-        Greenheart Connects";
-        return $message;
+    $link = '<'.\get_site_option( 'siteurl' ).'/login/?action=rp&key='.$new_key.'&login='.$user_login.'>';
+
+    $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login."
+
+    If this was a mistake just ignore this email. To reset the password click:
+
+    ".$link."
+
+
+    Thanks,
+    Greenheart Connects";
+    return $message;
     }
 
     public static function keep_users_out(){

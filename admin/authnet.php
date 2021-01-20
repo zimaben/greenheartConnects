@@ -57,13 +57,7 @@ class AuthNet extends \GreenheartConnects {
         $request->setMerchantAuthentication($merchantAuthentication);
         $request->setRefId($refId);
         $request->setSearchType($listType);
-        #$request->setSearchType("subscriptionInactive");
-        /* Possible Subscription Types 
-            cardExpiringThisMonth
-            subscriptionActive
-            subscriptionExpiringThisMonth
-            subscriptionInactive
-        */
+
         $request->setSorting($sorting);
         $request->setPaging($paging);
 
