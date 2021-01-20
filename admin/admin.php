@@ -35,12 +35,27 @@ class Admin extends \GreenheartConnects{
         \add_action('admin_init', array(get_class(),'allow_subscriber_uploads') );
         \add_action( 'admin_init', array(get_class(),'keep_users_out'), 1 );
 
+        \add_filter('retrieve_password_message', array(get_class(), 'password_reset_connects'),10, 4 );
+
         require_once self::get_plugin_path( 'admin/switch_postypes.php'); 
         require_once self::get_plugin_path( 'admin/options.php');
         require_once self::get_plugin_path( 'admin/payment_options.php');
         require_once self::get_plugin_path( 'admin/payment_cron.php');
 
 
+    }
+
+    public static function password_reset_connects( string $message, $key, $user_login, $user_data ){
+        $link = \get_home_url().'/login/?action=rp&key='.$key.'&login='.$user_login;
+
+        $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login;
+        $message.= "
+        If this was a mistake just ignore this email. To reset the password click:
+        <a href='".$link."'>".$link."</a>
+
+        Thanks,
+        Greenheart Connects";
+        return $message;
     }
 
     public static function keep_users_out(){

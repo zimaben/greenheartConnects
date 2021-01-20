@@ -1,3 +1,8 @@
+
+### 1.1.2 ### 
+
+Added Custom password reset email body and link
+
 ### 1.1.1 ### 
 
 I'm baffled by the update process here
