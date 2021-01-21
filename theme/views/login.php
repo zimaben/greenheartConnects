@@ -271,11 +271,16 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 		$messages = '';
 		foreach ( $wp_error->get_error_codes() as $code ) {
 			$severity = $wp_error->get_error_data( $code );
+			if($_SERVER['REQUEST_METHOD'] === 'GET' && 
+				($code === 'empty_username' || $code === 'empty_password') ){
+					continue;
+				}
 			foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
-				if ( 'message' == $severity )
+				if ( 'message' == $severity ){
 					$messages .= '	' . $error_message . "<br />\n";
-				else
+				} else {
 					$errors .= '	' . $error_message . "<br />\n";
+				}
 			}
 		}
 		if ( ! empty( $errors ) ) {
