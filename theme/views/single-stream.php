@@ -86,32 +86,8 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
         <div class="col-12 hero-bg">
             <div class="info-row">
                     
-                    <?php 
-                    if( $secs_diff < 1800 ){
+                    <?php
                         echo \get_post_meta( \get_the_ID(), 'ghc_stream_embed_code', true );
-                    } else {
-                    ?>
-                    <div class="timeto d-none d-md-block">Livestream Starts in <?php
-
-                            $now = new \DateTime("now", new \DateTimeZone('America/Chicago'));
-                            $start = new \DateTime( \get_post_meta( \get_the_ID(), 'ghc_stream_start', true ), new \DateTimeZone('America/Chicago') );     
-                            $secs_diff = date_timestamp_get($start) - date_timestamp_get($now);
-                            $days = floor($secs_diff / 86400 );
-                            $new_secs = Modules::return_remaining_seconds_days($secs_diff);
-                            $hours = floor($new_secs / 3600);
-                            $new_secs = Modules::return_remaining_seconds_hours($new_secs);
-                            $mins = floor($new_secs / 60 );
-                            $secs = Modules::return_remaining_seconds_mins($new_secs);
-
-                            echo '<span id="timewrap" data-seconds="'.$secs_diff.'" data-action="final_countdown">';
-                            echo ( $days ) ? '<span id="hero_closest_days">'.$days.'</span> Days, ' : '<span id="hero_closest_days"></span>';
-                            echo ( $hours) ? '<span id="time2stream">'.$hours.':' : '<span id="time2stream">';
-                            echo ( $mins ) ? $mins.':' : '0:';
-                            echo $secs.'</span>';  
-                    ?>
-                    </div> 
-                    <?php     
-                    } 
                     ?>  
             </div>
             <?php 

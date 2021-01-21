@@ -44,8 +44,22 @@ class Admin extends \GreenheartConnects{
 
 
     }
+    public static function login_head_message(){
+        error_log('this is working');
+    }
+    public static function password_reset_login_message($errors){
+        error_log('message firing');
+
+
+        $errors->add( 'done', 'Please check your inbox for the reset link.' );
+        return $errors;
+    }
 
     public static function password_reset_connects( string $message, string $key, string $user_login, $user_data ){
+
+    \add_action( 'login_head', array(get_class(), 'login_head_message') );
+    \add_filter( 'shake_error_codes', array(get_class(), 'password_reset_login_message'), 10, 1 ); 
+ 
 
     $new_key = \get_password_reset_key( $user_data);
 
@@ -60,6 +74,7 @@ class Admin extends \GreenheartConnects{
 
     Thanks,
     Greenheart Connects";
+    error_log($link);
     return $message;
     }
 

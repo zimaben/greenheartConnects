@@ -74,9 +74,13 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
+	/* TEMP */
 
+	error_log(print_r($wp_error,true));
 	// Shake it!
-	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password' );
+	/* edit - added 'retrieve_password_email_failure' to list */
+	$shake_error_codes = array( 'empty_password', 'empty_email', 'invalid_email', 'invalidcombo', 'empty_username', 'invalid_username', 'incorrect_password','retrieve_password_email_failure' );
+
 	/**
 	 * Filters the error codes array for shaking the login form.
 	 *
@@ -86,6 +90,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 */
 	$shake_error_codes = apply_filters( 'shake_error_codes', $shake_error_codes );
 
+	
 	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
@@ -250,49 +255,48 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 *
 	 * @param string $message Login message text.
 	 */
-	if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-		$message = apply_filters( 'login_message', $message );
-		if ( !empty( $message ) ){
-			echo $message . "\n";
-		}
-		// In case a plugin uses $error rather than the $wp_errors object
-		if ( !empty( $error ) ) {
-			$wp_error->add('error', $error);
-			unset($error);
-		}
 
-		if ( $wp_error->get_error_code() ) {
-			$errors = '';
-			$messages = '';
-			foreach ( $wp_error->get_error_codes() as $code ) {
-				$severity = $wp_error->get_error_data( $code );
-				foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
-					if ( 'message' == $severity )
-						$messages .= '	' . $error_message . "<br />\n";
-					else
-						$errors .= '	' . $error_message . "<br />\n";
-				}
+	$message = apply_filters( 'login_message', $message );
+	if ( !empty( $message ) ){
+		echo $message . "\n";
+	}
+	// In case a plugin uses $error rather than the $wp_errors object
+	if ( !empty( $error ) ) {
+		$wp_error->add('error', $error);
+		unset($error);
+	}
+
+	if ( $wp_error->get_error_code() ) {
+		$errors = '';
+		$messages = '';
+		foreach ( $wp_error->get_error_codes() as $code ) {
+			$severity = $wp_error->get_error_data( $code );
+			foreach ( $wp_error->get_error_messages( $code ) as $error_message ) {
+				if ( 'message' == $severity )
+					$messages .= '	' . $error_message . "<br />\n";
+				else
+					$errors .= '	' . $error_message . "<br />\n";
 			}
-			if ( ! empty( $errors ) ) {
-				/**
-				 * Filters the error messages displayed above the login form.
-				 *
-				 * @since 2.1.0
-				 *
-				 * @param string $errors Login error message.
-				 */
-				echo '<div id="login_error">' . apply_filters( 'login_errors', $errors ) . "</div>\n";
-			}
-			if ( ! empty( $messages ) ) {
-				/**
-				 * Filters instructional messages displayed above the login form.
-				 *
-				 * @since 2.5.0
-				 *
-				 * @param string $messages Login messages.
-				 */
-				echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
-			}
+		}
+		if ( ! empty( $errors ) ) {
+			/**
+			 * Filters the error messages displayed above the login form.
+			 *
+			 * @since 2.1.0
+			 *
+			 * @param string $errors Login error message.
+			 */
+			echo '<div id="login_error">' . apply_filters( 'login_errors', $errors ) . "</div>\n";
+		}
+		if ( ! empty( $messages ) ) {
+			/**
+			 * Filters instructional messages displayed above the login form.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $messages Login messages.
+			 */
+			echo '<p class="message">' . apply_filters( 'login_messages', $messages ) . "</p>\n";
 		}
 	}
 } // End of login_header()
@@ -566,7 +570,8 @@ if ( isset($_GET['key']) )
 	$action = 'resetpass';
 
 // validate action so as to default to the login screen
-if ( !in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'register', 'login' ), true ) && false === has_filter( 'login_form_' . $action ) )
+/* added checkemail */
+if ( !in_array( $action, array( 'postpass', 'logout', 'lostpassword', 'retrievepassword', 'resetpass', 'rp', 'checkemail','confirmaction','register', 'login', ), true ) && false === has_filter( 'login_form_' . $action ) )
 	$action = 'login';
 
 nocache_headers();
@@ -695,6 +700,7 @@ case 'retrievepassword' :
 	if ( $http_post ) {
 		$errors = retrieve_password();
 		if ( !is_wp_error($errors) ) {
+
 			$redirect_to = !empty( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : 'login/?checkemail=confirm';
 			wp_safe_redirect( $redirect_to );
 			exit();
@@ -1103,7 +1109,7 @@ default:
 		elseif	( isset($_GET['registration']) && 'disabled' == $_GET['registration'] )
 			$errors->add('registerdisabled', __('User registration is currently not allowed.'));
 		elseif	( isset($_GET['checkemail']) && 'confirm' == $_GET['checkemail'] )
-			$errors->add('confirm', __('Check your email for the confirmation link.'), 'message');
+			$errors->add('confirm', __('Please check your email for the Greenheart Connects confirmation link.'), 'message');
 		elseif	( isset($_GET['checkemail']) && 'newpass' == $_GET['checkemail'] )
 			$errors->add('newpass', __('Check your email for your new password.'), 'message');
 		elseif	( isset($_GET['checkemail']) && 'registered' == $_GET['checkemail'] )
