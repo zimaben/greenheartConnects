@@ -1,3 +1,7 @@
+### 1.1.4 ### 
+
+Put everything together on the Login Form
+
 ### 1.1.3 ### 
 
 Patched Login Error & Message issues
