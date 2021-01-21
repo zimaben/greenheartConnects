@@ -1,4 +1,5 @@
 function final_countdown(){
+    
     let seconds = parseInt( document.getElementById('timewrap').dataset.seconds );
     let days_element = document.getElementById('hero_closest_days');
     let hours_element = document.getElementById('hero_closest_hours');
@@ -9,18 +10,45 @@ function final_countdown(){
                           hours_element,
                           mins_element,
                           seconds_element 
-                        );
-                         
+                        );                       
+}
+
+function final_countdown_simple( element ){
+    if(element.dataset.seconds){
+        let totalseconds = parseInt(element.dataset.seconds);
+        final_countdown_loop_simple( totalseconds );
+    }
+}
+async function final_countdown_loop_simple( seconds ){
+    console.log('for loop about to be called');
+    for(let s=seconds; s < 300; s--){
+        /* @TODO - this loop isn't running */
+        await sleepCN(1000);
+        let time_array = final_countdown_combinator( s );
+        let days = time_array[0];
+        let hours = time_array[1];
+        let minutes = time_array[2];
+        let secs = time_array[3];
+        if(days){
+            document.getElementById('hero_closest_days').innerHTML = days + 'days';
+        }
+
+        let stamp = hours + ':';
+        stamp+= minutes + ':';
+        stamp+= secs;
+        document.getElementById('time2stream').innerHTML = stamp;
+        
+    } 
 }
 
 async function final_countdown_loop( seconds, de,he,mn,sx ){
     for (let s = seconds; s < 300; s--){
         await sleep(1000);
         let time_array = final_countdown_combinator( s );
-        d.innerHTML = time_array[0];
-        h.innerHTML = time_array[1];
-        m.innerHTML = time_array[2];
-        secs.innerHTML = time_array[3];
+        de.innerHTML = time_array[0];
+        he.innerHTML = time_array[1];
+        mn.innerHTML = time_array[2];
+        sx.innerHTML = time_array[3];
     }
 }
 
@@ -70,4 +98,7 @@ function secs2days_wremainder ( seconds ){
     secs = seconds; //remaining seconds after looping off days
     console.log('days: ' + days + 'secs: ' + secs);
     return [days, secs];
+}
+function sleepCN(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

@@ -66,7 +66,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                             $secs = Modules::return_remaining_seconds_mins($new_secs);
                             $zoomid = \get_post_meta( \get_the_ID(), 'ghc_zoom_meeting_id', true);
 
-                            echo '<span id="timewrap" data-seconds="'.$secs_diff.'" data-action="final_countdown">';
+                            echo '<span id="timewrap" data-seconds="'.$secs_diff.'" data-action="final_countdown_simple">';
                             echo ( $days ) ? '<span id="hero_closest_days">'.$days.'</span> Days, ' : '<span id="hero_closest_days"></span>';
                             echo ( $hours) ? '<span id="time2stream">'.$hours.':' : '<span id="time2stream">';
                             echo ( $mins ) ? $mins.':' : '0:';

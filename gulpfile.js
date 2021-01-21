@@ -45,6 +45,7 @@ const javascript_modules = [
 const javascript_close_body_modules = [
   'library/src/es6/views/footer.js',
   'library/src/es6/views/homesplash.js',
+  'library/src/es6/countdown.inprogress.js' 
 ] 
 
 function bundle() {
@@ -72,7 +73,7 @@ function makeUgly(){
       }));
 };
 function footerUgly(){
-  return gulp.src('library/src/es6/footer.js')
+  return gulp.src(['library/src/es6/footer.js'])
     .pipe(babel({
       presets: ["@babel/preset-env"]
     }))

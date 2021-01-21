@@ -61,9 +61,9 @@ class Admin extends \GreenheartConnects{
     \add_filter( 'shake_error_codes', array(get_class(), 'password_reset_login_message'), 10, 1 ); 
  
 
-    $new_key = \get_password_reset_key( $user_data);
+    //$new_key = \get_password_reset_key( $user_data);
 
-    $link = '<'.\get_site_option( 'siteurl' ).'/login/?action=rp&key='.$new_key.'&login='.$user_login.'>';
+    $link = '<'.\get_site_option( 'siteurl' ).'/login/?action=rp&key='.$key.'&login='.$user_login.'>';
 
     $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login."
 
