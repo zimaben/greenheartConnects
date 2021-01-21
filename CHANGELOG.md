@@ -1,3 +1,6 @@
+### 1.1.3 ### 
+
+Patched Login Error & Message issues
 
 ### 1.1.2 ### 
 
