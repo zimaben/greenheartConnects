@@ -1,4 +1,5 @@
 <?php
+use gh_connects\theme\Modules as Modules;
 
 #UTILITY FUNCTIONS FOR THIS PAGE
 function check_for_video($postid = null){
@@ -71,6 +72,8 @@ $video_args = array(
     'suppress_filters' => true,
 );
 
+$homesplash_title = \get_the_title( $post->ID );
+
 $streamloop = get_posts( $stream_args );
 $vidloop = get_posts( $video_args );
 
@@ -91,6 +94,12 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
 
     ?>
     <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col col-12">
+                
+                <h4 class="pb-5 container"> <?php echo $homesplash_title ?> </h4>
+            </div>   
+        </div>
         <div class="row">
             <div class="col col-12">
                 <div id="homesplashCarousel" class="carousel slide carousel-fade" data-interval="10000"data-ride="carousel">
@@ -123,7 +132,8 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                 <div class="row h-100 d-flex justify-content-between">
                                     <div class="col col-12 col-md-6 d-flex flexcolumn justify-content-center align-items-center">
                                         <div class="videowrap">
-                                        <h2 class="text-center p-4"><?php echo ($this_slide->post_type == 'streams') ? 'Upcoming Stream:' : 'Previous Video:'?>
+
+                                        <!--<h2 class="text-center p-4"><?php echo ($this_slide->post_type == 'streams') ? 'Upcoming Stream:' : 'Previous Video:'?> -->
                                             <?php 
                                             #embed logic here
                                             $is_preview = check_for_video($this_slide->ID);
@@ -139,6 +149,13 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                     </div>
                                     <div class="ccol col-12 col-md-6 d-flex flex-column justify-content-center align-items-center pr-5">
                                         <h2><?php echo $this_slide->post_title ?></h2>
+                                        <?php if($this_slide->post_type == 'streams') {
+                                            $author = get_post_meta($this_slide->ID,'ghc_author_name', true);
+                                        } else {
+                                            $author = get_post_meta($this_slide->ID,'ghc_video_author', true);
+                                        } 
+                                        echo ($author) ? '<h5>'.$author.'</h5>' : '';
+                                        ?>
                                         <div class="d-flex flex-row-reverse">
                                         <?php 
                                             if($this_slide->post_type == 'streams') {
@@ -159,7 +176,7 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                                 $this_quote = $this_slide->post_excerpt;
                                             }
                                             ?>
-                                        <div class="bg-light d-flex align-items-center justify-content-center w-100 p-5"><p class="mb-0"><?php echo $this_quote ?></p></div>
+                                        <div class="bg-light d-flex align-items-center justify-content-center w-100 p-5"><p class="mb-0"><?php echo Modules::maxWords($this_quote, 90, true) ?></p></div>
 
                                     </div>
                                 </div>

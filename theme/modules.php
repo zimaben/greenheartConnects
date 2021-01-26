@@ -16,6 +16,25 @@ class Modules extends \GreenheartConnects {
 
     
     }
+    public static function maxWords( $text = '', $wordnum = 0, $ellipses = true){
+        //exit early if not set correctly
+        if($text === '' || $wordnum === 0) return false;
+
+        $text_array = explode(" ", $text);
+        $return_text = '';
+        if(count($text_array) > $wordnum){
+            for($i=0;$i<$wordnum;$i++){
+                $word = $text_array[$i] . ' ';
+                $return_text.=$word;
+            }
+            error_log($return_text);
+            $return_text = trim($return_text);
+            $return_text = ($ellipses) ? $return_text.'...' : $return_text;
+        } else {
+            $return_text = $text;
+        }
+        return $return_text;
+    }
     public static function date_sort($a, $b)
     {
         $t1 = strtotime($a['starttime']);

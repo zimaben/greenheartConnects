@@ -41,8 +41,10 @@ class Setup extends \GreenheartConnects {
         \add_action( 'init', array( get_class(), 'add_video_cpt' )  ); 
         //Add meta boxes for editing
         \add_action( 'add_meta_boxes', array( get_class(),'add_video_metabox' ) );
+        \add_action( 'add_meta_boxes', array( get_class(),'add_public_page_metabox' ) );
         //Add meta save function 
         \add_action('save_post', array( get_class(), 'video_metabox_save') );
+        \add_action('save_post', array( get_class(), 'public_page_metabox_save'));
 
         //Add promo post type
         \add_action( 'init', array( get_class(), 'add_promo_cpt') );
@@ -117,6 +119,18 @@ class Setup extends \GreenheartConnects {
         /* Do Analytics */
          \add_action( 'wp_head', array(get_class(), 'do_analytics') );
          \add_action( 'login_head', array(get_class(), 'do_analytics') );
+
+         /* Filter Menu */
+         \add_filter( 'wp_nav_menu_args', array(get_class(), 'connects_filter_menu'), 10, 2 );
+    }
+    public static function connects_filter_menu($args){
+        error_log(print_r($items,true));
+        if( \is_user_logged_in() ){
+            $args['menu'] = 'logged-in';
+        } else {
+            $args['menu'] = 'logged-out';
+        }
+        return $args;
     }
     //AJAX RT Comments 
     public static function add_new_comment_button( $submit_button, $args ) {
@@ -150,7 +164,7 @@ class Setup extends \GreenheartConnects {
             } else {
                 $ret = array("status"=>400, "markup"=> "Failed to load comment");
             }
-            error_log(json_encode($ret));
+            
             // echo it back
             die( json_encode($ret) );
             #wp_die(); cant use wp_die(), hijacking the core comment handler this way produces WP Error object, which will wreck our json if allowed
@@ -234,11 +248,15 @@ class Setup extends \GreenheartConnects {
             \add_action('close_header', function(){
                 $userState = Modules::top_avatar();
                 if(!$userState){
-                    
-                    require_once self::get_plugin_path('theme/views/components/please_login.php');
-                    Modules::footer(); 
-                    Modules::close_page();
-                    exit;
+                    global $post; 
+                    $public_page_checkstatus = get_post_meta($post->ID, 'public_page_checkstatus', true);
+                    if($public_page_checkstatus !== "true"){
+                        require_once self::get_plugin_path('theme/views/components/please_login.php');
+                        Modules::footer(); 
+                        Modules::close_page();
+                        exit;
+                    }
+
                 }
             });
         }
@@ -380,6 +398,18 @@ class Setup extends \GreenheartConnects {
         //JSON calls, like surf nazis, must die.
         die(); 
     }
+    public static function add_public_page_metabox(){
+        $screen = \get_current_screen();
+        error_log(print_r($screen, true));
+        \add_meta_box(
+            'public_page', #id
+            'Visible to Logged-Out Users', #title
+            array( get_class(), 'call_public_page_metabox'), #callback function
+            'page',
+            'side',
+            'high'
+        );
+    }
     public static function add_video_metabox(){
         \add_meta_box(
             'video_url', #id
@@ -445,6 +475,19 @@ class Setup extends \GreenheartConnects {
             <?php
         }
     }
+    public static function call_public_page_metabox(){
+        global $post;
+        \wp_nonce_field( 'public_page_metabox_nonce', 'public_page_metabox_nonce' );
+        $public_page_checkstatus = get_post_meta($post->ID, 'public_page_checkstatus', true);
+        ?>
+        <h4>Make Page Public to Non-Logged in Users?</h4>
+        <div>
+          <input type="checkbox" id="public_page_checkstatus" name="public_page_checkstatus" value="true" <?php echo ($public_page_checkstatus == 'true') ? ' checked' : '' ?>>
+          <label for="public_page_checkstatus">Make Visible to Everyone</label>
+        </div>
+        <?php
+
+    }
     public static function call_video_url_metabox(){
         global $post;
         \wp_nonce_field( 'vidurl_metabox_nonce', 'vidurl_metabox_nonce' );
@@ -493,6 +536,7 @@ class Setup extends \GreenheartConnects {
         $streamlength_meta = get_post_meta( $post->ID, 'ghc_stream_length',true );
         $streamspeaker_meta = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
+        $streambio_name = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
         $stream_preview = get_post_meta( $post->ID, 'ghc_stream_preview',true );
         //$stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
@@ -509,8 +553,11 @@ class Setup extends \GreenheartConnects {
         <label for="ghc_stream_embed_code">Embed Code of Stream:</label><br>
         <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>       
         <label for="ghc_stream_embed_code">Video Preview Embed Code:</label><br>
-        <textarea type="textarea" style="width:100%;" id="ghc_stream_preview" name="ghc_stream_preview"><?php echo ($stream_preview) ? $stream_preview: ''?></textarea>    
-        <label for="ghc_author_name">Author Bio:</label><br>
+        <textarea type="textarea" style="width:100%;" id="ghc_stream_preview" name="ghc_stream_preview"><?php echo ($stream_preview) ? $stream_preview: ''?></textarea><br>
+        <label for="ghc_author_name">Author Name:</label><br>
+        <input type="text" style="margin-bottom:20px;" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streambio_name) ? $streambio_name: ''?>"/>
+        <br>
+        <label for="ghc_author_bio">Author Bio:</label><br>
         <textarea type="textarea" class="widefat" style="width:100%;" id="ghc_author_bio" name="ghc_author_bio"><?php echo ($streambio_meta) ? $streambio_meta: ''?></textarea>
         <?php 
             #$new_promo_markup = '<label for="ghc_stream_promo">Promo Code:</label><br><input type="text" id="ghc_stream_promo" name="ghc_stream_promo" value=""><br>';
@@ -597,7 +644,7 @@ class Setup extends \GreenheartConnects {
 
         foreach( $_POST as $key => $value ) {
             
-            if( $key == 'ghc_video_type' || $key == 'ghc_video_path' || $key == 'ghc_video_preview' || $key == 'ghc_author_bio' || $key == 'ghc_video_author'){
+            if( $key == 'ghc_video_type' || $key == 'ghc_video_path' || $key == 'ghc_video_preview' || $key == 'ghc_author_bio' || $key == 'ghc_video_author' || $key == 'ghc_author_name'){
                 \update_post_meta( $post_id, $key, $value );
             }
         }
@@ -627,7 +674,7 @@ class Setup extends \GreenheartConnects {
         foreach( $_POST as $key => $value ) {
             if( $key == 'ghc_stream_start' 
             || $key == 'ghc_stream_length' 
-            || $key == 'ghc_author_name' 
+            || $key == 'ghc_author_name'
             || $key == 'ghc_author_bio' 
             || $key == 'ghc_stream_embed_code'
             || $key == 'ghc_stream_preview' 
@@ -640,6 +687,23 @@ class Setup extends \GreenheartConnects {
                 } */
             }
         }
+    }
+    public static function public_page_metabox_save($post_id) {
+        if( ! isset( $_POST['public_page_checkstatus']) || 
+        ! wp_verify_nonce( $_POST['public_page_metabox_nonce'], 'public_page_metabox_nonce')){
+            return;
+        }
+        if(defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+
+        if(!current_user_can('edit_post', $post_id) ) return;
+
+        foreach( $_POST as $key => $value ) {    
+            if( $key == 'public_page_checkstatus' ){
+                if($value !== "true") $value = "false";
+                \update_post_meta( $post_id, $key, $value);
+            }
+        }
+
     }
     public static function promo_metabox_save($post_id){
         if( ! isset( $_POST['promo_metabox_nonce'] ) ||

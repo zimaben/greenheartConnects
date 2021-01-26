@@ -6,10 +6,14 @@ jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
 
 const moveThumbs = (toIndex) => {
 
-    let rightthumbs = document.querySelector('.thumbnails.right').children;
-    let leftthumbs = document.querySelector('.thumbnails.left').children;
+    let rightthumbs = document.querySelector('.thumbnails.right');
+    if( rightthumbs && rightthumbs!== null) rightthumbs = rightthumbs.children;
 
-    if(rightthumbs.length && rightthumbs.length === leftthumbs.length){
+    let leftthumbs = document.querySelector('.thumbnails.left');
+    if( leftthumbs && leftthumbs!== null) leftthumbs = leftthumbs.children;
+
+
+    if(rightthumbs && leftthumbs && (rightthumbs.length === leftthumbs.length) ){
         let ridx = 0;
         let lidx = 0;
         resetThumbs();
@@ -37,6 +41,30 @@ const resetThumbs = () => {
     for(let item of leftthumbs){
         item.classList.remove('active');
     }
+}
+const normalizeSlideHeights = (slides) => {
+
+  let parent=slides[0].parentElement;
+  let placeholder = document.createElement('div');
+  placeholder.classList = parent.classList;
+  placeholder.setAttribute('style', 'position:absolute;left:-10000px;visibility:hidden;');
+  if(parent && slides.length){//will work on all but the body element
+    var maxheight = 0;
+    parent.parentElement.insertBefore(placeholder, parent);//to get correct CSS hierarchy
+    
+    for(let slide of slides){
+      let clone = slide.cloneNode(true);
+      clone.classList.add('active'); //otherwise in Bootstrap it's display:none
+      placeholder.appendChild(clone);
+      if(clone.clientHeight > maxheight) maxheight = clone.clientHeight
+      //remove clone before loop closes to avoid list mutation
+      clone.remove();
+    };
+    placeholder.remove();
+    for(let slide of slides){
+      slide.setAttribute('style', 'height:'+ maxheight + 'px;');
+    };  
+  }
 }
 const goToHomeSlide = (e) =>{
     e.preventDefault();
