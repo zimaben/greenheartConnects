@@ -46,6 +46,7 @@ function return_thumbnail($postid){
 }
 
 #Arguments for Livestream query
+#NOTE: if you uninstall NS Featured Posts remove these meta queries
 $stream_args = array(  
     'post_type' => 'streams',
     'post_status' => 'publish',
@@ -57,8 +58,13 @@ $stream_args = array(
             'key' => 'ghc_stream_start',
             'value' => date('Y-m-d'),
             'compare' => '>=',
-        )
-    ),
+        ),
+        array(
+            'key'   => '_is_ns_featured_post',
+            'value' => 'yes',
+            'compare' => '='
+        ),
+    )
 
 );
 
@@ -70,6 +76,13 @@ $video_args = array(
     'orderby' => 'post_date',
     'order'   => 'DESC',
     'suppress_filters' => true,
+    'meta_query' => array(
+        array(
+            'key'   => '_is_ns_featured_post',
+            'value' => 'yes',
+            'compare' => '='
+        ),
+    )
 );
 
 $homesplash_title = \get_the_title( $post->ID );

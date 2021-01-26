@@ -1,3 +1,7 @@
+### 1.1.7 ### 
+
+Added Featured Posts Support to the Home Page
+
 ### 1.1.6 ### 
 
 Home Splashpage Notes
