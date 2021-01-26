@@ -1,3 +1,7 @@
+### 1.1.6 ### 
+
+Home Splashpage Notes
+
 ### 1.1.5 ### 
 
 PW Reset Fix
