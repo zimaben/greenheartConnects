@@ -49,11 +49,36 @@ class Modules extends \GreenheartConnects {
         }
     return (isset($seconds_minus_days)) ? $seconds_minus_days : $seconds;     
     }
-    public static function top_login(){
+    public static function top_login_deprecated(){
         ?>
-        <ul class="menu menu-right"><li class="menu-item"><a href="/login/">login / register</a></li></ul>
+        <ul class="menu menu-right"><li class="menu-item">
+
+            <a href="/login/">login / register</a>
+
+        </li></ul>
+        
         </header>
         <?php
+    }
+    public static function top_login(){
+        ?>
+        <nav class="navbar menu menu-right">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdownLogin" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Login
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLogin">
+                <?php
+                    $args = array('redirect' => \get_site_url().'/dashboard/','label_username'=>'Email');
+                    \wp_login_form($args);
+                ?>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item hardleft" href="<?php echo get_site_url() ?>/register/">Register</a>
+                <a class="dropdown-item hardright" href="<?php echo get_site_url() ?>/login/?action=lostpassword">Lost Password</a>
+            </div>
+        </nav>
+    </header>
+    <?php
+
     }
     public static function return_remaining_seconds_hours($seconds){
         $hours = floor($seconds / 3600 );

@@ -1,0 +1,36 @@
+.dropdown-menu-right.show {
+    padding: 25%;
+    .hardleft{
+    	position:absolute;
+    	padding: 8px 8px 8px 15px;
+    	bottom:0;
+    	left:0;
+    	color:#363637;
+    	font-size:80%;
+    	width:fit-content;
+    	&:hover, &:active, &.active{
+    		background:transparent;
+    	};
+    }
+    .hardright{
+    	position:absolute;
+    	padding: 8px 15px 8px 8px;
+    	bottom:0;
+    	right:0;
+    	color:#363637;
+    	font-size:80%;
+    	width:fit-content;
+    	&:hover, &:active, &.active{
+    		background:transparent;
+    	};
+    }
+    .login-submit{
+	    display: flex;
+	    justify-content: flex-end;
+	    padding: 5px 0;
+    }
+}
+.dropdown-toggle,
+.dropdown-toggle:visited{
+	color:#363637;
+}

@@ -943,7 +943,8 @@ class Setup extends \GreenheartConnects {
     //Assigns master template to our home page
     public static function set_main_template($page_template){
         if ( \is_page( 'greenheart-connects' ) ) {
-            $page_template = self::get_plugin_path( 'theme/views/dashboard.php' ); //assigns master theme to our application
+           # $page_template = self::get_plugin_path( 'theme/views/dashboard.php' ); //assigns master theme to our application
+            $page_template = self::get_plugin_path( 'theme/views/homesplash.php' ); //assigns master theme to our application
         }
     return $page_template;
     }
@@ -955,8 +956,9 @@ class Setup extends \GreenheartConnects {
     }
 
     public static function set_homesplash_template($page_template){
-        if ( \is_page( 'test-home-page' ) ) {
-            $page_template = self::get_plugin_path( 'theme/views/homesplash.php' ); //assigns master theme to our application
+        if ( \is_page( 'dashboard' ) ) {
+           # $page_template = self::get_plugin_path( 'theme/views/homesplash.php' ); //assigns master theme to our application
+            $page_template = self::get_plugin_path( 'theme/views/dashboard.php' ); //assigns master theme to our application
         }
     return $page_template;
     }

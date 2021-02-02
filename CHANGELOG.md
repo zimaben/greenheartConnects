@@ -1,3 +1,7 @@
+### 1.1.8 ### 
+
+Dashboard, Homepage, & Login
+
 ### 1.1.7 ### 
 
 Added Featured Posts Support to the Home Page
