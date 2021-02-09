@@ -70,7 +70,9 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'lostpassword_url', array(get_class(),'set_wp_lost_password_page'), 10, 2 );//update lost password url for core functionality
         #\add_filter( 'registration_redirect', array(get_class(), 'after_registration_home') );
         #add_filter( 'login_redirect', array(get_class(), 'after_registration_home') );
-        
+        \add_action('wp_logout', array(get_class(),'logout_home'));
+
+
         //add Javascript Actions
         \add_action('wp_ajax_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
         \add_action('wp_ajax_nopriv_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
@@ -122,7 +124,17 @@ class Setup extends \GreenheartConnects {
 
          /* Filter Menu */
          \add_filter( 'wp_nav_menu_args', array(get_class(), 'connects_filter_menu'), 10, 2 );
+         /* Disable Admin Email Confirmation */
+
+        \add_filter( 'admin_email_check_interval', array(get_class(), 'disable_admin_email_confirmation' ));
     }
+    public static function disable_admin_email_confirmation( $interval ) {
+        return 0;
+    }
+    public static function logout_home(){
+        \wp_safe_redirect( home_url() );
+        exit;
+      }
     public static function connects_filter_menu($args){
 
         if( \is_user_logged_in() ){
