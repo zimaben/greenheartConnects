@@ -27,12 +27,12 @@ class Setup extends \GreenheartConnects {
         \add_action( 'admin_enqueue_scripts', array( get_class(), 'connects_admin_enqueue') );
 
         //assign templates to added plugin pages
-        \add_filter( 'page_template', array( get_class(), 'set_login_template' )  );
+        \add_filter( 'page_template', array( get_class(), 'set_login_template' ), 99 );
         
-        \add_filter( 'page_template', array( get_class(), 'set_registration_template' )  );
-        \add_filter( 'page_template', array( get_class(), 'set_main_template' )  );
-        \add_filter( 'page_template', array( get_class(), 'set_profile_template' )  );
-        \add_filter( 'page_template', array( get_class(), 'set_homesplash_template' )  );
+        \add_filter( 'page_template', array( get_class(), 'set_registration_template' ), 99 );
+        \add_filter( 'page_template', array( get_class(), 'set_main_template' ), 99 );
+        \add_filter( 'page_template', array( get_class(), 'set_profile_template' ), 99 );
+        \add_filter( 'page_template', array( get_class(), 'set_homesplash_template'), 99 );
         /* Filter the single_template with our custom function*/
         \add_filter('single_template', array( get_class(),'ghc_postype_assign_templates') );
         \add_filter( 'archive_template', array( get_class(),'ghc_postype_assign_archive_templates') );
@@ -124,8 +124,8 @@ class Setup extends \GreenheartConnects {
 
          /* Filter Menu */
          \add_filter( 'wp_nav_menu_args', array(get_class(), 'connects_filter_menu'), 10, 2 );
+         
          /* Disable Admin Email Confirmation */
-
         \add_filter( 'admin_email_check_interval', array(get_class(), 'disable_admin_email_confirmation' ));
     }
     public static function disable_admin_email_confirmation( $interval ) {
@@ -136,11 +136,12 @@ class Setup extends \GreenheartConnects {
         exit;
       }
     public static function connects_filter_menu($args){
-
-        if( \is_user_logged_in() ){
-            $args['menu'] = 'logged-in';
-        } else {
-            $args['menu'] = 'logged-out';
+        if($args['menu_id'] == 'primary-menu'){
+            if( \is_user_logged_in() ){
+                $args['menu'] = 'logged-in';
+            } else {
+                $args['menu'] = 'logged-out';
+            }
         }
         return $args;
     }
@@ -255,24 +256,14 @@ class Setup extends \GreenheartConnects {
         $role = get_role( 'subscriber' );
         $role->add_cap( 'upload_files' );
     }
+    
     public static function gate_generic_page_templates(){
-        if ( basename(\get_page_template()) === 'page.php' ) {
-            \add_action('close_header', function(){
-                $userState = Modules::top_avatar();
-                if(!$userState){
-                    global $post; 
-                    $public_page_checkstatus = get_post_meta($post->ID, 'public_page_checkstatus', true);
-                    if($public_page_checkstatus !== "true"){
-                        require_once self::get_plugin_path('theme/views/components/please_login.php');
-                        Modules::footer(); 
-                        Modules::close_page();
-                        exit;
-                    }
-
-                }
-            });
-        }
-        
+        if ( basename(\get_page_template()) === 'page.php' ) {      
+            \add_filter( 'page_template', function($page_template){
+                $page_template = \GreenheartConnects::get_plugin_path( 'theme/views/single-page.php' );
+                return $page_template;
+            }, 5);
+        }   
     }
 
     public static function kill_topbar($admin_bar){

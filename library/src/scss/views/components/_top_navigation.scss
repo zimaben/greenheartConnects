@@ -34,3 +34,11 @@
 .dropdown-toggle:visited{
 	color:#363637;
 }
+@media screen and (max-width:992px){
+	#avatar-nav{display:none;} 
+}
+@media screen and (max-width:768px){
+	#header_avatar{
+		display:none;
+	}
+}

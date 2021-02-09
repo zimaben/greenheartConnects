@@ -43,7 +43,12 @@ class Admin extends \GreenheartConnects{
         require_once self::get_plugin_path( 'admin/payment_cron.php');
 
 
+        \add_action( 'init', array(get_class(), 'add_mobile_menus' ));
     }
+    public static function add_mobile_menus() {
+        register_nav_menu('mobile-logged-in',__( 'Mobile Nav:Logged In' ));
+        register_nav_menu('mobile-logged-out',__( 'Mobile Nav:Logged Out' ));
+      }
     public static function login_head_message(){
         error_log('this is working');
     }
