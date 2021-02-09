@@ -124,7 +124,7 @@ class Setup extends \GreenheartConnects {
          \add_filter( 'wp_nav_menu_args', array(get_class(), 'connects_filter_menu'), 10, 2 );
     }
     public static function connects_filter_menu($args){
-        error_log(print_r($items,true));
+
         if( \is_user_logged_in() ){
             $args['menu'] = 'logged-in';
         } else {

@@ -5,7 +5,7 @@ Modules::open_page();
 Modules::hack_in_login_enqueue();
 /*/-------------------------------------------------------------------------------------------------------
 /*
-/*/ Modules::top_logo();                      Modules::top_menu();           $userState = Modules::top_login();
+/*/ Modules::top_logo();                      Modules::top_menu();           $userState = Modules::top_avatar();
 /*
 /*---------------------------------------------------------------------------------------------------------
 /*

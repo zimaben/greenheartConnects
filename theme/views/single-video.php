@@ -50,6 +50,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>
                     <div class="info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', 20 )) ?></div>
+                    
                 </div>
                 <div class="info-row">
                     

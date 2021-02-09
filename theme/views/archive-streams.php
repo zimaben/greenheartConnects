@@ -1,5 +1,6 @@
 <?php
 use gh_connects\theme\Modules as Modules; 
+use gh_connects\theme\classes\Condenser as Condenser;
 
 Modules::open_page();
 /*/-------------------------------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ Modules::open_page();
 /*/
 if($userState){
     if($userState->cn_status === 'paid'){
+        require_once GreenheartConnects::get_plugin_path('theme/views/classes/condenser-class.php');
 ?>
 <div class="container">
     <div class="col-12 maincol">
@@ -38,7 +40,8 @@ if($userState){
                         echo '<a href="'.\get_post_permalink(\get_the_ID()).'">'.\get_the_title(\get_the_ID()).'</a>'; 
                         ?>
                         </h4>
-                        <span class="author"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></span>   
+                        <span class="author"><?php echo \get_post_meta( \get_the_ID(), 'ghc_author_name', true ); ?></span> 
+                        <div class="pt-3 info-excerpt"><?php echo Condenser::limitWords( \get_post_meta( \get_the_ID(), 'ghc_author_bio', 20 )) ?></div>  
                     </div>
                     <div class="col-2 date-bg">
                         <div class="date">
