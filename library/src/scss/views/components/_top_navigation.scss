@@ -36,6 +36,10 @@
 }
 @media screen and (max-width:992px){
 	#avatar-nav{display:none;} 
+	#mobile-menu-container.active .navbar .navbar-nav li a {
+		font-size:24px;
+		line-height:42px; 
+	}
 }
 @media screen and (max-width:768px){
 	#header_avatar{
