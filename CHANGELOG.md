@@ -1,3 +1,7 @@
+### 1.1.11 ### 
+
+Top Logo refinements
+
 ### 1.1.9 ### 
 
 More notes on Dashboard Homepage & Login 

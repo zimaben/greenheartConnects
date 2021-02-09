@@ -135,7 +135,11 @@ class Modules extends \GreenheartConnects {
 
     }
     public static function top_logo(){
-        require_once self::get_plugin_path('theme/views/components/top_logo.php');
+        if( \is_user_logged_in() ){
+            require_once self::get_plugin_path('theme/views/components/top_logo.php');
+        } else {
+            require_once self::get_plugin_path('theme/views/components/top_logo_loggedout.php');
+        }
     }
     public static function top_menu(){
         require_once self::get_plugin_path('theme/views/components/top_navigation.php');
