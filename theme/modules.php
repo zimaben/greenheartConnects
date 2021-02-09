@@ -160,9 +160,9 @@ class Modules extends \GreenheartConnects {
             $the_avatar = new HeaderAvatar( $userState );
 
         } else {
-            
-            require_once self::get_plugin_path('theme/views/classes/header-avatar-loggedout-class.php');
-            $the_avatar = new HeaderAvatarLoggedOut( \wp_login_url() );
+            self::top_login();
+           # require_once self::get_plugin_path('theme/views/classes/header-avatar-loggedout-class.php');
+           # $the_avatar = new HeaderAvatarLoggedOut( \wp_login_url() );
 
         }
     

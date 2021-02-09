@@ -17,6 +17,10 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
 } 
+.btn:focus, .btn:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
 #membership-levels {
     width:100%;

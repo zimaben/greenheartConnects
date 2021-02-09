@@ -3,7 +3,7 @@
 jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
     moveThumbs( e.to );
 });
-
+const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
 const moveThumbs = (toIndex) => {
 
     let rightthumbs = document.querySelector('.thumbnails.right');
@@ -42,29 +42,73 @@ const resetThumbs = () => {
         item.classList.remove('active');
     }
 }
-const normalizeSlideHeights = (slides) => {
+const check_slides = () => {
+    let slides = document.getElementsByClassName('carousel-item');
+    if(slides) normalizeSlideHeights(slides);
+}
+/*
+        if(slides){
+            for(let slide of slides){
+                slide.removeAttribute('style');
+                let iframe = slide.querySelector('IFRAME');
+                if(iframe) fit_iFrame_mobile( iframe )
+              };  
+        }
+        
+        return false;
 
-  let parent=slides[0].parentElement;
-  let placeholder = document.createElement('div');
-  placeholder.classList = parent.classList;
-  placeholder.setAttribute('style', 'position:absolute;left:-10000px;visibility:hidden;');
-  if(parent && slides.length){//will work on all but the body element
-    var maxheight = 0;
-    parent.parentElement.insertBefore(placeholder, parent);//to get correct CSS hierarchy
-    
-    for(let slide of slides){
-      let clone = slide.cloneNode(true);
-      clone.classList.add('active'); //otherwise in Bootstrap it's display:none
-      placeholder.appendChild(clone);
-      if(clone.clientHeight > maxheight) maxheight = clone.clientHeight
-      //remove clone before loop closes to avoid list mutation
-      clone.remove();
-    };
-    placeholder.remove();
-    for(let slide of slides){
-      slide.setAttribute('style', 'height:'+ maxheight + 'px;');
-    };  
-  }
+*/
+const fit_iFrame_mobile = ( iframe ) => {
+    let h = iframe.height;
+    let w = iframe.width;
+    let multiplier = false;
+    if(w > h){
+        multiplier = h/w;
+    }
+    iframe.width  = iframe.contentWindow.document.body.scrollWidth;
+    if(multiplier){
+        iframe.height = iframe.height * multiplier;
+    }
+}
+const set_iFrame = (source, dest) => {
+    fit_iFrame_mobile(source);
+    dest.height = source.height;
+    dest.width = source.width;
+}
+
+const normalizeSlideHeights = (slides) => {
+    let mobile_layout = false;
+    if(!viewportWidth || viewportWidth < 768){ 
+        mobile_layout = true;
+    }
+    console.log('mobile_layout is ' + (mobile_layout) ? "true" : "false");
+    let parent=slides[0].parentElement;
+    let placeholder = document.createElement('div');
+    placeholder.classList = parent.classList;
+    placeholder.setAttribute('style', 'position:absolute;left:-10000px;visibility:hidden;');
+    if(parent && slides.length){//will work on all but the body element
+        var maxheight = 0;
+        parent.parentElement.insertBefore(placeholder, parent);//to get correct CSS hierarchy
+        for(let slide of slides){
+            let clone = slide.cloneNode(true);
+            clone.classList.add('active'); //otherwise in Bootstrap it's display:none
+            placeholder.appendChild(clone);
+            if(clone.clientHeight > maxheight) maxheight = clone.clientHeight
+            if(mobile_layout){
+                let iframe = clone.querySelector('IFRAME');
+                let dest_iframe = slide.querySelector('IFRAME');
+                set_iFrame(iframe, dest_iframe);
+            }
+            //remove clone before loop closes to avoid list mutation
+            clone.remove();
+        };
+        placeholder.remove();
+        if(!mobile_layout){
+            for(let slide of slides){
+                slide.setAttribute('style', 'height:'+ maxheight + 'px;');
+            };  
+        }
+    }
 }
 const goToHomeSlide = (e) =>{
     e.preventDefault();

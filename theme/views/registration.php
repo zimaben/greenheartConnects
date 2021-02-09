@@ -169,7 +169,8 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * @since 4.6.0
 	 */
 	do_action( 'login_header' );
-	$gh_left_image = \get_site_url() . '/wp-content/plugins/ghconnects/library/dist/css/img/GHConnect_Logo.png';
+	#$gh_left_image = \get_site_url() . '/wp-content/plugins/ghconnects/library/dist/css/img/GHConnect_Logo.png';
+	$gh_left_image = GreenheartConnects::get_plugin_url('/library/dist/css/img/') . 'GHConnect_Logo.png';
 	
 	?>
 	<div class="container-fluid">

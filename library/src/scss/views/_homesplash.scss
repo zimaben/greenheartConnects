@@ -1,5 +1,24 @@
 @import '../variables'; 
 
+.row.welcome-module-bg {
+    background-color: #78c729;
+    background-image: url(img/dots.svg);
+    background-position-x: -50%;
+    background-position-y: 50px;
+    background-repeat: repeat-x;
+    box-shadow: inset 8px -8px 18px rgba(0,0,0, .16);
+    h1{
+        color: white;
+        font-size: 64px;
+        text-align: center;
+        text-shadow: 4px 4px 8px rgba(0,0,0, .16);
+    }
+    h4{
+        line-height:36px;
+        color: white;
+    }
+}
+
 #homesplashCarousel{
     background-image: url(https://greenheartexchange.org/wp-content/plugins/q-theme-exchange/library/theme/css/images/1/desktop/new/world-map.png);
     background-size: cover;
@@ -10,6 +29,14 @@
     .carousel-inner {
         overflow: visible;
     }
+    h2{
+        font: 28px/36px "Sanchez",Georgia,serif;
+    }
+    h5{
+        text-align: left;
+        align-self: flex-start;     
+    }
+
 }
 ul.menu-right{
     list-style:none;
@@ -71,4 +98,16 @@ ul.checkmarklist{
 .carousel-control-next {
     right: 0;
     background-image: linear-gradient(to left, rgba(255,255,255,.7), rgba(0,0,0,0));
+}
+
+@media screen and (max-width: 768px){
+    .row.welcome-module-bg {
+        background-repeat:repeat;
+        h1{
+            font-size:36px;
+        }
+        h4{
+            text-align:center;
+        }
+    }
 }

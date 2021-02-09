@@ -1,4 +1,7 @@
 //check payment; 
+window.addEventListener( 'resize', (event) => {
+    if( document.getElementById('homesplashCarousel') ) check_slides(); 
+});
 window.addEventListener('DOMContentLoaded', (event) => { 
     let actions = document.querySelectorAll('[data-action]');
     if(actions.length){
@@ -9,7 +12,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
             if(action.dataset.action == "final_countdown_simple") final_countdown_simple(action);
         } 
     }
-
+    if( document.getElementById('homesplashCarousel') ) check_slides(); 
+    /*
     if( document.getElementById('home-hero') && document.getElementById('home-hero').classList.contains('loggedout') ){
         let data_target = document.getElementById( 'pleaselogin');
         let body = document.getElementsByTagName('body')[0];
@@ -32,6 +36,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
             NeonModalFactory.getInstance(data_clone, data_target );
         }
     }
+    */
     document.addEventListener("click", function(event){
         //if click isn't doing something else       
         if(event.target.onclick !== "function"){

@@ -1,3 +1,8 @@
+### 1.1.9 ### 
+
+More notes on Dashboard Homepage & Login 
+
+
 ### 1.1.8 ### 
 
 Dashboard, Homepage, & Login
