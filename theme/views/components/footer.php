@@ -17,7 +17,7 @@
 			<div class="col-12 col-lg-8 footer-info">
 				<span class="anchor" data-scroll="footer"></span>  
 				<div class="contact">
-					<span class="address">712 N Wells St. Chicago, IL 60654, USA</span>
+					<span class="address">742 N. LaSalle Dr. Suite 300, Chicago, IL 60654</span>
 					<span class="phone">Tel: 1 (312) 944-2544</span>
 					<span class="phone">Toll-Free in the U.S: 1 (866) 224-0061</span>
 					<!--<span class="email"><i class="fa fa-envelope"></i>Contact</span>-->

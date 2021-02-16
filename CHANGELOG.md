@@ -1,3 +1,8 @@
+### 1.2.0 ### 
+
+Minor Update with New Homepage ready
+
+
 ### 1.1.12 ### 
 
 Top Logo refinements

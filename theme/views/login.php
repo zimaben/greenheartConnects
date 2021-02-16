@@ -234,8 +234,10 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
 						<?php 
-						$bullet_three = \get_option('ghc_login_bullet_point');
-						echo ($bullet_three) ? '<li>'.$bullet_three.'</li>' : '';
+						if($action !== "resetpass"){
+							$bullet_three = \get_option('ghc_login_bullet_point');
+							echo ($bullet_three) ? '<li>'.$bullet_three.'</li>' : '';
+						}
 						?>
 					</ul>
 					<div class="the-video">
