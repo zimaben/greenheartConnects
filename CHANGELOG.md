@@ -1,3 +1,7 @@
+### 1.2.2 ### 
+
+Removed Instagram test code
+
 ### 1.2.1 ### 
 
 Free Model Added
