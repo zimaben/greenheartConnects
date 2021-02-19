@@ -1,3 +1,7 @@
+### 1.2.1 ### 
+
+Free Model Added
+
 ### 1.2.0 ### 
 
 Minor Update with New Homepage ready

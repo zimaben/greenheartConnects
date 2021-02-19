@@ -68,10 +68,10 @@ class Setup extends \GreenheartConnects {
         \add_filter( 'login_url', array(get_class(), 'set_wp_login_page' ), 10, 3 );      //update login url for core functionality to work with
         \add_filter( 'register_url', array(get_class(), 'set_wp_register_page' ), 10, 1 );//update register url for core functionality
         \add_filter( 'lostpassword_url', array(get_class(),'set_wp_lost_password_page'), 10, 2 );//update lost password url for core functionality
-        #\add_filter( 'registration_redirect', array(get_class(), 'after_registration_home') );
-        #add_filter( 'login_redirect', array(get_class(), 'after_registration_home') );
+        \add_filter( 'registration_redirect', array(get_class(), 'after_registration_home') );
+        \add_filter( 'login_redirect', array(get_class(), 'after_registration_home') );
         \add_action('wp_logout', array(get_class(),'logout_home'));
-
+        \add_action('template_redirect', array(get_class(), 'home_page_loggedin'));
 
         //add Javascript Actions
         \add_action('wp_ajax_cheatMetaKeys', array(get_class(),'cheatMetaKeys'));
@@ -128,6 +128,20 @@ class Setup extends \GreenheartConnects {
          /* Disable Admin Email Confirmation */
         \add_filter( 'admin_email_check_interval', array(get_class(), 'disable_admin_email_confirmation' ));
     }
+
+
+    public static function home_page_loggedin(){
+        if(!\is_front_page() ) return false;
+        if(!\is_user_logged_in() ) return false;
+        $user = \wp_get_current_user();
+        $roles = $user->roles;
+        if( in_array('ghc_user', $roles)){
+            \wp_safe_redirect( \get_home_url(). '/dashboard/');
+            exit();
+        }
+        
+    }
+
     public static function disable_admin_email_confirmation( $interval ) {
         return 0;
     }
@@ -389,7 +403,7 @@ class Setup extends \GreenheartConnects {
         echo '</script>';
     }
     public static function after_registration_home( $registration_redirect ) {
-        return \home_url();
+        return \home_url().'/dashboard/';
     }
     public static function cheatMetaKeys(){
         $userID = $_POST['userID'];

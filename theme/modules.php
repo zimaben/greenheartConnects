@@ -174,7 +174,9 @@ class Modules extends \GreenheartConnects {
     }
     public static function hero_section($userState){
         if($userState){
-            if($userState->cn_status === 'paid'){
+          # Paywall Deprecated, this check passes regardless 2-19-21
+          #  if($userState->cn_status === 'paid'){
+             if( true === true ) {
                 require_once self::get_plugin_path('theme/views/classes/home-hero-class.php');
                 require_once self::get_plugin_path('theme/views/classes/condenser-class.php');
                 #START HERO INFO LOOP
@@ -236,7 +238,9 @@ class Modules extends \GreenheartConnects {
     return $userState;  
     }
     public static function left_col($userState){
-        if($userState && $userState->cn_status === 'paid' ){
+       # if($userState && $userState->cn_status === 'paid' ){
+       # Paywall Deprecated 2-19-21 
+           if($userState){
             require_once self::get_plugin_path('theme/views/classes/left-col-class.php');
             $the_left_column = new LeftCol( $userState );
         } else {

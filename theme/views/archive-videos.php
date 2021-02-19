@@ -10,7 +10,9 @@ Modules::open_page();
 /*---------------------------------------------------------------------------------------------------------
 /*/
 if($userState){
-    if($userState->cn_status === 'paid'){
+  #  if($userState->cn_status === 'paid'){
+  # # Paywall Deprecated 2/19/21
+   if( true === true ) {
         require_once GreenheartConnects::get_plugin_path('theme/views/classes/condenser-class.php');
 ?>
 <div class="container">

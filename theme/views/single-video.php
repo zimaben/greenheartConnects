@@ -14,7 +14,9 @@ Modules::open_page();
 /*/
 
 if($userState){
-    if($userState->cn_status === 'paid'){
+  #  if($userState->cn_status === 'paid'){
+  ## Paywall Deprecated 2/19/21
+  if( true === true ) {
 
 if ( have_posts() ) : while ( have_posts() ) : the_post(); 
 ?>
