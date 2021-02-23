@@ -63,7 +63,7 @@ class Dialog {
       };
       this.render = async function(){
         //if a confirm dialog is already happening, bail
-  
+        console.log('login called')
         //dismiss all existing dialogs
         let dialogs = document.getElementsByClassName('system-dialog');
         if(dialogs.length){

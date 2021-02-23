@@ -1,3 +1,7 @@
+### 1.2.6 ### 
+
+Dialog moved into login styles;
+
 ### 1.2.5 ### 
 
 Troubleshooting in Staging thanks to SSL issue in local;
