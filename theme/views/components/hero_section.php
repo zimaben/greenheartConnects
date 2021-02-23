@@ -27,7 +27,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
             <div class="row">
                 <div class="hero-bg">
                     <?php 
-                    do_shortcode( '[zoom_api_link meeting_id="'.$this->zoomid.'" class="zoom-meeting-window" id="zoom-meeting-window" title="Your Page Title" countdown-title="Meeting starts in" width="" height=""]'); 
+                   # do_shortcode( '[zoom_api_link meeting_id="'.$this->zoomid.'" class="zoom-meeting-window" id="zoom-meeting-window" title="Your Page Title" countdown-title="Meeting starts in" width="" height=""]'); 
                     ?>
                 </div>
             </div>
@@ -42,7 +42,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
         <div id ="home-hero" class="container">
             <div class="row">
                 <div class="col-12">
-                <h2 class="nextstream">Next Stream</h2>
+                    <h2 class="nextstream">Next Stream</h2>
                 </div>
             </div>
             <div class="row">

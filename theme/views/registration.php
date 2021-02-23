@@ -183,7 +183,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 					 <h2 class="left-title"><?php echo get_the_title( get_the_ID() ) ?></h2>
 					 <ul>
 						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="why-join">Why Join Greenheart Connects?</a></li>
-						<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>
+						<!--<li><a href="#" onclick="loginModal(event);return false;" data-modal-target="membership-levels">Membership Packages</a></li>-->
 						<?php 
 						$bullet_three = \get_option('ghc_login_bullet_point');
 						echo ($bullet_three) ? '<li>'.$bullet_three.'</li>' : '';

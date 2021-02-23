@@ -1,0 +1,211 @@
+/* VARIABLES */
+
+/* Colors */
+$brightgreen: #8ac53f;
+$brightgreen-hover:#7cb138;
+$accent: #00a9e0;
+$text-light: #a7a8a9;
+$text-dark: #6d6e70;
+$text-black: #363637;
+$off-white: #F4F4F4; 
+$success: #8ac53f;
+$error: #E14A29;
+$dialog: #fcc04c;
+$sunflower: #d4c548;
+$background-grey: #e1e1e1; 
+$pine: #00843d;
+
+/* Font */
+$sanchez: "Sanchez", Georgia, serif;
+$lato: Lato, "Open Sans", Helvetica, Arial, sans-serif; 
+
+@import 'variables'; 
+
+.system-dialog{ 
+    display: flex;
+    flex-direction:column;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index:9999;
+    transform: none;
+    top:0;
+    max-width: calc(100% - 70px);
+}
+.system-dialog-context{
+    
+    width:100%;
+    height:auto;
+    position:relative;
+}
+
+.system-dialog { 
+    display: inline;
+    align-self: flex-end;
+    text-align: right;
+    top: 30px;
+    right:30px;
+    background: transparent;
+    color:white;
+    border-radius: 4px; 
+    z-index:9999;
+    max-width: calc(100% - 70px);
+    span.the_message {
+        border-radius: 4px;
+        position:relative;
+        color: white !important;
+        background-color: $accent;
+        line-height: 15px;
+        height: auto;
+        max-height:auto;
+        text-align: center;
+        display: inline-flex;
+        vertical-align: text-top;
+        margin-right: 10px; 
+        &.topleft{
+            position:absolute;
+            top:5%;
+            left:5%;
+        }
+        &.topright{
+            position:absolute;
+            top:5%;
+            right:5%;
+        }
+        &.bottomright{
+            position:absolute;
+            bottom:5%;
+            right:5%;
+        }
+        &.bottomleft{
+            position:absolute;
+            bottom:5%;
+            left:5%
+        }
+        &.deadcenter {
+            position: absolute;
+            display: flex;
+            left: 0;
+            top: 0;
+            align-items: center;
+            justify-content: center;
+            text-align:left;
+        }
+        &.brightgreen{
+            background:$brightgreen;
+            .header{
+                padding: 0;
+                background-color:$brightgreen;    
+            }
+            &:hover{
+                background:$brightgreen-hover;
+                .header{
+                    background-color:$brightgreen-hover;    
+                }
+            }
+        } 
+        &.accent{
+            background:$accent;
+            .header{
+                padding: 0;
+                background-color:v;
+            }
+        }
+        &.success{
+            background:$success;
+            .header{
+                padding: 0;
+                background-color:$success;
+            }
+        }
+        &.error{
+            background:$error;
+            .header{
+                padding: 0;
+                background-color:$error;
+            }      
+        }
+        &.dialog{
+            background:$dialog;
+            .header{
+                padding: 0;
+                background-color:$dialog;
+            }         
+        } 
+        
+
+        span.header{
+            padding:0;
+            border-radius:4px 0 0 4px;
+            display: inline-block;
+            background-position-y: calc((100% / 2) - 1px);
+            background-position-x: 15px;
+            width: 50px;
+            height: 100%;
+            position:absolute;
+            background-image: url(img/neon-exclamation.svg);
+            background-color: $accent;
+            content:'';
+            align-self:center;
+            background-repeat: no-repeat;
+            background-size: 18px;
+            line-height: 15px;
+            vertical-align: top;
+        }
+ 
+        span {
+            color:white !important;
+        }
+        span.dialog_text{
+            padding:15px 15px 15px 0;
+            display:inline;
+            margin-left:50px;
+        }
+
+        span.confirm_button{
+            height: 22px;
+            width: 22px;
+            margin: -4px 10px 0 5px;
+            display: inline-flex;
+            align-self: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer;
+            vertical-align: text-top;
+            background-image: url(img/circle-check-grey.svg);
+        }
+        span.deny_button,
+        span.dismiss_button {
+            height: 22px;
+            width: 22px;
+            margin: -4px 10px 0 5px;
+            display: inline-flex;
+            align-self: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            cursor: pointer; 
+            vertical-align: text-top;
+            background-image: url(img/circle-x-grey.svg);
+        }
+    }
+    &.confirm {
+        span.the_message{
+            background-color:$dialog;
+            span.header{
+                background-image: url(img/neon-question.svg);
+                background-color:$dialog;
+            }
+            span.confirm_button{
+                margin-right:3px;
+            }
+        }
+    }
+    &.dismiss {
+        span.the_message {
+            background-color:$accent;
+            span.header{
+                background-color:$accent;
+            }
+        }
+    }
+}

@@ -248,7 +248,7 @@ class Modules extends \GreenheartConnects {
         }
     }
     public static function right_col($userState){
-        if($userState && $userState->cn_status === 'paid' ){
+        if($userState){
             require_once self::get_plugin_path('theme/views/components/right_col.php');
         }
     }

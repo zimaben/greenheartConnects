@@ -1,3 +1,7 @@
+### 1.2.3 ### 
+
+Added Login Error handling through Dialog class;
+
 ### 1.2.2 ### 
 
 Removed Instagram test code

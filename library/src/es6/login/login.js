@@ -100,10 +100,12 @@ const submitRegistration = (e) => {
 			if(confirm.value === pass.value){
 				password_match = true;
 			} else {
-				error_msg = 'Passwords do not match.'
+                error_msg = 'Passwords do not match.'
+                let message = new Dialog({'message': error_msg});
 			}
 		} else {
-			error_msg = 'Please confirm password.'
+            error_msg = 'Please confirm password.'
+            let message = new Dialog({'message': error_msg});
 		}
 	} else {
 		display_confirm = true;
@@ -111,7 +113,8 @@ const submitRegistration = (e) => {
 
 	let email = document.getElementById('email').value;
 	if(! validateEmail(email) ){
-		error_msg = 'Please enter a valid email.'
+        error_msg = 'Please enter a valid email.';
+        let message = new Dialog({'message': error_msg});
 	}
 
 	if(!error_msg && password_match){
@@ -125,10 +128,7 @@ const submitRegistration = (e) => {
 		let confirmlabel = document.getElementById('confirmlabel');
 		confirm.classList.add('active');
 		confirmlabel.classList.add('active');
-		} else if( error_msg){
-			dialog.innerText = error_msg;
-			dialog.classList.remove('hidden');
-	}
+		}
 }
 async function registerIt(username, email, password, first, last){
 	const location = ajaxurl + '?action=register_user_front_end';
@@ -154,6 +154,7 @@ async function registerIt(username, email, password, first, last){
              
 		} else {
             console.log(response);
+            let message = new Dialog({'message': response.message});
         }	
 	}
 	
