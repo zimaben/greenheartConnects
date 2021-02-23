@@ -1,3 +1,7 @@
+### 1.2.8 ### 
+
+Okay really found the leak this time;
+
 ### 1.2.7 ### 
 
 Found JS error logging leak. Testing;

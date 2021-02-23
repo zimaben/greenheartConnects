@@ -138,6 +138,7 @@ async function registerIt(username, email, password, first, last){
     senddata += '&' + encodeURIComponent( 'lastname' ) + '=' + encodeURIComponent( last );
 	let response = await sendit(location, senddata);
 	if( response ){
+        console.log(response);
 		let dialog = document.getElementById('frontendvalidation');
 		//dialog.innerText = response.message;
 		if( response.status == 200 ){  
@@ -155,7 +156,9 @@ async function registerIt(username, email, password, first, last){
             console.log(response);
             let message = new Dialog({text: response.message});
         }	
-	}
+	} else {
+        let message = new Dialog({text: 'No response from server'});
+    }
 	
 }
 const goToMyInfo = (e) => {
@@ -169,7 +172,8 @@ const goToMyInfo = (e) => {
 
 }
 const sendit = async(location, senddata ) => {
-	console.log(senddata);
+    console.log(senddata);
+    console.log(location);
     const settings = {
         method: 'POST',
         headers: {
@@ -182,6 +186,9 @@ const sendit = async(location, senddata ) => {
         const receivedata = await fetchResponse.json();
         if(receivedata.status == 200){
 			console.log(receivedata);
+            return receivedata;
+        } else {
+            console.log(receivedata);
             return receivedata;
         }
         // do success stuff
