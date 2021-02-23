@@ -26,7 +26,7 @@ class Dialog {
               let msg = e.target.closest('DIV');
               msg.parentElement.removeChild(msg);
               resolve(false)});
-        });      
+        });
       };
       this.addDismiss = async function(div){
         return new Promise((resolve, reject ) => {
@@ -133,4 +133,4 @@ class Dialog {
       let x = this.render();
       resolve(x);
     };
-  };
+};

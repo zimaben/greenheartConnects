@@ -1,3 +1,7 @@
+### 1.2.4 ### 
+
+Updated task runner workflow for Dialog class;
+
 ### 1.2.3 ### 
 
 Added Login Error handling through Dialog class;

@@ -86,7 +86,6 @@ const NeonModalFactory = (function(){
 
 const submitRegistration = (e) => {  
 	e.preventDefault();
-	console.log('submit clicked');
 	let confirm = document.getElementById('passwordconfirm');
 	let pass = document.getElementById('password');
 	let dialog = document.getElementById('frontendvalidation');
