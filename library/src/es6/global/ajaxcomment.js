@@ -14,7 +14,7 @@ const addAjaxComment = async(e) => {
     }
     let response = await sendit(url, senddata);
     if(response){
-        console.log(response);
+
         let comment = document.getElementById('comment');
         let comments = response.markup;
         let comment_list = document.getElementById('comment_list');

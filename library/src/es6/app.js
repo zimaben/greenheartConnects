@@ -13,7 +13,7 @@ const NeonModalFactory = (function(){
         container.classList.add('neon-modal');
         backbutton.classList.add('close');
         content.classList.add('neon-modal-content');
-        console.log(referring_element); 
+
         if(referring_element.id == 'payment'){
             content.classList.add('payment');
         }
@@ -82,7 +82,7 @@ const NeonModalFactory = (function(){
         if(isiframe.length){
             let theframe = isiframe[0];
             if(typeof theframe !== 'undefined'){
-                console.log( content.getBoundingClientRect().width );
+
                 let width = Math.round( content.getBoundingClientRect().width * .8 ); // 9:16 aspect for height
                 let height = Math.round( 9 * ( width / 16 ));
                 theframe.height = height;

@@ -72,7 +72,7 @@ const NeonModalFactory = (function(){
         if(isiframe.length){
             let theframe = isiframe[0];
             if(typeof theframe !== 'undefined'){
-                console.log( content.getBoundingClientRect().width );
+
                 let width = Math.round( content.getBoundingClientRect().width * .8 ); // 9:16 aspect for height
                 let height = Math.round( 9 * ( width / 16 ));
                 theframe.height = height;
@@ -138,11 +138,11 @@ async function registerIt(username, email, password, first, last){
     senddata += '&' + encodeURIComponent( 'lastname' ) + '=' + encodeURIComponent( last );
 	let response = await sendit(location, senddata);
 	if( response ){
-        console.log(response);
+
 		let dialog = document.getElementById('frontendvalidation');
 		//dialog.innerText = response.message;
 		if( response.status == 200 ){  
-            console.log(response);
+    
             let resp = JSON.parse(response.message);
             //console.log(response.message);
 			//hide form
@@ -153,7 +153,7 @@ async function registerIt(username, email, password, first, last){
            window.location='/?&firstname='+resp.firstname+'&lastname='+resp.lastname+'&email='+resp.email;
              
 		} else {
-            console.log(response);
+
             let message = new Dialog({text: response.message});
         }	
 	} else {
@@ -172,8 +172,7 @@ const goToMyInfo = (e) => {
 
 }
 const sendit = async(location, senddata ) => {
-    console.log(senddata);
-    console.log(location);
+
     const settings = {
         method: 'POST',
         headers: {
@@ -185,10 +184,10 @@ const sendit = async(location, senddata ) => {
         const fetchResponse = await fetch(location, settings);
         const receivedata = await fetchResponse.json();
         if(receivedata.status == 200){
-			console.log(receivedata);
+	
             return receivedata;
         } else {
-            console.log(receivedata);
+     
             return receivedata;
         }
         // do success stuff
@@ -202,12 +201,12 @@ const sendit = async(location, senddata ) => {
 
 function validateUsername(username){
 	if(username.length >= 4){
-		console.log(username);
+
 		var pattern = /^[a-z0-9]+$/;
 
 		//let alphanumeric = username.match(pattern); 
 		let alphanumeric = pattern.test(username);
-		console.log(alphanumeric);
+
 		return alphanumeric;
 	} else {
 	return false; 

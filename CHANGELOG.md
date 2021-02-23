@@ -1,3 +1,8 @@
+### 1.2.9 ### 
+
+Final patch update, remove excessive loggging;
+
+
 ### 1.2.8 ### 
 
 Okay really found the leak this time;

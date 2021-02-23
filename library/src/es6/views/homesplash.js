@@ -81,7 +81,7 @@ const normalizeSlideHeights = (slides) => {
     if(!viewportWidth || viewportWidth < 768){ 
         mobile_layout = true;
     }
-    console.log('mobile_layout is ' + (mobile_layout) ? "true" : "false");
+
     let parent=slides[0].parentElement;
     let placeholder = document.createElement('div');
     placeholder.classList = parent.classList;

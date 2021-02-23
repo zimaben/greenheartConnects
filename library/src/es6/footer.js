@@ -136,7 +136,7 @@ const normalizeSlideHeights = (slides) => {
     if(!viewportWidth || viewportWidth < 768){ 
         mobile_layout = true;
     }
-    console.log('mobile_layout is ' + (mobile_layout) ? "true" : "false");
+
     let parent=slides[0].parentElement;
     let placeholder = document.createElement('div');
     placeholder.classList = parent.classList;
@@ -209,7 +209,7 @@ function final_countdown_simple( element ){
     }
 }
 async function final_countdown_loop_simple( seconds ){
-    console.log('for loop about to be called');
+
     for(let s=seconds; s < 300; s--){
         /* @TODO - this loop isn't running */
         await sleepCN(1000);
