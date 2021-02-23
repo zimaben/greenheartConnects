@@ -1,3 +1,7 @@
+### 1.2.7 ### 
+
+Found JS error logging leak. Testing;
+
 ### 1.2.6 ### 
 
 Dialog moved into login styles;

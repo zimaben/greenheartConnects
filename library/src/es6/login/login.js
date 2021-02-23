@@ -153,7 +153,7 @@ async function registerIt(username, email, password, first, last){
              
 		} else {
             console.log(response);
-            let message = new Dialog({'text': response.message});
+            let message = new Dialog({text: response.message});
         }	
 	}
 	
@@ -186,7 +186,8 @@ const sendit = async(location, senddata ) => {
         }
         // do success stuff
     } catch (e) {
-        
+        console.log(e);
+        let message = new Dialog({text: JSON.stringify(e)})
         return e;
     } 
 
