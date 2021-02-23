@@ -1,3 +1,7 @@
+### 1.2.5 ### 
+
+Troubleshooting in Staging thanks to SSL issue in local;
+
 ### 1.2.4 ### 
 
 Updated task runner workflow for Dialog class;

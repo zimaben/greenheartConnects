@@ -100,11 +100,11 @@ const submitRegistration = (e) => {
 				password_match = true;
 			} else {
                 error_msg = 'Passwords do not match.'
-                let message = new Dialog({'message': error_msg});
+                let message = new Dialog({'text': error_msg});
 			}
 		} else {
             error_msg = 'Please confirm password.'
-            let message = new Dialog({'message': error_msg});
+            let message = new Dialog({'text': error_msg});
 		}
 	} else {
 		display_confirm = true;
@@ -113,7 +113,7 @@ const submitRegistration = (e) => {
 	let email = document.getElementById('email').value;
 	if(! validateEmail(email) ){
         error_msg = 'Please enter a valid email.';
-        let message = new Dialog({'message': error_msg});
+        let message = new Dialog({'text': error_msg});
 	}
 
 	if(!error_msg && password_match){
@@ -153,7 +153,7 @@ async function registerIt(username, email, password, first, last){
              
 		} else {
             console.log(response);
-            let message = new Dialog({'message': response.message});
+            let message = new Dialog({'text': response.message});
         }	
 	}
 	
@@ -202,7 +202,7 @@ function validateUsername(username){
 		console.log(alphanumeric);
 		return alphanumeric;
 	} else {
-	return false;
+	return false; 
 	} 
 }
 
