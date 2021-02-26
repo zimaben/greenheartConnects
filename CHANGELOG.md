@@ -1,3 +1,7 @@
+### 1.3.0 ### 
+
+Mobile Updates for home page overhaul
+
 ### 1.2.9 ### 
 
 Final patch update, remove excessive loggging;
