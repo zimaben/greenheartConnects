@@ -33,7 +33,7 @@ $(document).ready( function() {
 		file_frame.on( 'select', function() {
             
 			attachment = file_frame.state().get('selection').first().toJSON();
-            console.log(attachment);
+       
             jQuery.post(
                 ajaxurl, 
                 {

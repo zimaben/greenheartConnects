@@ -13,7 +13,7 @@ Modules::open_page_norobots();
 /*
 /*
 /*/
-$showpage = false;
+$showpage = true;
 if($userState){
     $showpage = true;
 } else {

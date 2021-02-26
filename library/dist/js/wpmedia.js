@@ -33,7 +33,7 @@ $(document).ready( function() {
 		file_frame.on( 'select', function() {
             
 			attachment = file_frame.state().get('selection').first().toJSON();
-            console.log(attachment);
+          
             jQuery.post(
                 ajaxurl, 
                 {
@@ -41,11 +41,11 @@ $(document).ready( function() {
                     "data":   { "userid": attachment.author, "attachmentid": attachment.id }
                 }
             ).done(function( response ){
-                console.log(JSON.parse(response));
+               
                 response = JSON.parse(response);
-                console.log(response.status);
+              
                 if(response.status == '200'){
-                    console.log('passed status');
+                   
                     $fullavatar = attachment.url.replace('.jpg', '-233x233.jpg'); //get wordpress cropped versions of image
                     $tinyavatar = attachment.url.replace('.jpg', '-32x32.jpg');
                     $('.ghc.avatar-img').attr('src', $fullavatar);
@@ -90,7 +90,7 @@ $(document).ready( function() {
 		file_frame.on( 'select', function() {
             
 			attachment = file_frame.state().get('selection').first().toJSON();
-            console.log(attachment);
+       
             jQuery.post(
                 ajaxurl, 
                 {
@@ -98,11 +98,11 @@ $(document).ready( function() {
                     "data":   { "userid": attachment.author, "attachmentid": attachment.id }
                 }
             ).done(function( response ){
-                console.log(JSON.parse(response));
+        
                 response = JSON.parse(response);
-                console.log(response.status);
+             
                 if(response.status == '200'){
-                    console.log('passed status');
+                 
                     $fullavatar = attachment.url.replace('.jpg', '-233x233.jpg'); //get wordpress cropped versions of image
                     $tinyavatar = attachment.url.replace('.jpg', '-32x32.jpg');
                     $('.ghc.avatar-img').attr('src', $fullavatar);

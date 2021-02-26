@@ -240,3 +240,62 @@ h1.hometitle{
         }
     }
 }
+
+@media (max-width:568px){
+    #home-hero .date-wrap .date-bg{
+        .datewrap{
+            min-height:120px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            .day {
+                padding-top: unset;
+                height: unset;
+                display: inline-flex;
+                font: 30px/40px "Sanchez",Georgia,serif;
+                width: fit-content;
+                font-weight: bold;
+            }
+        }
+    }
+    .infobody .infowrap {
+        height: 100%;
+        position: relative;
+        padding: 3%;
+    }
+    .col-2.date-wrap {
+        padding: 0;
+        margin-right: 15px;
+        margin-left: 15px;
+        max-width: calc(100% - 30px);
+    }
+        .infobody {
+        max-width: calc(100% - 30px);
+        margin-left: 15px;
+    }
+    .leftcol h3.upcoming{
+        padding:3%;
+    }
+    .leftcol .item .date-bg .date, 
+    .maincol .item .date-bg .date,
+    .rightcol .item .date-bg .date{
+        height: 100%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        .day {
+            font-weight: bold;
+            justify-self: center;
+            align-self: center;
+            display: inline-flex;
+            height: unset;
+            padding-top: unset;
+        }
+    }
+    .date-wrap {
+        .day{
+            padding-top: unset;
+        }
+    }
+}

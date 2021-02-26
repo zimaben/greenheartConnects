@@ -46,12 +46,12 @@ use gh_connects\theme\classes\Condenser as Condenser;
                 </div>
             </div>
             <div class="row">
-                <div class="col-2 author-wrap">
+                <div class="col-12 col-sm-2 author-wrap">
                     <div class="author-bg" style="background:url(<?php echo $img?>) center/cover;">
 
                     </div>
                 </div>
-                <div class="col-2 date-wrap">
+                <div class="col-12 col-sm-2 col-2 date-wrap">
                     <div class="date-bg">
                         <div class="datewrap">
                             <span class="month"><?php echo $this->startDate->format('M');?></span>
@@ -61,7 +61,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
                         </div>
                     </div>
                 </div>
-                <div class="col-8 infobody">
+                <div class="col-12 col-sm-8 infobody">
                     <div class="infowrap">
                         <h1 class="pagetitle frontpage"><?php echo $title ?></h1>
                         <div class="info-accordion"><span class="hamburger-expand"></span>
