@@ -4,7 +4,7 @@
 **Tags:** theme, templates  
 **Requires at least:** 4.0  
 **Tested up to:** 5.4.0  
-**Stable tag:** 1.3.1
+**Stable tag:** 1.3.2
 **License:** GPL2  
 
 Connects Theme for Greenheart

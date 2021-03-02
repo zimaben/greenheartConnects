@@ -1,3 +1,7 @@
+### 1.3.2 ### 
+
+Add emailer
+
 ### 1.3.1 ### 
 
 Mobile final notes
