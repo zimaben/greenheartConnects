@@ -1,3 +1,7 @@
+### 1.4.0 ### 
+
+More email fun
+
 ### 1.3.9 ### 
 
 Have it working. Removing logging 

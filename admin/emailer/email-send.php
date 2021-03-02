@@ -37,7 +37,7 @@ class EmailSend extends \obp_emailer\Emailer {
             $sendfrom = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_sendfrom');
             $sendfromname = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_sendfromname');
             $subject = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_subject');
-            $message = nl2br( \get_option( str_replace("emailer_", "", __FUNCTION__) . '_message') );
+            $message = apply_filters( 'the_content', \get_option( str_replace("emailer_", "", __FUNCTION__) . '_message') );
 
             if($email && $sendto && $message){
                 $email['to'] = $email;
@@ -59,8 +59,8 @@ class EmailSend extends \obp_emailer\Emailer {
             $sendfrom = \get_option( 'new_user_notification_sendfrom');
             $sendfromname = \get_option( 'new_user_notification_sendfromname');
             $subject = \get_option( 'new_user_notification_subject');
-            $message = \get_option( 'new_user_notification_message');
-
+            $message = \apply_filters( 'the_content', \get_option('new_user_notification_message') );
+            
             if($email && $message){
 
 
