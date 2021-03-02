@@ -1,3 +1,7 @@
+### 1.3.6 ### 
+
+More live debugging
+
 ### 1.3.5 ### 
 
 Hook up emailer to new registrations

@@ -1,6 +1,6 @@
 <?php
 namespace obp_emailer\send;
-use \neon_content\components\ShareLinks as ShareLinks;
+
 
 //spin it up
 EmailSend::get_instance();
@@ -20,7 +20,7 @@ class EmailSend extends \obp_emailer\Emailer {
        # \add_action('do_updated_avatar', array(get_class(), 'emailer_update_avatar', ));
         \add_filter( 'wp_mail_content_type', function( $content_type ) { return 'text/html';} );
 
-        \add_filter( 'wp_new_user_notification_email', array(get_class(), 'emailer_new_user_notification') ,3 );
+        \add_filter( 'wp_new_user_notification_email', array(get_class(), 'emailer_new_user_notification'), 10, 3 );
   
     }
 
@@ -49,6 +49,7 @@ class EmailSend extends \obp_emailer\Emailer {
                 }
             }    
         }
+        error_log(print_r($email,true));
         return $email;    
     }
 

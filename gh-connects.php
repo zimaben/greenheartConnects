@@ -12,7 +12,7 @@
  * Plugin Name:     Greenheart Connects
  * Plugin URI:      https://greenheartconnects.org
  * Description:     Extends the Greenheart theme with Greenheart Connects features, functionality, and feature-specific theming and styling. 
- * Version:         1.3.5
+ * Version:         1.3.6
  * Author:          Ben Toth
  * Author URI:      https://ben-toth.com/
  * License:         GNU
@@ -35,7 +35,7 @@ if ( ! class_exists( 'GreenheartConnects' ) ) {
         private static $instance = null;
 
         // Plugin Settings Generic
-        const version = '1.3.5';
+        const version = '1.3.6';
         static $debug = true; //turns PHP and javascript logging on/off
         const text_domain = 'gh_connects'; // for translation ##
         const js_domain = 'gh_connects';
