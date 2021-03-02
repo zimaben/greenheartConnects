@@ -16,7 +16,7 @@ class Options extends \obp_emailer\Emailer {
     /* CONTRUCTOR */
     public function __construct() {
         \add_action( 'admin_menu', array( get_class(), 'add_options_page' ) );
-        \add_action( 'admin_init', array( $this, 'register_theme_settings' ) );
+        \add_action( 'admin_init', array( get_class(), 'register_theme_settings' ) );
         \add_action( 'send_email_from_options', array( get_class(), 'send_the_option_email'));
     }
 
@@ -57,11 +57,11 @@ class Options extends \obp_emailer\Emailer {
         $optionclass= 'formrow';
         $optionclasshidden = 'formrow theme_admin_hidden';
         
-        \add_settings_field( 'update_avatar_sendto', 'Send Email to this address', array($this, 'do_input_update_avatar_sendto'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendto') );
-        \add_settings_field( 'update_avatar_sendfrom', 'Send Email from this address', array($this, 'do_input_update_avatar_sendfrom'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfrom') );
-        \add_settings_field( 'update_avatar_sendfromname', 'Name on the From line:', array($this, 'do_input_update_avatar_sendfromname'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfromname') );    
-        \add_settings_field( 'update_avatar_message', 'Message:', array($this, 'do_editor_update_avatar_message'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_message') );
-        \add_settings_field( 'update_avatar_subject', 'Subject:', array($this, 'do_input_update_avatar_subject'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_subject') );
+        \add_settings_field( 'update_avatar_sendto', 'Send Email to this address', array(get_class(), 'do_input_update_avatar_sendto'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendto') );
+        \add_settings_field( 'update_avatar_sendfrom', 'Send Email from this address', array(get_class(), 'do_input_update_avatar_sendfrom'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfrom') );
+        \add_settings_field( 'update_avatar_sendfromname', 'Name on the From line:', array(get_class(), 'do_input_update_avatar_sendfromname'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfromname') );    
+        \add_settings_field( 'update_avatar_message', 'Message:', array(get_class(), 'do_editor_update_avatar_message'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_message') );
+        \add_settings_field( 'update_avatar_subject', 'Subject:', array(get_class(), 'do_input_update_avatar_subject'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_subject') );
         
     }
 
