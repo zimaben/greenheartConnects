@@ -9,8 +9,7 @@ class Options extends \GreenheartConnects {
 
     private static $instance = null;
 
-    public static function get_instance() 
-    {
+    public static function get_instance() {
 
         if ( 
             null == self::$instance 
@@ -24,8 +23,7 @@ class Options extends \GreenheartConnects {
 
     }
     
-    private function __construct() 
-    {           
+    private function __construct() {           
         \add_action('admin_menu', array(get_class(), 'add_assessment_menu') );  //add assessment page
         \add_action( 'admin_init', array(get_class(),'ghc_settings_init') );
         

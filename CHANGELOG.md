@@ -1,3 +1,7 @@
+### 1.3.1 ### 
+
+Mobile final notes
+
 ### 1.3.0 ### 
 
 Mobile Updates for home page overhaul

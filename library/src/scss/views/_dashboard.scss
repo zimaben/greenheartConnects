@@ -267,10 +267,10 @@ h1.hometitle{
         padding: 0;
         margin-right: 15px;
         margin-left: 15px;
-        max-width: calc(100% - 30px);
+        max-width: calc(100% - 30px) !important;
     }
         .infobody {
-        max-width: calc(100% - 30px);
+        max-width: calc(100% - 30px) !important;
         margin-left: 15px;
     }
     .leftcol h3.upcoming{

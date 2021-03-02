@@ -9,7 +9,7 @@ button.backhome {
 }
 .streams-template-default {
     #home-hero{
-        padding:0;
+        padding: 0 15px;
         div {
             .col-12:first-of-type{
                 padding:0;
@@ -69,5 +69,10 @@ button.backhome {
                 }
             }
         }
+    }
+}
+@media (max-width: 576px){
+    button.backhome {
+        margin-left:15px;
     }
 }
