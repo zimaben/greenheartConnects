@@ -24,7 +24,7 @@ class EmailSend extends \obp_emailer\Emailer {
   
     }
 
-        public static function emailer_new_user_notification( $email = array(), $user, $blogname ){
+    public static function emailer_new_user_notification( $email = array(), $user, $blogname ){
         /*
             $email['to']
             $email['subject']
@@ -51,6 +51,32 @@ class EmailSend extends \obp_emailer\Emailer {
         }
         error_log(print_r($email,true));
         return $email;    
+    }
+    public static function emailer_new_user_direct( $user ){
+
+        if($user){
+            $email = $user->user_email;
+            $sendfrom = \get_option( 'new_user_notification_sendfrom');
+            $sendfromname = \get_option( 'new_user_notification_sendfromname');
+            $subject = \get_option( 'new_user_notification_subject');
+            $message = \get_option( 'new_user_notification_message');
+
+            if($email && $message){
+                error_log('passed Email check');
+
+                if(!$sendfrom) $sendfrom = \get_option('admin_email');
+                if(!$sendfromname) $sendfromname = \get_option('blogname');
+                if(!$subject) $subject = 'Neon ID Avatar Updated';
+                $headers = array('From: '.$sendfromname.' <'.$sendfrom .'>');
+                $sent = \wp_mail( $email, $subject, $message, $headers );
+            } else {
+                error_log('Email check failed');
+                error_log('Email: '. $email);
+                error_log('Sendto: '. $sendto);
+                error_log('Message: '. $message);
+
+            }
+        }
     }
 
 }

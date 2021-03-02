@@ -1,6 +1,6 @@
 <?php
 namespace gh_connects\admin;
-
+use \obp_emailer\send\EmailSend as Email;
 
 //spin it up
 \gh_connects\admin\Admin::get_instance();
@@ -111,10 +111,10 @@ class Admin extends \GreenheartConnects{
             );
         $user_id = wp_insert_user($user_data);
             if ($user_id && !is_wp_error($user_id)) {
-                \do_action( 'register_new_user', $user_id );
+                
                 //log in the user
                 $user = get_user_by('id', $user_id);
-                error_log(print_r($user,true));
+                Email::emailer_new_user_direct( $user );
                 clean_user_cache($user);
                 wp_clear_auth_cookie();
                 wp_set_current_user($user_id);
