@@ -20,7 +20,7 @@ class EmailSend extends \obp_emailer\Emailer {
        # \add_action('do_updated_avatar', array(get_class(), 'emailer_update_avatar', ));
         \add_filter( 'wp_mail_content_type', function( $content_type ) { return 'text/html';} );
 
-        \add_filter( 'wp_new_user_notification_email', array(get_class(), 'emailer_new_user_notification'), 10, 3 );
+        \add_filter( 'wp_new_user_notification_email', array(get_class(), 'emailer_new_user_notification'), 99, 3 );
   
     }
 
@@ -37,7 +37,7 @@ class EmailSend extends \obp_emailer\Emailer {
             $sendfrom = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_sendfrom');
             $sendfromname = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_sendfromname');
             $subject = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_subject');
-            $message = \get_option( str_replace("emailer_", "", __FUNCTION__) . '_message');
+            $message = nl2br( \get_option( str_replace("emailer_", "", __FUNCTION__) . '_message') );
 
             if($email && $sendto && $message){
                 $email['to'] = $email;
@@ -49,7 +49,7 @@ class EmailSend extends \obp_emailer\Emailer {
                 }
             }    
         }
-        error_log(print_r($email,true));
+
         return $email;    
     }
     public static function emailer_new_user_direct( $user ){
@@ -62,7 +62,7 @@ class EmailSend extends \obp_emailer\Emailer {
             $message = \get_option( 'new_user_notification_message');
 
             if($email && $message){
-                error_log('passed Email check');
+
 
                 if(!$sendfrom) $sendfrom = \get_option('admin_email');
                 if(!$sendfromname) $sendfromname = \get_option('blogname');

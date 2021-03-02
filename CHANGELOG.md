@@ -1,3 +1,7 @@
+### 1.3.9 ### 
+
+Have it working. Removing logging 
+
 ### 1.3.8 ### 
 
 Re-added registration actions
