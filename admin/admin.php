@@ -93,7 +93,7 @@ class Admin extends \GreenheartConnects{
         }
     }
     public static function register_user_front_end() {
-        error_log(print_r($_POST,true));
+
         $new_user_name = stripcslashes($_POST['username']);
         $new_user_email = stripcslashes($_POST['email']);
         $new_user_password = $_POST['password'];
@@ -111,6 +111,7 @@ class Admin extends \GreenheartConnects{
             );
         $user_id = wp_insert_user($user_data);
             if ($user_id && !is_wp_error($user_id)) {
+                \do_action( 'register_new_user', $user_id );
                 //log in the user
                 $user = get_user_by('id', $user_id);
                 error_log(print_r($user,true));

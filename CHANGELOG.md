@@ -1,3 +1,7 @@
+### 1.3.7 ### 
+
+Re-added registration actions
+
 ### 1.3.6 ### 
 
 More live debugging
