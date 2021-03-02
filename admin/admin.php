@@ -41,6 +41,7 @@ class Admin extends \GreenheartConnects{
         require_once self::get_plugin_path( 'admin/options.php');
         require_once self::get_plugin_path( 'admin/payment_options.php');
         require_once self::get_plugin_path( 'admin/payment_cron.php');
+        require_once self::get_plugin_path( 'admin/emailer.php');
 
 
         \add_action( 'init', array(get_class(), 'add_mobile_menus' ));
