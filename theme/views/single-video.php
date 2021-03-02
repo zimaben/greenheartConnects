@@ -31,13 +31,13 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
         <div class="col-12 pagecontent">
             <?php echo \get_the_excerpt(\get_the_ID() ); ?>
         </div>
-        <div class="col-2 author-wrap">
+        <div class="col-12 col-sm-2 author-wrap">
             <?php  $imgurl = \wp_get_attachment_image_src( \get_post_thumbnail_id( \get_the_ID(),'medium',false))[0];?>
             <div class="author-bg" style="background:url(<?php echo $imgurl ?>) center/cover;">
 
             </div>
         </div>
-        <div class="col-2 date-wrap">
+        <div class="col-12 col-sm-2 col-2 date-wrap">
             <div class="date-bg">
                 <div class="datewrap">
                     
@@ -47,7 +47,7 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
                 </div>
             </div>
         </div>
-        <div class="col-8 infobody">
+        <div class="col-12 col-sm-8 infobody">
             <div class="infowrap">
                 
                 <div class="info-accordion"><span class="hamburger-expand"></span>

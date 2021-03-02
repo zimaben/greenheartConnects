@@ -48,27 +48,27 @@ class Options extends \obp_emailer\Emailer {
             strtolower(self::parentName) .'-options'
         );
         
-        \register_setting( strtolower(self::parentName).'-options', 'update_avatar_sendto');
-        \register_setting( strtolower(self::parentName).'-options', 'update_avatar_sendfrom');
-        \register_setting( strtolower(self::parentName).'-options', 'update_avatar_sendfromname');
-        \register_setting( strtolower(self::parentName).'-options', 'update_avatar_message');
-        \register_setting( strtolower(self::parentName).'-options', 'update_avatar_subject');
+        \register_setting( strtolower(self::parentName).'-options', 'new_user_notification_sendto');
+        \register_setting( strtolower(self::parentName).'-options', 'new_user_notification_sendfrom');
+        \register_setting( strtolower(self::parentName).'-options', 'new_user_notification_sendfromname');
+        \register_setting( strtolower(self::parentName).'-options', 'new_user_notification_message');
+        \register_setting( strtolower(self::parentName).'-options', 'new_user_notification_subject');
 
         $optionclass= 'formrow';
         $optionclasshidden = 'formrow theme_admin_hidden';
         
-        \add_settings_field( 'update_avatar_sendto', 'Send Email to this address', array(get_class(), 'do_input_update_avatar_sendto'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendto') );
-        \add_settings_field( 'update_avatar_sendfrom', 'Send Email from this address', array(get_class(), 'do_input_update_avatar_sendfrom'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfrom') );
-        \add_settings_field( 'update_avatar_sendfromname', 'Name on the From line:', array(get_class(), 'do_input_update_avatar_sendfromname'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_sendfromname') );    
-        \add_settings_field( 'update_avatar_message', 'Message:', array(get_class(), 'do_editor_update_avatar_message'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_message') );
-        \add_settings_field( 'update_avatar_subject', 'Subject:', array(get_class(), 'do_input_update_avatar_subject'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'update_avatar_subject') );
+        \add_settings_field( 'new_user_notification_sendto', 'Send Email to this address', array(get_class(), 'do_input_new_user_notification_sendto'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'new_user_notification_sendto') );
+        \add_settings_field( 'new_user_notification_sendfrom', 'Send Email from this address', array(get_class(), 'do_input_new_user_notification_sendfrom'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'new_user_notification_sendfrom') );
+        \add_settings_field( 'new_user_notification_sendfromname', 'Name on the From line:', array(get_class(), 'do_input_new_user_notification_sendfromname'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'new_user_notification_sendfromname') );    
+        \add_settings_field( 'new_user_notification_message', 'Message:', array(get_class(), 'do_editor_new_user_notification_message'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'new_user_notification_message') );
+        \add_settings_field( 'new_user_notification_subject', 'Subject:', array(get_class(), 'do_input_new_user_notification_subject'), strtolower(self::parentName) .'-options', strtolower(self::parentName) .'-options', array('class' => $optionclass, 'label_for' => 'new_user_notification_subject') );
         
     }
 
     public static function print_section_info(){
         echo '<p>'.ucfirst(strtolower(self::parentName)).' - '.self::description.'</p>';
     }
-    public function do_input_update_avatar_sendto(){
+    public function do_input_new_user_notification_sendto(){
         //INPUT
         $fieldname = str_replace("do_input_", "", __FUNCTION__);
         printf(
@@ -77,7 +77,7 @@ class Options extends \obp_emailer\Emailer {
             'Logged-In User'
         );
     }
-    public function do_input_update_avatar_sendfrom(){
+    public function do_input_new_user_notification_sendfrom(){
         //INPUT
         $fieldname = str_replace("do_input_", "", __FUNCTION__);
         printf(
@@ -85,7 +85,7 @@ class Options extends \obp_emailer\Emailer {
             ( \get_option($fieldname) ) ? esc_attr( \get_option($fieldname) ) : ''
         );
     }
-    public function do_input_update_avatar_sendfromname(){
+    public function do_input_new_user_notification_sendfromname(){
         //INPUT
         $fieldname = str_replace("do_input_", "", __FUNCTION__);
         printf(
@@ -93,7 +93,7 @@ class Options extends \obp_emailer\Emailer {
             ( \get_option($fieldname) ) ? esc_attr( \get_option($fieldname) ) : ''
         );
     }
-    public function do_input_update_avatar_subject(){
+    public function do_input_new_user_notification_subject(){
         //INPUT
         $fieldname = str_replace("do_input_", "", __FUNCTION__);
         printf(
@@ -101,7 +101,7 @@ class Options extends \obp_emailer\Emailer {
             ( \get_option($fieldname) ) ? esc_attr( \get_option($fieldname) ) : ''
         );
     }
-    public function do_editor_update_avatar_message(){
+    public function do_editor_new_user_notification_message(){
         $fieldname = str_replace("do_editor_", "", __FUNCTION__);
         $content = \get_option($fieldname);
         wp_editor( $content, $fieldname, $settings = array('textarea_rows'=> '10') );

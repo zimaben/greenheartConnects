@@ -46,7 +46,7 @@ use gh_connects\theme\classes\Condenser as Condenser;
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 col-sm-2 author-wrap">
+                <div class="col-12 col-sm-2 author-wrap"> 
                     <div class="author-bg" style="background:url(<?php echo $img?>) center/cover;">
 
                     </div>

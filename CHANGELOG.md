@@ -1,3 +1,7 @@
+### 1.3.5 ### 
+
+Hook up emailer to new registrations
+
 ### 1.3.4 ### 
 
 Add emailer
