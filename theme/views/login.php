@@ -767,10 +767,10 @@ case 'retrievepassword' :
 </form>
 
 <p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e('Log in') ?></a>
+<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e('Login (Free)') ?></a>
 <?php
 if ( get_option( 'users_can_register' ) ) :
-	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register (Free)' ) );
 
 	echo esc_html( $login_link_separator );
 
@@ -837,7 +837,7 @@ case 'rp' :
 	if ( ( ! $errors->get_error_code() ) && isset( $_POST['pass1'] ) && !empty( $_POST['pass1'] ) ) {
 		reset_password($user, $_POST['pass1']);
 		setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, $rp_path, COOKIE_DOMAIN, is_ssl(), true );
-		login_header( __( 'Password Reset' ), '<p class="message reset-pass">' . __( 'Your password has been reset.' ) . ' <a href="' . esc_url( wp_login_url() ) . '">' . __( 'Log in' ) . '</a></p>' );
+		login_header( __( 'Password Reset' ), '<p class="message reset-pass">' . __( 'Your password has been reset.' ) . ' <a href="' . esc_url( wp_login_url() ) . '">' . __( 'Login (Free)' ) . '</a></p>' );
 		login_footer();
 		exit;
 	}
@@ -896,10 +896,10 @@ case 'rp' :
 </form>
 
 <p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
+<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Login(Free)' ); ?></a>
 <?php
 if ( get_option( 'users_can_register' ) ) :
-	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+	$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register (Free)' ) );
 
 	echo esc_html( $login_link_separator );
 
@@ -987,11 +987,11 @@ case 'register' :
 	<p id="reg_passmail"><?php _e( 'Registration confirmation will be emailed to you.' ); ?></p>
 	<br class="clear" />
 	<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register'); ?>" /></p>
+	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Register (Free)'); ?>" /></p>
 </form>
 
 <p id="nav">
-<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
+<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Login (Free)' ); ?></a>
 <?php echo esc_html( $login_link_separator ); ?>
 <a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Forgot my Password' ); ?></a>
 </p>
@@ -1140,7 +1140,7 @@ default:
 	if ( $reauth )
 		wp_clear_auth_cookie();
 
-	login_header(__('Log In'), '', $errors);
+	login_header(__('Login (Free)'), '', $errors);
 
 	if ( isset($_POST['log']) )
 		$user_login = ( 'incorrect_password' == $errors->get_error_code() || 'empty_password' == $errors->get_error_code() ) ? esc_attr(wp_unslash($_POST['log'])) : '';
@@ -1175,10 +1175,10 @@ default:
 	</div>
 	<p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <?php esc_html_e( 'Remember Me' ); ?></label></p>
 	<div class="buttongroup-login">
-	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">Register</span></a></p>
+	<p class="registerlink"><a href="<?php echo wp_registration_url() ?>"><span id="registerbutton" class="button button-primary button-large">Register (Free)</span></a></p>
 	<p class="submit">
 		
-		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Log In'); ?>" />
+		<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e('Login (Free)'); ?>" />
 <?php	if ( $interim_login ) { ?>
 		<input type="hidden" name="interim-login" value="1" />
 <?php	} else { ?>

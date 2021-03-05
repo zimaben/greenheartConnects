@@ -1,3 +1,7 @@
+### 1.4.3 ### 
+
+Free text added to signups and registrations
+
 ### 1.4.2 ### 
 
 Footer address update
