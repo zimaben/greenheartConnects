@@ -127,6 +127,8 @@ class Setup extends \GreenheartConnects {
          
          /* Disable Admin Email Confirmation */
         \add_filter( 'admin_email_check_interval', array(get_class(), 'disable_admin_email_confirmation' ));
+
+
     }
 
 

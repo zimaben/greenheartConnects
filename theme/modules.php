@@ -68,11 +68,15 @@ class Modules extends \GreenheartConnects {
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownLogin">
                 <?php
-                    $args = array('redirect' => \get_site_url().'/dashboard/','label_username'=>'Email');
+                    $args = array(
+                        'redirect' => \get_site_url().'/dashboard/',
+                        'label_username'=>'Email',
+                        'label_log_in' => __( 'Login (Free)' ),
+                    );
                     \wp_login_form($args);
                 ?>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item hardleft" href="<?php echo get_site_url() ?>/register/">Register</a>
+                <a class="dropdown-item hardleft" href="<?php echo get_site_url() ?>/register/">Register (Free)</a>
                 <a class="dropdown-item hardright" href="<?php echo get_site_url() ?>/login/?action=lostpassword">Lost Password</a>
             </div>
         </nav>

@@ -1,3 +1,7 @@
+### 1.4.2 ### 
+
+Footer address update
+
 ### 1.4.1 ### 
 
 Footer address update
