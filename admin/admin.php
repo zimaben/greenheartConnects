@@ -69,7 +69,8 @@ class Admin extends \GreenheartConnects{
 
     //$new_key = \get_password_reset_key( $user_data);
 
-    $link = '<'.\get_site_option( 'siteurl' ).'/login/?action=rp&key='.$key.'&login='.$user_login.'>';
+    #$link = '<'.\get_site_option( 'siteurl' ).'/login/?action=rp&key='.$key.'&login='.$user_login.'>';
+    $link = \site_url().'/login/?action=rp&key='.$key.'&login='.$user_login;
 
     $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login."
 
@@ -80,7 +81,9 @@ class Admin extends \GreenheartConnects{
 
     Thanks,
     Greenheart Connects";
+    error_log('LINK:');
     error_log($link);
+    error_log($message);
     return $message;
     }
 
