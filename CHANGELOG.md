@@ -1,3 +1,7 @@
+### 1.4.6 ### 
+
+Fine tune email content
+
 ### 1.4.5 ### 
 
 Removed logging on email missing link

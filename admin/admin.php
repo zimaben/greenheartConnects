@@ -76,7 +76,8 @@ class Admin extends \GreenheartConnects{
     <br>
     If this was a mistake just ignore this email. To reset the password click:
     <br>
-    ".$link."
+    <br>
+    <a href='".$link."'>".$link."</a>
     <br>
     <br>
     Thanks,
