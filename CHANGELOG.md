@@ -1,3 +1,7 @@
+### 1.4.5 ### 
+
+Removed logging on email missing link
+
 ### 1.4.4 ### 
 
 Free text added to signups and registrations

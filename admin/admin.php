@@ -73,17 +73,15 @@ class Admin extends \GreenheartConnects{
     $link = \site_url().'/login/?action=rp&key='.$key.'&login='.$user_login;
 
     $message = "Someone has requested a password reset for Greenheart Connects for the user ".$user_login."
-
+    <br>
     If this was a mistake just ignore this email. To reset the password click:
-
+    <br>
     ".$link."
-
-
+    <br>
+    <br>
     Thanks,
     Greenheart Connects";
-    error_log('LINK:');
-    error_log($link);
-    error_log($message);
+
     return $message;
     }
 
