@@ -33,6 +33,7 @@
         }
     }
 }
+
 .paymentneeded {
     .gform_wrapper{
         .gform_footer{
@@ -49,6 +50,12 @@ h2 {
 } 
 .gravityforms-absolute{ 
     position:absolute !important;
+}
+.gform_hidden{
+    display:none !important;
+}
+.grecaptcha-badge {
+    display: none;
 }
 @media (max-width:767px){
     input[type=checkbox]{

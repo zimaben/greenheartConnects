@@ -470,7 +470,7 @@ function wp_login_viewport_meta() {
  *
  * @return bool|WP_Error True: when finish. WP_Error on error
  */
-function retrieve_password() {
+function retrieve_password_renamed() {
 	$errors = new WP_Error();
 
 	if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
