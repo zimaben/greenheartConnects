@@ -3,7 +3,7 @@
 jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
     moveThumbs( e.to );
 
-});
+}); 
 //separate ready function for YouTube API
 window.YT.ready(function(){
     bind_youtubeclicks();
