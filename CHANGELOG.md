@@ -1,3 +1,7 @@
+### 1.4.7 ### 
+
+Gravity Forms Update
+
 ### 1.4.6 ### 
 
 Fine tune email content
