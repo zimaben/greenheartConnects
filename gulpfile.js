@@ -46,8 +46,8 @@ const javascript_modules = [
   'library/src/es6/views/dashboard.js',
 ]
 const javascript_close_body_modules = [
-  'library/src/es6/views/footer.js',
   'library/src/es6/views/homesplash.js',
+  'library/src/es6/views/footer.js',
   'library/src/es6/countdown.inprogress.js' 
 ] 
 

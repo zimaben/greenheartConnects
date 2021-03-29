@@ -1,3 +1,7 @@
+### 1.4.8 ### 
+
+YouTube player & Bootstrap Carousel integration
+
 ### 1.4.7 ### 
 
 Gravity Forms Update

@@ -57,7 +57,58 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
     moveThumbs( e.to );
+
 });
+//separate ready function for YouTube API
+window.YT.ready(function(){
+    bind_youtubeclicks();
+});
+function bind_youtubeclicks(){
+
+    let youtubes = document.getElementsByClassName("youtube_api");
+    for(let youtube of youtubes){
+        var player = new YT.Player(youtube, {
+            events: {
+  //            'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+        let carouselbuttons = document.getElementById('homesplashCarousel').querySelectorAll('a[data-slide]');
+        for(let button of carouselbuttons){
+            button.addEventListener('click', ()=>{
+                var ytiframes = document.querySelectorAll('iframe.youtube_api');
+                Array.prototype.forEach.call(ytiframes, iframe => { 
+                    iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', 
+                    func: 'pauseVideo' }), '*');
+                });
+             
+                 
+            });
+        }
+
+    }
+}
+
+function onPlayerStateChange(event) {
+
+    if (event.data == YT.PlayerState.PLAYING) {
+
+       event.target.playing = true;
+       jQuery('#homesplashCarousel').carousel('pause');
+      }
+
+    else if(event.data == YT.PlayerState.PAUSED){
+
+          event.target.playing = false;
+          jQuery('#homesplashCarousel').carousel('cycle');
+    }
+    else if(event.data == YT.PlayerState.ENDED){
+
+          event.target.playing = false;
+          jQuery('#homesplashCarousel').carousel('cycle');
+    }
+}
+
 const viewportWidth = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
 const moveThumbs = (toIndex) => {
 
@@ -187,6 +238,7 @@ const goToHomeSlide = (e) =>{
         isleft.classList.add('active');
     }
 };
+
 function final_countdown(){
     
     let seconds = parseInt( document.getElementById('timewrap').dataset.seconds );
@@ -209,7 +261,7 @@ function final_countdown_simple( element ){
     }
 }
 async function final_countdown_loop_simple( seconds ){
-
+    console.log('for loop about to be called');
     for(let s=seconds; s < 300; s--){
         /* @TODO - this loop isn't running */
         await sleepCN(1000);

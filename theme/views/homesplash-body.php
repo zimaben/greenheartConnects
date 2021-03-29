@@ -20,6 +20,92 @@ function trim_trailing_markup($iframe){
     }
     return ($endposition) ? $trimmed : $iframe;
 }
+function everything_in_tags($string, $tagname){
+
+    $pattern = "#<\s*?$tagname\b[^>]*>(.*?)</$tagname\b[^>]*>#s";
+    preg_match($pattern, $string, $matches);
+
+    return $matches[1];
+}
+function args_from_tag($string, $tagname){
+    $processedstring = str_replace('<'. $tagname . ' ', '', $string);
+    $firstclose = strpos($processedstring, '>');
+    $processedstring = substr($processedstring, 0, $firstclose );
+    error_log($processedstring);
+    return $processedstring;
+}
+/* 
+<iframe src="https://player.vimeo.com/video/265045525" width="640" height="360" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/aaEEujLtsr8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+*/
+function get_arguments_from_iframe($markup){
+    
+    $check_is_iframe = strpos($markup, '<iframe');
+    if($check_is_iframe === 0){
+        //get all text inside iframe tag
+        $interior_string = args_from_tag($markup, 'iframe');
+        $raw_array = explode ( ' ', $interior_string);
+        $arg_array = array();
+        //crappy parsing but it works for this case
+        foreach($raw_array as $arr){
+            $delimiter_pos = strpos($arr, '=');
+            if($delimiter_pos){
+                $thisarr = explode('=', $arr);
+                $key = $thisarr[0];
+                $val = str_replace('"','', $thisarr[1]);
+                $arg_array[$key]=$val;
+            }
+
+        }
+        
+        $src = (isset($arg_array['src'])) ? $arg_array['src'] : false;
+        if($src){
+            $vendor = false;
+            if(strpos($src, 'vimeo.com') !== false) $vendor = 'vimeo';
+            if(strpos($src, 'youtube.com') !== false) $vendor = 'youtube';
+            if($vendor){
+                $arg_array['vendor']=$vendor;
+            }
+            $slasharray = explode('/', $src);
+            $id = array_slice($slasharray, -1, true);
+
+            if($id) {
+                $arg_array['id'] = $id;
+            }
+            $delimiter = '?';
+            $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
+            $origin_domain = $protocol . $_SERVER['HTTP_HOST'];
+            if( strpos($src, '?')){
+                $delimiter = '&';
+            }
+            $arg_array['src'].=$delimiter.'enablejsapi=1&origin='.$origin_domain;
+            
+            return $arg_array;
+
+        } else {
+            if(GreenheartConnects::$debug) error_log('could not find required src argument');
+            return false;
+        }
+    } else {
+        if(GreenheartConnects::$debug) error_log('failed iframe check');
+        return false;
+    }
+
+}
+function return_youtube($args, $markup){
+    //add class first
+    $markup = str_replace('<iframe ', '<iframe class="youtube_api" ', $markup);
+    $begin_srcpos = strpos($markup, 'src="http');
+    $end_srcpos = strpos($markup, '"', $begin_srcpos + 5); //need to add for space s r c = so we dont get the opening quote
+    error_log($markup);
+    error_log($begin_srcpos);
+    error_log($end_srcpos);
+    $recombined = substr($markup, 0, $begin_srcpos) . 'src="' . $args['src'] . substr($markup, $end_srcpos);
+    error_log($recombined);
+    return $recombined;
+}
 function return_vimeo($markup){
     $new_markup = false;
     $insertion = strpos( $markup, '<iframe ');
@@ -149,8 +235,22 @@ $index_of_first = (count($streamloop)) ? count($streamloop) - 1 : count($mainloo
                                             #embed logic here
                                             $is_preview = check_for_video($this_slide->ID);
                                             if($is_preview){
-                                                $markup = return_vimeo($is_preview);
-                                                echo $markup;
+                                                //take out any whitespace
+                                                $is_preview = trim($is_preview);
+                                                $args = get_arguments_from_iframe($is_preview);
+                                                if($args){
+                                                    if($args['vendor'] == 'vimeo'){
+                                                        $markup = return_vimeo($is_preview);
+                                                        echo $markup;
+                                                    } else if($args['vendor'] == 'youtube'){
+                                                        //CALL YOUTUBE BY API 
+                                                        $markup = return_youtube($args, $is_preview);
+                                                        echo $markup;
+                                                    }
+                                                } else {
+                                                    echo $is_preview;
+                                                }
+
                                             } else {
                                                 $img_markup = return_thumbnail($this_slide->ID);
                                                 echo ($img_markup) ? $img_markup : '';

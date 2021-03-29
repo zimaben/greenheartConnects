@@ -461,9 +461,9 @@ class Setup extends \GreenheartConnects {
     }
     public static function add_login_video_embed_metabox(){ 
         $login_page_object = get_page_by_path('login');
-        $post_id = $_GET['post'];
+        $post_id = (isset($_GET['post'])) ? $_GET['post'] : false;
         //show this metabox only if you are editing a page with slug 'login'
-        if ( $post_id == $login_page_object->ID ) {
+        if ( $post_id && $post_id == $login_page_object->ID ) {
             \add_meta_box(
                 'login_video_embed_meta', #id
                 'Embed Code for Login Video', #title
@@ -844,6 +844,7 @@ class Setup extends \GreenheartConnects {
         \wp_enqueue_style( 'connects-css', self::get_plugin_url( 'library/dist/css/app.min.css'), array(), self::version, 'all' );
         \wp_enqueue_script( 'connects-js', self::get_plugin_url( 'library/dist/js/app.min.js'), array('jquery', 'runtime'), self::version, false );
         \wp_enqueue_script( 'vimeo-sdk', 'https://player.vimeo.com/api/player.js', array(), self::version, true);
+        \wp_enqueue_script( 'youtube-api', 'https://www.youtube.com/iframe_api', array(), self::version, true);
         \wp_enqueue_script( 'connects-footer-js', self::get_plugin_url( 'library/dist/js/footer.min.js'), array('connects-js', 'vimeo-sdk'), self::version, true );
     }
     public static function gh_connects_image_sizes(){
