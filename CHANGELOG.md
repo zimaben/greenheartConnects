@@ -1,3 +1,5 @@
+### 1.4.9 ### 
+
 ### 1.4.8 ### 
 
 YouTube player & Bootstrap Carousel integration
