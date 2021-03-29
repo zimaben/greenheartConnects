@@ -75,7 +75,7 @@ function get_arguments_from_iframe($markup){
                 $arg_array['id'] = $id;
             }
             $delimiter = '?';
-            $protocol = (!emptyempty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https://' : 'http://';
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https://' : 'http://';
             $origin_domain = $protocol . $_SERVER['HTTP_HOST'];
             if( strpos($src, '?')){
                 $delimiter = '&';
