@@ -1,6 +1,8 @@
+## 1.5.4 ##
+ CSS compile commit from 1.5.3
 ### 1.5.3 ### 
  YouTube splash page redundancy & bugfixing. YouTube live chat embed option added
- 
+
 ### 1.5.2 ### 
 
 ### 1.5.1 ### 
