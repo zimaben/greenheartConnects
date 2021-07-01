@@ -1,78 +1,88 @@
 .col-2.author-wrap {
-    padding: 0;
+	padding: 0;
 }
 .col-2.date-wrap {
-    padding: 0;
+	padding: 0;
 }
 button.backhome {
-    margin-top:40px;
+	margin-top: 40px;
 }
 .streams-template-default {
-    #home-hero{
-        padding: 0 15px;
-        div {
-            .col-12:first-of-type{
-                padding:0;
-            }
-        }
-        h1.pagetitle {
-            margin-top: 50px;
-        }
-    }
+	#home-hero {
+		padding: 0 15px;
+		div {
+			.col-12:first-of-type {
+				padding: 0;
+			}
+		}
+		h1.pagetitle {
+			margin-top: 50px;
+		}
+	}
 }
 #stream-hero {
-    padding: 0;
-    .hero-bg{
-        margin: 50px 0;
-        background: white;
-        min-height: 0px;
-    }
-    .hero-bg {
-        .info-row{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    }
+	padding: 0;
+	.hero-bg {
+		margin: 50px 0;
+		background: white;
+		min-height: 0px;
+	}
+	.hero-bg {
+		.info-row {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 }
-.pagecontent{
-    margin-bottom:40px;
+.stream-hero.chat {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
+	h2 {
+		text-align: center;
+	}
 }
-@media (max-width:992px){
-    .date-wrap {
-        .date-bg {
-            .datewrap {
-                span.day{
-                    font:50px/60px $sanchez;
-                    padding-top: 25%;
-                }
-                span.time {
-                    font: 14px/18px $lato;
-                }
-            }
-        }
-    }
+.pagecontent {
+	margin-bottom: 40px;
 }
-@media (max-width:767px){
-    .date-wrap {
-        .date-bg {
-            .datewrap {
-                span.month{
-                    font:16px/20px $lato;
-                }
-                span.day{
-                    font:30px/40px $sanchez;
-                    padding-top: 25%;
-                }
-                span.time {
-                    font: 14px/18px $lato;
-                }
-            }
-        }
-    }
+@media (max-width: 992px) {
+	.date-wrap {
+		.date-bg {
+			.datewrap {
+				span.day {
+					font: 50px/60px $sanchez;
+					padding-top: 25%;
+				}
+				span.time {
+					font: 14px/18px $lato;
+				}
+			}
+		}
+	}
 }
-@media (max-width: 576px){
-    button.backhome {
-        margin-left:15px;
-    }
+@media (max-width: 767px) {
+	.date-wrap {
+		.date-bg {
+			.datewrap {
+				span.month {
+					font: 16px/20px $lato;
+				}
+				span.day {
+					font: 30px/40px $sanchez;
+					padding-top: 25%;
+				}
+				span.time {
+					font: 14px/18px $lato;
+				}
+			}
+		}
+	}
+}
+@media (max-width: 576px) {
+	button.backhome {
+		margin-left: 15px;
+	}
 }

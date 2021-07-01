@@ -548,6 +548,7 @@ class Setup extends \GreenheartConnects {
             <?php
         }
     }
+
     public static function call_stream_meta_metabox(){
         global $post;
         \wp_nonce_field( 'stream_metabox_nonce', 'stream_metabox_nonce' );
@@ -557,6 +558,7 @@ class Setup extends \GreenheartConnects {
         $streambio_meta = get_post_meta( $post->ID, 'ghc_author_bio',true );
         $streambio_name = get_post_meta( $post->ID, 'ghc_author_name',true );
         $streamid_meta = get_post_meta( $post->ID, 'ghc_stream_embed_code', true );
+        $stream_chat = get_post_meta( $post->ID, 'ghc_stream_embed_chat', true);
         $stream_preview = get_post_meta( $post->ID, 'ghc_stream_preview',true );
         //$stream_promo = get_post_meta( $post->ID, 'ghc_stream_promo', true );
         //$stream_promocount = get_post_meta( $post->ID, 'ghc_stream_promocount', true);
@@ -570,7 +572,9 @@ class Setup extends \GreenheartConnects {
         <input type="text" id="ghc_author_name" name="ghc_author_name" value="<?php echo ($streamspeaker_meta) ? $streamspeaker_meta : ''?>">
         <label for="ghc_author_name">Author Name:</label><br>
         <label for="ghc_stream_embed_code">Embed Code of Stream:</label><br>
-        <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>       
+        <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_code" name="ghc_stream_embed_code"><?php echo ($streamid_meta) ? $streamid_meta : ''?></textarea>   
+        <label for="ghc_stream_embed_chat">Embed Code for Live Comments:</label><br>
+        <textarea type="textarea" style="width:100%;" id="ghc_stream_embed_chat" placeholder="Leave blank for no YouTube live comments. Ex: <iframe width=700 height=200 src='htt‍ps://www‍.youtube.com/live_chat?v=XXXXXX&embed_domain=GREENHEARTCONNECTS.ORG'>"></iframe>" name="ghc_stream_embed_chat"><?php echo ($stream_chat) ? $stream_chat : ''?></textarea>    
         <label for="ghc_stream_embed_code">Video Preview Embed Code:</label><br>
         <textarea type="textarea" style="width:100%;" id="ghc_stream_preview" name="ghc_stream_preview"><?php echo ($stream_preview) ? $stream_preview: ''?></textarea><br>
         <label for="ghc_author_name">Author Name:</label><br>
@@ -696,6 +700,7 @@ class Setup extends \GreenheartConnects {
             || $key == 'ghc_author_name'
             || $key == 'ghc_author_bio' 
             || $key == 'ghc_stream_embed_code'
+            || $key == 'ghc_stream_embed_chat'
             || $key == 'ghc_stream_preview' 
             /*|| $key == 'ghc_stream_promo'*/ ){
 

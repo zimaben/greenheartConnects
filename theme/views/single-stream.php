@@ -98,7 +98,28 @@ if ( have_posts() ) : while ( have_posts() ) : the_post();
         </div>
     </div>
 </div>
-<?php
+<?php 
+if( \get_post_meta( \get_the_ID(), 'ghc_stream_embed_chat', true ) ){
+    ?>
+        <div class="stream-hero chat" class="container">
+            <div class="row">
+                <div class="col-12 hero-bg">
+                    <div class="info-row">
+                    <h2>Live Chat</h2>
+                            
+                            <?php
+                                echo \get_post_meta( \get_the_ID(), 'ghc_stream_embed_chat', true );
+                            ?>  
+                    </div>
+                    <?php 
+                    #\do_shortcode( '[zoom_api_link meeting_id="'.$zoomid.'" class="zoom-meeting-window" id="zoom-meeting-window" title="Your Page Title" countdown-title="Meeting starts in" width="" height=""]'); 
+                    ?>
+                </div>
+            </div>
+        </div>
+    <?
+}
+
                
     endwhile;
 endif;
