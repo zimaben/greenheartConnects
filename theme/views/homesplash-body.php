@@ -176,9 +176,9 @@ $streamloop = get_posts( $stream_args );
 $vidloop = get_posts( $video_args );
 
 #Get First, Prev, & Next postIDs for Carousel Page
-$firstvid = $streamloop[0]->ID;
-$next = $streamloop[1]->ID;
-$prev = $vidloop[0]->ID;
+$firstvid = $streamloop ? $streamloop[0]->ID : false;
+$next = $streamloop ? $streamloop[1]->ID : false;
+$prev = $vidloop ? $vidloop[0]->ID : false;
 
 #Reverse order of the future posts to join chronologically with previous
 $reverse_streams = (count($streamloop)) ? array_reverse($streamloop) : array();

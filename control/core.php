@@ -11,6 +11,7 @@ class Core extends \GreenheartConnects {
     }
 
     public static function get_payment_keys( $userid ){
+        if(! $userid ) return false;
         $umeta = self::validate_umeta($userid);
         $payment_keys = array();
         if( $umeta ){

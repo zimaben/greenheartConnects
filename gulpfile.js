@@ -138,14 +138,14 @@ function loginSass() {
     }));
 }
 function doBrowserSync(done){
-  browserSync.init({
+  //browserSync.init({
     /* server: {
       baseDir: 'app'
     }, 
     proxy: "localhost/NEON", 
     port: 8000
     */
-  });
+ // });
 }
 
 exports.watch = watch;

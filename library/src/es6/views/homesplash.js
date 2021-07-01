@@ -4,10 +4,20 @@ jQuery('#homesplashCarousel').bind('slid.bs.carousel', function (e) {
     moveThumbs( e.to );
 
 }); 
+
+jQuery('#homesplashCarousel').bind('slide.bs.carousel', function (e) {
+    if( typeof YT === "object"){
+        let youtubes = document.getElementsByClassName("youtube_api");
+        for(let youtube of youtubes){
+            callPlayer(youtube.id, "pauseVideo");
+        }
+    }
+});  
 //separate ready function for YouTube API
 window.YT.ready(function(){
     bind_youtubeclicks();
 });
+
 function bind_youtubeclicks(){
 
     let youtubes = document.getElementsByClassName("youtube_api");
@@ -159,7 +169,7 @@ const normalizeSlideHeights = (slides) => {
                 slide.setAttribute('style', 'height:'+ maxheight + 'px;');
             };  
         }
-    }
+    } 
 }
 const goToHomeSlide = (e) =>{
     e.preventDefault();
@@ -183,3 +193,33 @@ const goToHomeSlide = (e) =>{
         isleft.classList.add('active');
     }
 };
+
+/* CALLING FOR BACKUP */
+/* Adapting this function for my own use */
+/**
+ * @author       Rob W <gwnRob@gmail.com>
+ * @website      https://stackoverflow.com/a/7513356/938089
+ * @version      20190409
+ * @description  Executes function on a framed YouTube video (see website link)
+ *               For a full list of possible functions, see:
+ *               https://developers.google.com/youtube/js_api_reference
+ * @param String frame_id The id of (the div containing) the frame
+ * @param String func     Desired function to call, eg. "playVideo"
+ *        (Function)      Function to call when the player is ready.
+ * @param Array  args     (optional) List of arguments to pass to function func*/
+ function callPlayer(frame_id, func, args) {
+    if (window.jQuery && frame_id instanceof jQuery) frame_id = frame_id.get(0).id;
+    var iframe = document.getElementById(frame_id);
+    if (iframe && iframe.tagName.toUpperCase() != 'IFRAME') {
+        iframe = iframe.getElementsByTagName('iframe')[0];
+    }
+    if (iframe) {
+        // Frame exists, 
+        iframe.contentWindow.postMessage(JSON.stringify({
+            "event": "command",
+            "func": func,
+            "args": args || [],
+            "id": frame_id
+        }), "*");
+    }
+}
